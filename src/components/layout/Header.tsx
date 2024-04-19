@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { LogOut, User } from 'lucide-react';
 
@@ -20,13 +20,14 @@ import { auth } from '@services/firebaseConfig';
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
   const user = useUserStore.getState().user;
-  console.log(user);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/');
+      navigate(from);
     } catch (error) {
       console.error('로그아웃 실패:', error);
     }
@@ -48,7 +49,7 @@ function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar>
+                <Avatar className="cursor-pointer">
                   <AvatarImage src={user.profileImage} alt="user avatar" />
                   <AvatarFallback>{user.nickname}</AvatarFallback>
                 </Avatar>

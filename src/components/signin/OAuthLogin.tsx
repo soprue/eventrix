@@ -1,15 +1,17 @@
 import { FcGoogle } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@services/userService';
 
 function OAuthLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
 
   const handleGoogleLogin = () => {
     signInWithGoogle().then((user) => {
       if (user) {
-        navigate('/');
+        navigate(from);
       }
     });
   };
