@@ -13,10 +13,13 @@ interface Action {
 
 export const useUserStore = create<State & Action>()(
   persist(
-    (set) => ({
-      user: null,
-      setUser: (user) => set(() => ({ user })),
-    }),
+    (set) => {
+      const store = {
+        user: null,
+        setUser: (user: UserType | null) => set(() => ({ user })),
+      };
+      return store;
+    },
     {
       name: 'user-store',
       getStorage: () => localStorage,

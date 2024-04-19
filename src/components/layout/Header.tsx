@@ -21,13 +21,11 @@ import { auth } from '@services/firebaseConfig';
 function Header() {
   const navigate = useNavigate();
   const user = useUserStore.getState().user;
-  const setUser = useUserStore.getState().setUser;
   console.log(user);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
       navigate('/');
     } catch (error) {
       console.error('로그아웃 실패:', error);

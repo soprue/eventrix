@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import AuthStateObserver from '@services/AuthStateObserver';
 import Layout from '@components/layout/Layout';
 const Spinner = lazy(() => import('@shared/Spinner'));
 const SignInPage = lazy(() => import('@pages/SignIn'));
@@ -18,6 +19,8 @@ function App() {
         </div>
       }
     >
+      <AuthStateObserver />
+
       <Routes>
         <Route element={<Layout />}>
           {/* <Route index element={<Main />} /> */}

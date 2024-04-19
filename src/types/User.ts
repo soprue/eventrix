@@ -7,4 +7,5 @@ export interface UserType {
   phoneNumber?: string;
   profileImage?: string;
   likedEvents?: string[];
+  token?: string;
 }
