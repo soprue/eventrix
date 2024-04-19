@@ -10,12 +10,16 @@ import {
 import { Input } from '@components/ui/input';
 import { Button } from '@components/ui/button';
 
+import { signInWithEmail } from '@services/userService';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+
 interface FormValues {
   email: string;
   password: string;
 }
 
 function SignInForm() {
+  const { openAlert } = useGlobalAlertStore();
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -28,7 +32,20 @@ function SignInForm() {
   const 모두입력되었는지 = !email || !password;
 
   function onSubmit(values: FormValues) {
-    console.log(values);
+    signInWithEmail(values)
+      .then((result) => {
+        if (result.success) {
+          openAlert(
+            '환영합니다!',
+            '로그인이 완료되었습니다. 바로 마음에 드는 이벤트를 찾아보세요.',
+          );
+        } else {
+          openAlert('다시 시도해 주세요.', result.error as string);
+        }
+      })
+      .catch((error) => {
+        openAlert('다시 시도해 주세요.', error);
+      });
   }
 
   return (

@@ -1,6 +1,7 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -9,7 +10,7 @@ import { FirebaseError } from 'firebase/app';
 
 import { auth, db } from './firebaseConfig';
 import { UserType } from '@/types/User';
-import { SignUpFormValues } from '@/types/Form';
+import { SignInFormValues, SignUpFormValues } from '@/types/Form';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
 import { AuthErrorMap } from '@constants/errorCodes';
 
@@ -99,6 +100,29 @@ export const signUpWithEmail = async (data: SignUpFormValues) => {
       loginType: 'email',
     });
 
+    return { success: true, data: result.user };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      const errorMessage = Object.prototype.hasOwnProperty.call(
+        AuthErrorMap,
+        error.code,
+      )
+        ? AuthErrorMap[error.code]
+        : '알 수 없는 오류가 발생했습니다.';
+      return { success: false, error: errorMessage };
+    } else {
+      return { success: false, error: '알 수 없는 오류가 발생했습니다.' };
+    }
+  }
+};
+
+export const signInWithEmail = async (data: SignInFormValues) => {
+  try {
+    const result = await signInWithEmailAndPassword(
+      auth,
+      data.email,
+      data.password,
+    );
     return { success: true, data: result.user };
   } catch (error) {
     if (error instanceof FirebaseError) {
