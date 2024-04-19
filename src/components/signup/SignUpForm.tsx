@@ -13,15 +13,9 @@ import {
 import { Input } from '@components/ui/input';
 import { Button } from '@components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
-
-interface FormValues {
-  userType: 'organizer' | 'buyer';
-  email: string;
-  nickname: string;
-  password: string;
-  passwordConfirm: string;
-  phone: string;
-}
+import { SignUpFormValues } from '@/types/Form';
+import { signUpWithEmail } from '@services/userService';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 
 const formSchema = z
   .object({
@@ -58,7 +52,8 @@ const formSchema = z
   });
 
 function SignUpForm() {
-  const form = useForm<FormValues>({
+  const { openAlert } = useGlobalAlertStore();
+  const form = useForm<SignUpFormValues>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
     defaultValues: {
@@ -80,123 +75,145 @@ function SignUpForm() {
   const 모두입력되었는지 =
     !userType || !email || !name || !password || !passwordConfirm || !phone;
 
-  function onSubmit(values: FormValues) {
-    console.log(values);
+  function onSubmit(values: SignUpFormValues) {
+    signUpWithEmail(values)
+      .then((result) => {
+        if (result.success) {
+          openAlert(
+            '환영합니다!',
+            '로그인이 완료되었습니다. 바로 마음에 드는 이벤트를 찾아보세요.',
+          );
+        } else {
+          openAlert('다시 시도해 주세요.', result.error as string);
+        }
+      })
+      .catch((error) => {
+        openAlert('다시 시도해 주세요.', error);
+      });
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="userType"
-          render={({ field }) => (
-            <FormItem className="space-y-3 flex justify-center">
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex gap-6"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="organizer" />
-                    </FormControl>
-                    <FormLabel className="font-normal">주최자</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="buyer" />
-                    </FormControl>
-                    <FormLabel className="font-normal">참여자</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="email"
-          render={() => (
-            <FormItem>
-              <FormLabel>이메일</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="이메일을 입력해 주세요."
-                  {...form.register('email')}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="name"
-          render={() => (
-            <FormItem>
-              <FormLabel>닉네임</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="닉네임을 입력해 주세요."
-                  {...form.register('nickname')}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="password"
-          render={() => (
-            <FormItem>
-              <FormLabel>비밀번호</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요."
-                  {...form.register('password')}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="passwordConfirm"
-          render={() => (
-            <FormItem>
-              <FormLabel>비밀번호 확인</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="비밀번호를 다시 입력해 주세요."
-                  {...form.register('passwordConfirm')}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="phone"
-          render={() => (
-            <FormItem>
-              <FormLabel>전화번호</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="-를 제외하고 입력해 주세요."
-                  {...form.register('phone')}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full" disabled={모두입력되었는지}>
-          회원가입
-        </Button>
-      </form>
-    </Form>
+    <>
+      <p className="text-3xl font-bold text-center mb-12">회원가입</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="userType"
+            render={({ field }) => (
+              <FormItem className="space-y-3 flex justify-center">
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex gap-6"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="organizer" />
+                      </FormControl>
+                      <FormLabel className="font-normal">주최자</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="buyer" />
+                      </FormControl>
+                      <FormLabel className="font-normal">참여자</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="email"
+            render={() => (
+              <FormItem>
+                <FormLabel>이메일</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="이메일을 입력해 주세요."
+                    {...form.register('email', {
+                      setValueAs: (value) => value.trim(),
+                    })}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="name"
+            render={() => (
+              <FormItem>
+                <FormLabel>닉네임</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="닉네임을 입력해 주세요."
+                    {...form.register('nickname', {
+                      setValueAs: (value) => value.trim(),
+                    })}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="password"
+            render={() => (
+              <FormItem>
+                <FormLabel>비밀번호</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요."
+                    {...form.register('password')}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="passwordConfirm"
+            render={() => (
+              <FormItem>
+                <FormLabel>비밀번호 확인</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="비밀번호를 다시 입력해 주세요."
+                    {...form.register('passwordConfirm')}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="phone"
+            render={() => (
+              <FormItem>
+                <FormLabel>전화번호</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="-를 제외하고 입력해 주세요."
+                    {...form.register('phone', {
+                      setValueAs: (value) => value.trim(),
+                    })}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full" disabled={모두입력되었는지}>
+            회원가입
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
 

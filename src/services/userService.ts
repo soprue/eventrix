@@ -1,12 +1,20 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { FirebaseError } from 'firebase/app';
 
 import { auth, db } from './firebaseConfig';
-import resizeAndConvertImage from '@utils/resizeAndConvertImage';
 import { UserType } from '@/types/User';
+import { SignUpFormValues } from '@/types/Form';
+import resizeAndConvertImage from '@utils/resizeAndConvertImage';
+import { AuthErrorMap } from '@constants/errorCodes';
 
-const DEFAULT_IMAGE_URL = import.meta.env.VITE_DEFAULT_IMAGE_URL;
+const DEFAULT_IMAGE_URL =
+  'https://firebasestorage.googleapis.com/v0/b/eventrix-7cf95.appspot.com/o/profileImages%2Fdefault_user.webp?alt=media&token=c0f074c4-5011-44a0-b0d8-db76b07cfba5';
 
 // 프로필 이미지를 Storage에 저장하고 URL을 반환하는 함수
 async function uploadImage(imageFile: Blob, folder: string, fileName: string) {
@@ -68,5 +76,41 @@ export const signInWithGoogle = async (): Promise<UserType> => {
       userType: null,
       loginType: null,
     };
+  }
+};
+
+export const signUpWithEmail = async (data: SignUpFormValues) => {
+  try {
+    const result = await createUserWithEmailAndPassword(
+      auth,
+      data.email,
+      data.password,
+    );
+    const user = result.user;
+
+    const userRef = doc(db, 'users', user.uid);
+    await setDoc(userRef, {
+      uid: user.uid,
+      nickname: data.nickname,
+      email: data.email,
+      phone: data.phone,
+      profileImage: DEFAULT_IMAGE_URL,
+      userType: data.userType,
+      loginType: 'email',
+    });
+
+    return { success: true, data: result.user };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      const errorMessage = Object.prototype.hasOwnProperty.call(
+        AuthErrorMap,
+        error.code,
+      )
+        ? AuthErrorMap[error.code]
+        : '알 수 없는 오류가 발생했습니다.';
+      return { success: false, error: errorMessage };
+    } else {
+      return { success: false, error: '알 수 없는 오류가 발생했습니다.' };
+    }
   }
 };
