@@ -25,6 +25,7 @@ function SignInForm() {
 
   const email = form.watch('email');
   const password = form.watch('password');
+  const 모두입력되었는지 = !email || !password;
 
   function onSubmit(values: FormValues) {
     console.log(values);
@@ -61,7 +62,7 @@ function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={!email || !password}>
+        <Button type="submit" className="w-full" disabled={모두입력되었는지}>
           로그인
         </Button>
       </form>

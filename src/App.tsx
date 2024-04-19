@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Layout from '@components/layout/Layout';
 const Spinner = lazy(() => import('@shared/Spinner'));
 const SignInPage = lazy(() => import('@pages/SignIn'));
+const SignUpPage = lazy(() => import('@pages/SignUp'));
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           {/* <Route index element={<Main />} /> */}
-          <Route index element={<SignInPage />} />
+          <Route index element={<SignUpPage />} />
 
           {/* Public Routes */}
           {/* <Route

@@ -1,29 +1,15 @@
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string().email('유효하지 않은 이메일 주소입니다.'),
-  password: z
-    .string()
-    .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
-    .refine(
-      (val) =>
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-          val,
-        ) ||
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(val) ||
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z@$!%*?&]{8,}$/.test(
-          val,
-        ) ||
-        /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[a-z\d@$!%*?&]{8,}$/.test(val),
-      {
-        message:
-          '비밀번호는 대문자, 소문자, 숫자, 특수문자 중 3종류를 포함해야 합니다.',
-      },
-    ),
-});
+import SignUpForm from '@/components/signup/SignUpForm';
 
 function SignUp() {
-  return <div>SignUp</div>;
+  return (
+    <div className="w-full flex justify-center items-center min-h-dvh py-24">
+      <div className="w-[440px]">
+        <p className="text-3xl font-bold text-center mb-12">회원가입</p>
+
+        <SignUpForm />
+      </div>
+    </div>
+  );
 }
 
 export default SignUp;
