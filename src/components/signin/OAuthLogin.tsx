@@ -1,13 +1,17 @@
 import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@services/userService';
-import { useUserStore } from '@store/useUserStore ';
+import { useUserStore } from '@store/useUserStore';
 
 function OAuthLogin() {
+  const navigate = useNavigate();
+
   const handleGoogleLogin = () => {
     signInWithGoogle().then((user) => {
       if (user) {
         useUserStore.getState().setUser(user);
+        navigate('/');
       }
     });
   };
