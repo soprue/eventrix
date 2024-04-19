@@ -4,7 +4,7 @@ import Header from './Header';
 
 function Layout() {
   return (
-    <div className="min-h-screen relative overflow-hidden font-pretendard">
+    <div className="min-h-dvh relative overflow-hidden font-pretendard">
       <Header />
       <div className="container">
         <Outlet />
