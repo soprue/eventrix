@@ -6,13 +6,12 @@ import { auth, db } from './firebaseConfig';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
 import { UserType } from '@/types/User';
 
-const DEFAULT_IMAGE_URL =
-  'https://firebasestorage.googleapis.com/v0/b/eventrix-7cf95.appspot.com/o/profileImages%2Fdefault_user.webp?alt=media&token=c0f074c4-5011-44a0-b0d8-db76b07cfba5';
+const DEFAULT_IMAGE_URL = import.meta.env.VITE_DEFAULT_IMAGE_URL;
 
 // 프로필 이미지를 Storage에 저장하고 URL을 반환하는 함수
-async function uploadProfileImage(imageFile: Blob, userId: string) {
+async function uploadImage(imageFile: Blob, folder: string, fileName: string) {
   const storage = getStorage();
-  const storageRef = ref(storage, `profileImages/${userId}.webp`);
+  const storageRef = ref(storage, `${folder}/${fileName}.webp`);
 
   const webpImage = await resizeAndConvertImage(imageFile);
   await uploadBytes(storageRef, webpImage);
@@ -36,7 +35,11 @@ export const signInWithGoogle = async (): Promise<UserType> => {
     if (!docSnap.exists()) {
       if (user.photoURL) {
         const imageFile = await fetch(user.photoURL).then((res) => res.blob());
-        profileImageUrl = await uploadProfileImage(imageFile, user.uid);
+        profileImageUrl = await uploadImage(
+          imageFile,
+          'profileImages',
+          user.uid,
+        );
       }
 
       await setDoc(userRef, {
