@@ -1,19 +1,27 @@
-import { FcGoogle } from 'react-icons/fc';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
 
 import { signInWithGoogle } from '@services/userService';
+import { useGlobalAlertStore } from '@/store/useGlobalAlertStore';
 
 function OAuthLogin() {
   const navigate = useNavigate();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
+  const { openAlert } = useGlobalAlertStore();
 
   const handleGoogleLogin = () => {
-    signInWithGoogle().then((user) => {
-      if (user) {
-        navigate(from);
-      }
-    });
+    signInWithGoogle()
+      .then((user) => {
+        if (user.uid) {
+          navigate(from);
+        } else {
+          openAlert('오류', '로그인에 실패했습니다. 다시 시도해 주세요.');
+        }
+      })
+      .catch((error) => {
+        openAlert('오류', error);
+      });
   };
 
   return (

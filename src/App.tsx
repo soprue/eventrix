@@ -5,6 +5,7 @@ import AuthStateObserver from '@components/auth/AuthStateObserver';
 import PublicRoute from '@components/auth/PublicRoute';
 import PrivateRoute from '@components/auth/PrivateRoute';
 import Layout from '@components/layout/Layout';
+import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
 import Spinner from '@components/shared/Spinner';
 
 import MainPage from '@pages/Main';
@@ -25,6 +26,7 @@ function App() {
       }
     >
       <AuthStateObserver />
+      <GlobalAlertDialog />
 
       <Routes>
         <Route element={<Layout />}>
