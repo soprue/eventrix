@@ -19,7 +19,30 @@ function App() {
     >
       <Routes>
         <Route element={<Layout />}>
+          {/* <Route index element={<Main />} /> */}
           <Route index element={<SignInPage />} />
+
+          {/* Public Routes */}
+          {/* <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignInPage />
+              </PublicRoute>
+            }
+          /> */}
+
+          {/* Private Routes */}
+          {/* <Route
+            path="/mypage"
+            element={
+              <PrivateRoute>
+                <Mypage />
+              </PrivateRoute>
+            }
+          /> */}
+
+          {/* <Route path="/*" element={<NotFound />} /> */}
         </Route>
       </Routes>
     </Suspense>
