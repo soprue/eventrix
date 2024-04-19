@@ -9,15 +9,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
+import { Button } from '@components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 
 interface FormValues {
   userType: 'organizer' | 'buyer';
   email: string;
-  name: string;
+  nickname: string;
   password: string;
   passwordConfirm: string;
   phone: string;
@@ -27,7 +27,7 @@ const formSchema = z
   .object({
     userType: z.enum(['organizer', 'buyer']),
     email: z.string().email('유효하지 않은 이메일 주소입니다.'),
-    name: z.string().min(1, '이름을 입력해 주세요.'),
+    nickname: z.string().min(1, '닉네임을 입력해 주세요.'),
     password: z
       .string()
       .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
@@ -64,7 +64,7 @@ function SignUpForm() {
     defaultValues: {
       userType: 'buyer',
       email: '',
-      name: '',
+      nickname: '',
       password: '',
       passwordConfirm: '',
       phone: '',
@@ -73,7 +73,7 @@ function SignUpForm() {
 
   const userType = form.watch('userType');
   const email = form.watch('email');
-  const name = form.watch('name');
+  const name = form.watch('nickname');
   const password = form.watch('password');
   const passwordConfirm = form.watch('passwordConfirm');
   const phone = form.watch('phone');
@@ -134,11 +134,11 @@ function SignUpForm() {
           name="name"
           render={() => (
             <FormItem>
-              <FormLabel>이름</FormLabel>
+              <FormLabel>닉네임</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="이름을 입력해 주세요."
-                  {...form.register('name')}
+                  placeholder="닉네임을 입력해 주세요."
+                  {...form.register('nickname')}
                 />
               </FormControl>
               <FormMessage />

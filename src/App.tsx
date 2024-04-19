@@ -21,17 +21,11 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           {/* <Route index element={<Main />} /> */}
-          <Route index element={<SignUpPage />} />
+          <Route index element={<SignInPage />} />
 
           {/* Public Routes */}
-          {/* <Route
-            path="/signin"
-            element={
-              <PublicRoute>
-                <SignInPage />
-              </PublicRoute>
-            }
-          /> */}
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
 
           {/* Private Routes */}
           {/* <Route

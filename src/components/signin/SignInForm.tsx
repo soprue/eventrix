@@ -6,9 +6,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
+import { Button } from '@components/ui/button';
 
 interface FormValues {
   email: string;
