@@ -18,6 +18,9 @@ export default {
         '2xl': '1400px',
       },
     },
+    fontFamily: {
+      pretendard: ['Pretendard'],
+    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',
