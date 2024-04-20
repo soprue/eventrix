@@ -7,11 +7,13 @@ import PrivateRoute from '@components/auth/PrivateRoute';
 import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
 import Spinner from '@components/shared/Spinner';
 
-import Layout from '@pages/Layout';
+import Layout from '@pages/layout/Layout';
+import MyPageLayout from '@pages/layout/MyPageLayout';
 import MainPage from '@pages/Main';
 const SignInPage = lazy(() => import('@pages/SignIn'));
 const SignUpPage = lazy(() => import('@pages/SignUp'));
 const MyPage = lazy(() => import('@pages/MyPage'));
+const MyEventsPage = lazy(() => import('@pages/MyEvents'));
 
 function App() {
   return (
@@ -31,36 +33,21 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<MainPage />} />
-
-          {/* Public Routes */}
-          <Route
-            path="/signin"
-            element={
-              <PublicRoute>
-                <SignInPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <PublicRoute>
-                <SignUpPage />
-              </PublicRoute>
-            }
-          />
-
-          {/* Private Routes */}
-          <Route
-            path="/my"
-            element={
-              <PrivateRoute>
-                <MyPage />
-              </PrivateRoute>
-            }
-          />
-
           {/* <Route path="/*" element={<NotFound />} /> */}
+
+          <Route element={<PublicRoute />}>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Route>
+        </Route>
+
+        <Route element={<MyPageLayout />}>
+          <Route element={<PrivateRoute />}>
+            <Route path="/my" element={<MyPage />} />
+          </Route>
+          <Route element={<PrivateRoute allowedTypes="organizer" />}>
+            <Route path="/my/events" element={<MyEventsPage />} />
+          </Route>
         </Route>
       </Routes>
     </Suspense>

@@ -1,12 +1,11 @@
 import { useUserStore } from '@store/useUserStore';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 interface PrivateRouteProps {
-  children: React.ReactNode;
   allowedTypes?: 'buyer' | 'organizer';
 }
 
-function PrivateRoute({ children, allowedTypes }: PrivateRouteProps) {
+function PrivateRoute({ allowedTypes }: PrivateRouteProps) {
   const user = useUserStore((state) => state.user);
   const location = useLocation();
 
@@ -24,7 +23,7 @@ function PrivateRoute({ children, allowedTypes }: PrivateRouteProps) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default PrivateRoute;

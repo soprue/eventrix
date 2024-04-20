@@ -1,11 +1,7 @@
 import { useUserStore } from '@store/useUserStore';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-interface PublicRouteProps {
-  children: React.ReactNode;
-}
-
-function PublicRoute({ children }: PublicRouteProps) {
+function PublicRoute() {
   const user = useUserStore((state) => state.user);
   const location = useLocation();
 
@@ -14,7 +10,7 @@ function PublicRoute({ children }: PublicRouteProps) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default PublicRoute;
