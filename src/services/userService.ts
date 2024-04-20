@@ -108,7 +108,7 @@ export const signUpWithEmail = async (data: SignUpFormValues) => {
         error.code,
       )
         ? AuthErrorMap[error.code]
-        : '알 수 없는 오류가 발생했습니다.';
+        : error.code;
       return { success: false, error: errorMessage };
     } else {
       return { success: false, error: '알 수 없는 오류가 발생했습니다.' };
@@ -131,7 +131,7 @@ export const signInWithEmail = async (data: SignInFormValues) => {
         error.code,
       )
         ? AuthErrorMap[error.code]
-        : '알 수 없는 오류가 발생했습니다.';
+        : error.code;
       return { success: false, error: errorMessage };
     } else {
       return { success: false, error: '알 수 없는 오류가 발생했습니다.' };

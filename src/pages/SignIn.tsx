@@ -8,7 +8,7 @@ function SignIn() {
     <div className="w-full flex justify-center items-center min-h-[calc(100dvh-64px)] py-24">
       <div className="w-[440px]">
         <SignInForm />
-        <Link to="/signup" className="text-sm text-gray-500 mt-2 block">
+        <Link to="/signup" className="text-sm text-gray-500 mt-2 inline-block">
           회원가입
         </Link>
 
