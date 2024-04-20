@@ -12,8 +12,9 @@ import MyPageLayout from '@pages/layout/MyPageLayout';
 import MainPage from '@pages/Main';
 const SignInPage = lazy(() => import('@pages/SignIn'));
 const SignUpPage = lazy(() => import('@pages/SignUp'));
-const MyPage = lazy(() => import('@pages/MyPage'));
-const MyEventsPage = lazy(() => import('@pages/MyEvents'));
+const MyPage = lazy(() => import('@/pages/my/MyPage'));
+const MyEventsPage = lazy(() => import('@/pages/my/MyEvents'));
+const MyNewEventsPage = lazy(() => import('@/pages/my/MyNewEvents'));
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           </Route>
           <Route element={<PrivateRoute allowedTypes="organizer" />}>
             <Route path="/my/events" element={<MyEventsPage />} />
+            <Route path="/my/events/new" element={<MyNewEventsPage />} />
           </Route>
         </Route>
       </Routes>

@@ -35,7 +35,9 @@ import { Input } from '@/components/ui/input';
 
 const columns: ColumnDef<Event>[] = [
   {
+    id: 'thumbnail',
     accessorKey: '썸네일',
+    header: '',
     cell: ({ row }) => (
       <img
         src={row.getValue('thumbnail')}
@@ -45,6 +47,7 @@ const columns: ColumnDef<Event>[] = [
     ),
   },
   {
+    id: 'name',
     accessorKey: '이벤트 이름',
     header: ({ column }) => {
       return (
@@ -162,7 +165,7 @@ function EventTable() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="이름으로 필터링..."
+          placeholder="이름으로 검색"
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
@@ -172,7 +175,7 @@ function EventTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              보기 <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
