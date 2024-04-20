@@ -1,12 +1,13 @@
-import { useUserStore } from '@store/useUserStore';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+
+import useUser from '@hooks/useUser';
 
 interface PrivateRouteProps {
   allowedTypes?: 'buyer' | 'organizer';
 }
 
 function PrivateRoute({ allowedTypes }: PrivateRouteProps) {
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
   const location = useLocation();
 
   // 로그인되어 있지 않은 경우

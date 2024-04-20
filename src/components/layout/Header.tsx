@@ -15,14 +15,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 
 import logoImage from '@assets/images/logo/logo_horizontal.svg';
-import { useUserStore } from '@store/useUserStore';
 import { auth } from '@services/firebaseConfig';
+import useUser from '@hooks/useUser';
 
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
-  const user = useUserStore.getState().user;
+  const user = useUser();
 
   const handleLogout = async () => {
     try {
