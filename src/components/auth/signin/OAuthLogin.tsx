@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
 import { signInWithGoogle } from '@services/userService';
-import { useGlobalAlertStore } from '@/store/useGlobalAlertStore';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 
 function OAuthLogin() {
   const navigate = useNavigate();

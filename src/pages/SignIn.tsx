@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import OAuthLogin from '@components/signin/OAuthLogin';
-import SignInForm from '@components/signin/SignInForm';
+import OAuthLogin from '@components/auth/signin/OAuthLogin';
+import SignInForm from '@components/auth/signin/SignInForm';
 
 function SignIn() {
   return (
