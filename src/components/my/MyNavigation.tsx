@@ -20,7 +20,6 @@ function MyNavigation() {
           <>
             <NavLink
               to="/my/events"
-              end
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -29,7 +28,6 @@ function MyNavigation() {
             </NavLink>
             <NavLink
               to="/my/orders"
-              end
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -42,7 +40,6 @@ function MyNavigation() {
           <>
             <NavLink
               to="/my/tickets"
-              end
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -51,7 +48,6 @@ function MyNavigation() {
             </NavLink>
             <NavLink
               to="/my/likes"
-              end
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
