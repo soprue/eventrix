@@ -15,7 +15,7 @@ function StatusItem({ text, count, active, onClick }: StatusItemProps) {
         {text}
       </span>
       <span
-        className={`text-title font-bold leading-7  ${
+        className={`text-xl font-bold leading-7  ${
           active ? 'text-black' : 'text-gray-300'
         }`}
       >

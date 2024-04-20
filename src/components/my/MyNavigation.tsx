@@ -11,7 +11,7 @@ function MyNavigation() {
           to="/my"
           end
           className={({ isActive }) =>
-            isActive ? 'text-black' : 'text-gray-500'
+            isActive ? 'text-black' : 'text-gray-300'
           }
         >
           프로필
@@ -22,7 +22,7 @@ function MyNavigation() {
               to="/my/events"
               end
               className={({ isActive }) =>
-                isActive ? 'text-black' : 'text-gray-500'
+                isActive ? 'text-black' : 'text-gray-300'
               }
             >
               이벤트 관리
@@ -31,7 +31,7 @@ function MyNavigation() {
               to="/my/orders"
               end
               className={({ isActive }) =>
-                isActive ? 'text-black' : 'text-gray-500'
+                isActive ? 'text-black' : 'text-gray-300'
               }
             >
               주문 관리
@@ -44,7 +44,7 @@ function MyNavigation() {
               to="/my/tickets"
               end
               className={({ isActive }) =>
-                isActive ? 'text-black' : 'text-gray-500'
+                isActive ? 'text-black' : 'text-gray-300'
               }
             >
               이벤트 참여 내역
@@ -53,7 +53,7 @@ function MyNavigation() {
               to="/my/likes"
               end
               className={({ isActive }) =>
-                isActive ? 'text-black' : 'text-gray-500'
+                isActive ? 'text-black' : 'text-gray-300'
               }
             >
               찜한 이벤트
