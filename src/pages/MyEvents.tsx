@@ -1,5 +1,11 @@
+import Status from '@components/my/events/Status';
+
 function MyEvents() {
-  return <div></div>;
+  return (
+    <div>
+      <Status />
+    </div>
+  );
 }
 
 export default MyEvents;
