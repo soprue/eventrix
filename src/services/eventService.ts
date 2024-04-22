@@ -7,6 +7,7 @@ import {
   query,
   setDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
@@ -14,6 +15,7 @@ import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/Form';
 import { EventType } from '@/types/Event';
 import combineDateAndTime from '@utils/combineDateAndTime';
+import { eventDummyData } from '@/components/my/events/DummyData';
 
 export const createEvent = async (data: EventFormValues) => {
   const eventId = doc(collection(db, 'events')).id;
@@ -94,4 +96,18 @@ export const getMyEvents = async (
   }));
 
   return myEvents;
+};
+
+export const addDummyEvents = async () => {
+  const batch = writeBatch(db);
+
+  eventDummyData.forEach(event => {
+    const docRef = doc(collection(db, 'events'));
+
+    batch.set(docRef, event);
+  });
+
+  await batch.commit();
+
+  alert('이벤트 리스트가 추가되었습니다.');
 };

@@ -9,7 +9,7 @@ import Spinner from '@components/shared/Spinner';
 
 import { EventType } from '@/types/Event';
 import useUser from '@hooks/useUser';
-import { getMyEvents } from '@services/eventService';
+import { addDummyEvents, getMyEvents } from '@services/eventService';
 import error from '@assets/images/error_illustration.svg';
 import { calculateEventStatus } from '@utils/my/calculateEventStatus';
 import { StatusMenuType } from '@constants/eventStatusMenus';
@@ -61,10 +61,9 @@ function MyEvents() {
       </div>
     );
 
-  console.log(data);
-
   return (
     <>
+      {/* <button onClick={addDummyEvents}>더미데이터 추가</button> */}
       <div className='mb-4 flex justify-end'>
         <Button>
           <Link to='/my/events/new'>등록하기</Link>

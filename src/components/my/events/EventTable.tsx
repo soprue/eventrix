@@ -223,7 +223,7 @@ function EventTable({ data }: EventTableProps) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            이전
           </Button>
           <Button
             variant='outline'
@@ -231,7 +231,7 @@ function EventTable({ data }: EventTableProps) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            다음
           </Button>
         </div>
       </div>
