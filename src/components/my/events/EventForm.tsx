@@ -35,7 +35,7 @@ import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Textarea } from '@components/ui/textarea';
 
 import { cn } from '@/lib/utils';
-// import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
 import { CATEGORIES } from '@constants/categories';
 import useUser from '@hooks/useUser';
@@ -53,7 +53,7 @@ interface PostcodeData {
 
 function EventForm() {
   const user = useUser();
-  // const { openAlert } = useGlobalAlertStore();
+  const { openAlert } = useGlobalAlertStore();
   const form = useForm<EventFormValues>({
     mode: 'onChange',
     resolver: zodResolver(eventFormSchema),
@@ -94,10 +94,20 @@ function EventForm() {
     event: ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files;
+
     if (files && files.length > 0) {
       const file = files[0];
-      const webpImage = await resizeAndConvertImage(file);
-      const imageUrl = URL.createObjectURL(webpImage);
+      const webpImageBlob = await resizeAndConvertImage(file);
+
+      // Blob을 File 객체로 변환
+      const webpImageFile = new File([webpImageBlob], `${file.name}.webp`, {
+        type: 'image/webp',
+        lastModified: new Date().getTime(),
+      });
+
+      // 이미지 미리보기 설정
+      form.setValue('thumbnail', webpImageFile, { shouldValidate: true });
+      const imageUrl = URL.createObjectURL(webpImageFile);
       setThumbnailPreview(imageUrl);
     } else {
       setThumbnailPreview(null);
@@ -134,8 +144,16 @@ function EventForm() {
     };
 
     createEvent(eventData)
-      .then(() => {})
-      .catch(() => {});
+      .then(result => {
+        if (result.success) {
+          openAlert('이벤트가 등록되었습니다.', '');
+        } else {
+          openAlert('다시 시도해 주세요.', result.error as string);
+        }
+      })
+      .catch(error => {
+        openAlert('다시 시도해 주세요.', error.error);
+      });
   }
 
   return (
@@ -161,6 +179,14 @@ function EventForm() {
                 </p>
               </div>
             )}
+            <div className='flex justify-end'>
+              <label
+                htmlFor='picture'
+                className='inline-flex h-fit cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-xs font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
+              >
+                업로드
+              </label>
+            </div>
             <FormField
               name='thumbnail'
               render={() => (
@@ -170,6 +196,7 @@ function EventForm() {
                       id='picture'
                       type='file'
                       accept='image/*'
+                      className='hidden'
                       {...form.register('thumbnail')}
                       onChange={handleThumbnailChange}
                     />
@@ -604,7 +631,7 @@ function EventForm() {
                                 ? new Date(startDate)
                                 : new Date();
                               return (
-                                date <= registrationStartDateValue ||
+                                date < registrationStartDateValue ||
                                 date >= eventStartDateValue
                               ); // 모집 시작 날짜 이후이면서 이벤트 시작 날짜 이전 날짜만 선택 가능
                             }}
@@ -764,12 +791,10 @@ const ticketSchema = z.object({
 });
 
 const eventFormSchema = z.object({
-  thumbnail: z
-    .any()
-    .refine(val => val instanceof FileList && val.length > 0, {
-      message: '썸네일은 필수입니다.',
-    })
-    .transform(val => val[0]),
+  thumbnail: z.any().refine(val => val instanceof Blob, {
+    // Blob 체크 (File은 Blob의 확장이므로 이 조건을 만족합니다)
+    message: '썸네일은 필수입니다.',
+  }),
   name: z.string().min(1, '이벤트 이름은 필수입니다.').trim(),
   startDate: z
     .date()
