@@ -4,9 +4,9 @@ import Header from '@components/layout/Header';
 
 function Layout() {
   return (
-    <div className="min-h-dvh relative overflow-hidden font-pretendard">
+    <div className='relative min-h-dvh overflow-hidden font-pretendard'>
       <Header />
-      <div className="container">
+      <div className='container'>
         <Outlet />
       </div>
     </div>

@@ -21,8 +21,8 @@ function App() {
     <Suspense
       fallback={
         <div
-          role="status"
-          className="flex h-dvh w-full items-center justify-center"
+          role='status'
+          className='flex h-dvh w-full items-center justify-center'
         >
           <Spinner />
         </div>
@@ -37,18 +37,18 @@ function App() {
           {/* <Route path="/*" element={<NotFound />} /> */}
 
           <Route element={<PublicRoute />}>
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
+            <Route path='/signin' element={<SignInPage />} />
+            <Route path='/signup' element={<SignUpPage />} />
           </Route>
         </Route>
 
         <Route element={<MyPageLayout />}>
           <Route element={<PrivateRoute />}>
-            <Route path="/my" element={<MyPage />} />
+            <Route path='/my' element={<MyPage />} />
           </Route>
-          <Route element={<PrivateRoute allowedTypes="organizer" />}>
-            <Route path="/my/events" element={<MyEventsPage />} />
-            <Route path="/my/events/new" element={<MyNewEventsPage />} />
+          <Route element={<PrivateRoute allowedTypes='organizer' />}>
+            <Route path='/my/events' element={<MyEventsPage />} />
+            <Route path='/my/events/new' element={<MyNewEventsPage />} />
           </Route>
         </Route>
       </Routes>

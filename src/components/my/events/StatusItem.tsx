@@ -8,7 +8,7 @@ interface StatusItemProps {
 function StatusItem({ text, count, active, onClick }: StatusItemProps) {
   return (
     <li
-      className="flex cursor-pointer flex-col items-center justify-center gap-3"
+      className='flex cursor-pointer flex-col items-center justify-center gap-3'
       onClick={onClick}
     >
       <span className={`leading-4 ${active ? 'text-black' : 'text-gray-300'}`}>

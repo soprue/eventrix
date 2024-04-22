@@ -7,9 +7,9 @@ import { Button } from '@components/ui/button';
 function MyEvents() {
   return (
     <>
-      <div className="flex justify-end mb-4">
+      <div className='mb-4 flex justify-end'>
         <Button>
-          <Link to="/my/events/new">등록하기</Link>
+          <Link to='/my/events/new'>등록하기</Link>
         </Button>
       </div>
       <div>

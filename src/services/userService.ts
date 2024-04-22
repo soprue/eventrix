@@ -43,7 +43,7 @@ export const signInWithGoogle = async (): Promise<UserType> => {
     // Firestore에 사용자 정보가 없으면 새로 저장
     if (!docSnap.exists()) {
       if (user.photoURL) {
-        const imageFile = await fetch(user.photoURL).then((res) => res.blob());
+        const imageFile = await fetch(user.photoURL).then(res => res.blob());
         profileImageUrl = await uploadImage(
           imageFile,
           'profileImages',

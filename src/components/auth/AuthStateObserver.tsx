@@ -9,7 +9,7 @@ function AuthStateObserver() {
   const { setUser } = useUserStore();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         // 사용자가 로그인한 상태
         user
@@ -19,7 +19,7 @@ function AuthStateObserver() {
             const userDoc = await getDoc(userRef);
             setUser(userDoc.data() as UserType);
           })
-          .catch((error) => {
+          .catch(error => {
             console.error('Token renewal error:', error);
             setUser(null);
           });

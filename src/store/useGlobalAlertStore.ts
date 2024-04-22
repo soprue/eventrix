@@ -8,7 +8,7 @@ interface State {
   closeAlert: () => void;
 }
 
-export const useGlobalAlertStore = create<State>((set) => ({
+export const useGlobalAlertStore = create<State>(set => ({
   isOpen: false,
   title: '',
   description: '',

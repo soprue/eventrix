@@ -19,14 +19,14 @@ function Status() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex w-full justify-center rounded-lg border border-line-normal bg-background-tertiary py-[22px]">
-        <ul className="flex gap-9">
+    <div className='flex flex-col gap-6'>
+      <div className='border-line-normal bg-background-tertiary flex w-full justify-center rounded-lg border py-[22px]'>
+        <ul className='flex gap-9'>
           {statusMenus.map((menu, idx) => {
             return (
               <>
                 {idx > 0 && idx < statusMenus.length && (
-                  <img src={RightArrow} alt="RightArrow" />
+                  <img src={RightArrow} alt='RightArrow' />
                 )}
                 <StatusItem
                   key={menu}

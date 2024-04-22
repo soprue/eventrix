@@ -5,12 +5,12 @@ import MyNavigation from '@components/my/MyNavigation';
 
 function MyPageLayout() {
   return (
-    <div className="min-h-dvh relative overflow-hidden font-pretendard">
+    <div className='relative min-h-dvh overflow-hidden font-pretendard'>
       <Header />
 
-      <div className="container flex">
+      <div className='container flex'>
         <MyNavigation />
-        <div className="w-[calc(100%-200px)] pl-10 pt-10 min-h-[calc(100dvh-64px)]">
+        <div className='min-h-[calc(100dvh-64px)] w-[calc(100%-200px)] pl-10 pt-10'>
           <Outlet />
         </div>
       </div>
