@@ -1,41 +1,50 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-import RightArrow from '@assets/images/icons/RightArrow.svg';
 import StatusItem from './StatusItem';
 
-const statusMenus = [
-  '모집 준비',
-  '모집 진행',
-  '모집 마감',
-  '행사 진행',
-  '행사 종료',
-];
+import RightArrow from '@assets/images/icons/RightArrow.svg';
+import { StatusMenuType, statusMenus } from '@constants/eventStatusMenus';
 
-function Status() {
-  const [status, setStatus] = useState(statusMenus[0]);
+interface StatusProps {
+  statuses: string[];
+  status: string | null;
+  setStatus: Dispatch<SetStateAction<StatusMenuType | null>>;
+}
 
-  const handleStatusChange = (newStatus: string) => {
-    setStatus(newStatus);
+function Status({ statuses, status, setStatus }: StatusProps) {
+  const statusCounts = statuses.reduce(
+    (counts, status) => {
+      counts[status] = (counts[status] || 0) + 1;
+      return counts;
+    },
+    {} as Record<string, number>,
+  );
+
+  const handleStatusChange = (newStatus: StatusMenuType) => {
+    if (status === newStatus) {
+      setStatus(null);
+    } else {
+      setStatus(newStatus);
+    }
   };
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='border-line-normal bg-background-tertiary flex w-full justify-center rounded-lg border py-[22px]'>
-        <ul className='flex gap-9'>
+        <ul className='flex'>
           {statusMenus.map((menu, idx) => {
             return (
-              <>
-                {idx > 0 && idx < statusMenus.length && (
-                  <img src={RightArrow} alt='RightArrow' />
-                )}
+              <li key={menu} className='flex gap-9'>
                 <StatusItem
-                  key={menu}
                   text={menu}
-                  count={0}
+                  count={statusCounts[menu] || 0}
                   active={status === menu}
                   onClick={() => handleStatusChange(menu)}
                 />
-              </>
+                {idx != statusMenus.length - 1 && (
+                  <img src={RightArrow} alt='RightArrow' />
+                )}
+              </li>
             );
           })}
         </ul>

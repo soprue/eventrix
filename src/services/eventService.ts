@@ -1,9 +1,18 @@
 import { FirebaseError } from 'firebase/app';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/Form';
+import { EventType } from '@/types/Event';
 import combineDateAndTime from '@utils/combineDateAndTime';
 
 export const createEvent = async (data: EventFormValues) => {
@@ -64,4 +73,25 @@ export const createEvent = async (data: EventFormValues) => {
       return { success: false, error: error };
     }
   }
+};
+
+export const getMyEvents = async (
+  organizerUID: string,
+): Promise<EventType[]> => {
+  const eventsRef = collection(db, 'events');
+
+  const q = query(
+    eventsRef,
+    where('organizerUID', '==', organizerUID),
+    orderBy('eventCreationDate', 'desc'),
+  );
+
+  const querySnapshot = await getDocs(q);
+
+  const myEvents = querySnapshot.docs.map(doc => ({
+    uid: doc.id,
+    ...(doc.data() as EventType),
+  }));
+
+  return myEvents;
 };

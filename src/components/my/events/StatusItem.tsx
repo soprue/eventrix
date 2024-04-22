@@ -7,7 +7,7 @@ interface StatusItemProps {
 
 function StatusItem({ text, count, active, onClick }: StatusItemProps) {
   return (
-    <li
+    <div
       className='flex cursor-pointer flex-col items-center justify-center gap-3'
       onClick={onClick}
     >
@@ -21,7 +21,7 @@ function StatusItem({ text, count, active, onClick }: StatusItemProps) {
       >
         {count}
       </span>
-    </li>
+    </div>
   );
 }
 

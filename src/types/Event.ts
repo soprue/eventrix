@@ -1,4 +1,5 @@
 import { Category } from '@constants/categories';
+import { Timestamp } from 'firebase/firestore';
 
 export interface EventType {
   uid?: string;
@@ -6,10 +7,10 @@ export interface EventType {
   thumbnail: string | File;
   name: string;
   category: Category;
-  startDateTime: Date;
-  endDateTime: Date;
-  registrationStart: Date;
-  registrationEnd: Date;
+  startDateTime: Date | Timestamp;
+  endDateTime: Date | Timestamp;
+  registrationStart: Date | Timestamp;
+  registrationEnd: Date | Timestamp;
   location: string;
   description: string;
   likesCount: number;
@@ -20,4 +21,5 @@ export interface EventType {
     soldCount: number;
   }[];
   eventCreationDate: Date;
+  status?: string;
 }
