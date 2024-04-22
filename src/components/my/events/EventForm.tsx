@@ -1,9 +1,12 @@
 import { ChangeEvent, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { TiDelete } from 'react-icons/ti';
+import DaumPostcodeEmbed from 'react-daum-postcode';
+import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { CalendarIcon } from 'lucide-react';
-import { TiDelete } from 'react-icons/ti';
 
 import {
   Form,
@@ -32,16 +35,14 @@ import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Textarea } from '@components/ui/textarea';
 
 import { cn } from '@/lib/utils';
-import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+// import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
 import { CATEGORIES } from '@constants/categories';
-import DaumPostcodeEmbed from 'react-daum-postcode';
-
-interface Ticket {
-  name: string;
-  price: number;
-  quantity: number;
-}
+import useUser from '@hooks/useUser';
+import { createEvent } from '@services/eventService';
+import calculateEndTimeOptions from '@utils/my/calculateEndTimeOptions';
+import resizeAndConvertImage from '@utils/resizeAndConvertImage';
+import { EventFormValues } from '@/types/Form';
 
 interface PostcodeData {
   address: string;
@@ -51,98 +52,56 @@ interface PostcodeData {
 }
 
 function EventForm() {
-  const { openAlert } = useGlobalAlertStore();
-  const form = useForm({
+  const user = useUser();
+  // const { openAlert } = useGlobalAlertStore();
+  const form = useForm<EventFormValues>({
     mode: 'onChange',
+    resolver: zodResolver(eventFormSchema),
     defaultValues: {
       thumbnail: null,
       name: '',
-      startDate: new Date(),
+      startDate: null,
       startTime: '',
-      endDate: new Date(),
+      endDate: null,
       endTime: '',
       category: 'IT/Technology',
       location: '',
-      registrationStartDate: new Date(),
+      registrationStartDate: null,
       registrationStartTime: '',
-      registrationEndDate: new Date(),
+      registrationEndDate: null,
       registrationEndTime: '',
       description: '',
+      tickets: [{ name: '', price: 0, quantity: 0 }],
     },
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'tickets',
+  });
+
   const startDate = form.watch('startDate');
   const startTime = form.watch('startTime');
   const registrationStartDate = form.watch('registrationStartDate');
   const registrationStartTime = form.watch('registrationStartTime');
+  const registrationEndDate = form.watch('registrationEndDate');
   const location = form.watch('location');
 
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-  const [tickets, setTickets] = useState<Ticket[]>([
-    { name: '', price: 0, quantity: 0 },
-  ]);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
 
-  const calculateEndTimeOptions = (startDate: Date, startTime: string) => {
-    const options = [];
-    for (let i = 0; i < 48; i++) {
-      const hour = Math.floor(i / 2);
-      const minute = (i % 2) * 30;
-      const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-      const ampm = hour < 12 ? '오전' : '오후';
-      const formattedTime = `${ampm} ${displayHour}시 ${minute.toString().padStart(2, '0')}분`;
-
-      const currentDate = new Date();
-      currentDate.setHours(hour, minute, 0);
-      const selectedDateTime = new Date(startDate);
-      selectedDateTime.setHours(
-        parseInt(startTime.split(':')[0]),
-        parseInt(startTime.split(':')[1]),
-        0,
-      );
-
-      if (currentDate >= selectedDateTime) {
-        options.push({ value: timeString, label: formattedTime });
-      }
-    }
-    return options;
-  };
-
-  const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      const imageUrl = URL.createObjectURL(file);
+      const webpImage = await resizeAndConvertImage(file);
+      const imageUrl = URL.createObjectURL(webpImage);
       setThumbnailPreview(imageUrl);
     } else {
       setThumbnailPreview(null);
     }
-  };
-
-  const handleAddTicket = () => {
-    if (tickets.length < 5) {
-      setTickets([...tickets, { name: '', price: 0, quantity: 0 }]);
-    } else {
-      openAlert('최대 5개까지만 추가할 수 있습니다.', '');
-    }
-  };
-
-  const handleRemoveTicket = (index: number) => {
-    if (tickets.length > 1) {
-      setTickets(tickets.filter((_, idx) => idx !== index));
-    } else {
-      openAlert('최소 1개의 티켓은 입력해야 합니다.', '');
-    }
-  };
-
-  const handleTicketChange = <K extends keyof Ticket>(
-    index: number,
-    field: K,
-    value: Ticket[K],
-  ) => {
-    const newTickets = [...tickets];
-    newTickets[index][field] = value;
-    setTickets(newTickets);
   };
 
   const handlePostcodeComplete = (data: PostcodeData) => {
@@ -168,31 +127,25 @@ function EventForm() {
     setIsPostcodeOpen(prev => !prev);
   };
 
-  function onSubmit() {}
+  function onSubmit(data: EventFormValues) {
+    const eventData: EventFormValues = {
+      ...data,
+      organizerUID: user?.uid as string,
+    };
+
+    createEvent(eventData)
+      .then(() => {})
+      .catch(() => {});
+  }
 
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-          <div>
-            <FormField
-              name='thumbnail'
-              render={() => (
-                <FormItem>
-                  <FormLabel>썸네일</FormLabel>
-                  <FormControl>
-                    <Input
-                      id='picture'
-                      type='file'
-                      accept='image/*'
-                      {...form.register('thumbnail')}
-                      onChange={handleThumbnailChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className='flex flex-col space-y-2'>
+            <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+              썸네일
+            </p>
             {thumbnailPreview ? (
               <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input'>
                 <img
@@ -208,25 +161,46 @@ function EventForm() {
                 </p>
               </div>
             )}
+            <FormField
+              name='thumbnail'
+              render={() => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      id='picture'
+                      type='file'
+                      accept='image/*'
+                      {...form.register('thumbnail')}
+                      onChange={handleThumbnailChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
-          <FormField
-            name='name'
-            render={() => (
-              <FormItem>
-                <FormLabel>이벤트 이름</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='이벤트 이름을 입력해 주세요.'
-                    {...form.register('name', {
-                      setValueAs: value => value.trim(),
-                    })}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='flex flex-col space-y-2'>
+            <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+              이벤트 이름
+            </p>
+            <FormField
+              name='name'
+              render={() => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder='이벤트 이름을 입력해 주세요.'
+                      {...form.register('name', {
+                        setValueAs: value => value.trim(),
+                      })}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className='flex flex-col space-y-2'>
             <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
@@ -261,9 +235,19 @@ function EventForm() {
                         <PopoverContent className='w-auto p-0' align='start'>
                           <Calendar
                             mode='single'
-                            selected={field.value}
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
                             onSelect={field.onChange}
-                            disabled={date => date < new Date()}
+                            disabled={date => {
+                              const registrationEndDateValue =
+                                registrationEndDate
+                                  ? new Date(registrationEndDate)
+                                  : null;
+                              return registrationEndDateValue
+                                ? date <= registrationEndDateValue
+                                : new Date() > date;
+                            }}
                             initialFocus
                           />
                         </PopoverContent>
@@ -277,6 +261,7 @@ function EventForm() {
               <div className='flex-grow basis-[22%]'>
                 <FormField
                   control={form.control}
+                  rules={{ required: '시작 시간은 필수입니다.' }}
                   name='startTime'
                   render={({ field }) => (
                     <FormItem className='flex flex-grow flex-col'>
@@ -349,9 +334,15 @@ function EventForm() {
                         <PopoverContent className='w-auto p-0' align='start'>
                           <Calendar
                             mode='single'
-                            selected={field.value}
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
                             onSelect={field.onChange}
-                            disabled={date => date < new Date(startDate)}
+                            disabled={date =>
+                              startDate
+                                ? date < new Date(startDate)
+                                : date < new Date()
+                            }
                             initialFocus
                           />
                         </PopoverContent>
@@ -365,12 +356,14 @@ function EventForm() {
               <div className='flex-grow basis-[22%]'>
                 <FormField
                   control={form.control}
+                  rules={{ required: '종료 시간은 필수입니다.' }}
                   name='endTime'
                   render={({ field }) => (
                     <FormItem className='flex flex-grow flex-col'>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={!startDate || !startTime}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -378,16 +371,17 @@ function EventForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {calculateEndTimeOptions(startDate, startTime).map(
-                            option => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ),
-                          )}
+                          {startDate &&
+                            calculateEndTimeOptions(startDate, startTime).map(
+                              option => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ),
+                            )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -430,6 +424,14 @@ function EventForm() {
           />
 
           <div className='flex flex-col space-y-2'>
+            <Input
+              type='hidden'
+              {...form.register('location', {
+                required: '이벤트 장소 입력은 필수입니다.',
+              })}
+              value={location}
+              onChange={({ target }) => form.setValue('location', target.value)}
+            />
             <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
               이벤트 장소
             </p>
@@ -439,6 +441,11 @@ function EventForm() {
             >
               {location ? location : '주소를 검색해 주세요.'}
             </div>
+            {form.formState.errors.location && (
+              <p className='text-sm font-medium text-destructive'>
+                {form.formState.errors.location.message}
+              </p>
+            )}
             {isPostcodeOpen && (
               <div>
                 <DaumPostcodeEmbed
@@ -452,7 +459,10 @@ function EventForm() {
 
           <div className='flex flex-col space-y-2'>
             <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
-              모집 기간
+              모집 기간{' '}
+              <span className='text-xs font-normal text-gray-500'>
+                (이벤트 일시를 먼저 선택해 주세요.)
+              </span>
             </p>
             <div className='flex flex-wrap'>
               <div className='flex-grow basis-[22%]'>
@@ -483,9 +493,18 @@ function EventForm() {
                         <PopoverContent className='w-auto p-0' align='start'>
                           <Calendar
                             mode='single'
-                            selected={field.value}
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
                             onSelect={field.onChange}
-                            disabled={date => date < new Date()}
+                            disabled={date => {
+                              const startDateValue = startDate
+                                ? new Date(startDate)
+                                : new Date();
+                              return (
+                                date < new Date() || date >= startDateValue
+                              );
+                            }}
                             initialFocus
                           />
                         </PopoverContent>
@@ -499,6 +518,7 @@ function EventForm() {
               <div className='flex-grow basis-[22%]'>
                 <FormField
                   control={form.control}
+                  rules={{ required: '시작 시간은 필수입니다.' }}
                   name='registrationStartTime'
                   render={({ field }) => (
                     <FormItem className='flex flex-grow flex-col'>
@@ -571,11 +591,23 @@ function EventForm() {
                         <PopoverContent className='w-auto p-0' align='start'>
                           <Calendar
                             mode='single'
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={date =>
-                              date < new Date(registrationStartDate)
+                            selected={
+                              field.value ? new Date(field.value) : undefined
                             }
+                            onSelect={field.onChange}
+                            disabled={date => {
+                              const registrationStartDateValue =
+                                registrationStartDate
+                                  ? new Date(registrationStartDate)
+                                  : new Date();
+                              const eventStartDateValue = startDate
+                                ? new Date(startDate)
+                                : new Date();
+                              return (
+                                date <= registrationStartDateValue ||
+                                date >= eventStartDateValue
+                              ); // 모집 시작 날짜 이후이면서 이벤트 시작 날짜 이전 날짜만 선택 가능
+                            }}
                             initialFocus
                           />
                         </PopoverContent>
@@ -589,12 +621,16 @@ function EventForm() {
               <div className='flex-grow basis-[22%]'>
                 <FormField
                   control={form.control}
+                  rules={{ required: '종료 시간은 필수입니다.' }}
                   name='registrationEndTime'
                   render={({ field }) => (
                     <FormItem className='flex flex-grow flex-col'>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={
+                          !registrationStartDate || !registrationStartTime
+                        }
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -602,14 +638,19 @@ function EventForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {calculateEndTimeOptions(
-                            registrationStartDate,
-                            registrationStartTime,
-                          ).map(option => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
+                          {registrationStartDate &&
+                            registrationStartTime &&
+                            calculateEndTimeOptions(
+                              registrationStartDate,
+                              registrationStartTime,
+                            ).map(option => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -620,81 +661,86 @@ function EventForm() {
             </div>
           </div>
 
-          <FormField
-            control={form.control}
-            name='description'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>이벤트 소개</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder='이벤트 소개 내용을 마크다운 형식으로 입력해 주세요.'
-                    className='min-h-60 resize-none'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='flex flex-col space-y-2'>
+            <p className='py-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+              이벤트 이름
+            </p>
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      placeholder='이벤트 소개 내용을 마크다운 형식으로 입력해 주세요.'
+                      className='min-h-60 resize-none'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className='flex flex-col gap-2 '>
-            {tickets.map((ticket, index) => (
-              <div key={index} className='flex gap-2'>
-                <div className='flex basis-[32%] items-center justify-between'>
+            {fields.map((field, index) => (
+              <div key={field.id} className='flex gap-2'>
+                <div className='flex basis-[32%] items-center gap-2'>
                   <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                     티켓 이름
                   </p>
                   <Input
+                    {...form.register(`tickets.${index}.name`)}
                     placeholder='일반 티켓'
-                    value={ticket.name}
-                    onChange={e =>
-                      handleTicketChange(index, 'name', e.target.value)
-                    }
                     className='w-[70%]'
                   />
                 </div>
-                <div className='flex basis-[32%] items-center justify-between'>
+                <div className='flex basis-[32%] items-center gap-2'>
                   <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                     티켓 가격
                   </p>
                   <Input
+                    {...form.register(`tickets.${index}.price`, {
+                      setValueAs: value => parseInt(value, 10) || 0,
+                    })}
                     placeholder='20000'
-                    value={ticket.price}
-                    onChange={e =>
-                      handleTicketChange(index, 'price', Number(e.target.value))
-                    }
+                    type='number'
                     className='w-[70%]'
                   />
                 </div>
-                <div className='flex basis-[32%] items-center justify-between'>
+                <div className='flex basis-[32%] items-center gap-2'>
                   <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                     판매 개수
                   </p>
                   <Input
+                    {...form.register(`tickets.${index}.quantity`, {
+                      setValueAs: value => parseInt(value, 10) || 0,
+                    })}
                     placeholder='1000'
-                    value={ticket.quantity}
-                    onChange={e =>
-                      handleTicketChange(
-                        index,
-                        'quantity',
-                        Number(e.target.value),
-                      )
-                    }
+                    type='number'
                     className='w-[70%]'
                   />
                 </div>
                 <div className='flex basis-[5%] justify-end'>
-                  <button onClick={() => handleRemoveTicket(index)}>
+                  <button type='button' onClick={() => remove(index)}>
                     <TiDelete size='20' />
                   </button>
                 </div>
               </div>
             ))}
+            <div>
+              {form.formState.errors.tickets?.root && (
+                <p className='text-sm text-red-500'>
+                  {form.formState.errors.tickets.root.message}
+                </p>
+              )}
+            </div>
             <div className='flex justify-end'>
               <Button
+                type='button'
                 variant='outline'
-                onClick={handleAddTicket}
+                onClick={() => append({ name: '', price: 0, quantity: 0 })}
                 className='h-fit text-xs'
               >
                 티켓 추가
@@ -710,3 +756,58 @@ function EventForm() {
 }
 
 export default EventForm;
+
+const ticketSchema = z.object({
+  name: z.string().nonempty({ message: '티켓 이름은 필수입니다.' }),
+  price: z.number().positive({ message: '티켓 가격은 0보다 커야 합니다.' }),
+  quantity: z.number().positive({ message: '판매 개수는 0보다 커야 합니다.' }),
+});
+
+const eventFormSchema = z.object({
+  thumbnail: z
+    .any()
+    .refine(val => val instanceof FileList && val.length > 0, {
+      message: '썸네일은 필수입니다.',
+    })
+    .transform(val => val[0]),
+  name: z.string().min(1, '이벤트 이름은 필수입니다.').trim(),
+  startDate: z
+    .date()
+    .nullable()
+    .or(z.string().transform(date => new Date(date)))
+    .refine(date => date != null, { message: '시작 날짜는 필수입니다.' }),
+  startTime: z.string().min(1, '시작 시간은 필수입니다.'),
+  endDate: z
+    .date()
+    .nullable()
+    .or(z.string().transform(date => new Date(date)))
+    .refine(date => date != null, { message: '종료 날짜는 필수입니다.' }),
+  endTime: z.string().min(1, '종료 시간은 필수입니다.'),
+  category: z.string(),
+  location: z.string().min(1, '이벤트 장소 입력은 필수입니다.'),
+  registrationStartDate: z
+    .date()
+    .nullable()
+    .or(z.string().transform(date => new Date(date)))
+    .refine(date => date != null, { message: '모집 시작 날짜는 필수입니다.' }),
+  registrationStartTime: z.string().min(1, '모집 시작 시간은 필수입니다.'),
+  registrationEndDate: z
+    .date()
+    .nullable()
+    .or(z.string().transform(date => new Date(date)))
+    .refine(date => date != null, { message: '모집 종료 날짜는 필수입니다.' }),
+  registrationEndTime: z.string().min(1, '모집 종료 시간은 필수입니다.'),
+  description: z.string().min(1, '이벤트 소개는 필수입니다.'),
+  tickets: z
+    .array(ticketSchema)
+    .refine(
+      tickets =>
+        tickets.every(
+          ticket =>
+            ticket.name !== '' && ticket.price > 0 && ticket.quantity > 0,
+        ),
+      {
+        message: '모든 티켓은 이름, 가격, 수량을 정확히 입력해야 합니다.',
+      },
+    ),
+});

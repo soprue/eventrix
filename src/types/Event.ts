@@ -1,25 +1,23 @@
 import { Category } from '@constants/categories';
 
-export interface Event {
-  uid: string;
+export interface EventType {
+  uid?: string;
   organizerUID: string;
-  thumbnail: string;
+  thumbnail: string | File;
   name: string;
   category: Category;
-  startDateTime: string;
-  endDateTime: string;
-  registrationStart: string;
-  registrationEnd: string;
-  locationName: string;
-  locationAddress: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  registrationStart: Date;
+  registrationEnd: Date;
+  location: string;
   description: string;
   likesCount: number;
   ticketOptions: {
     optionName: string;
     price: number;
-    maxPurchaseLimit: number;
     scheduledCount: number;
     soldCount: number;
   }[];
-  eventCreationDate: string;
+  eventCreationDate: Date;
 }
