@@ -1,19 +1,11 @@
+import { Category } from '@constants/categories';
+
 export interface Event {
   uid: string;
   organizerUID: string;
   thumbnail: string;
   name: string;
-  category:
-    | 'IT/Technology'
-    | 'Finance'
-    | 'Design'
-    | 'Career'
-    | 'Business'
-    | 'Marketing'
-    | 'SelfImprovement'
-    | 'Sports'
-    | 'Lifestyle'
-    | 'Hobby';
+  category: Category;
   startDateTime: string;
   endDateTime: string;
   registrationStart: string;
