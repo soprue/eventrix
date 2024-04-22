@@ -1,6 +1,7 @@
 import { FirebaseError } from 'firebase/app';
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   orderBy,
@@ -96,6 +97,27 @@ export const getMyEvents = async (
   }));
 
   return myEvents;
+};
+
+export const deleteMyEvent = async (eventId: string) => {
+  try {
+    const eventRef = doc(db, 'events', eventId);
+    await deleteDoc(eventRef);
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting event: ', error);
+    if (error instanceof FirebaseError) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    } else {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
 };
 
 export const addDummyEvents = async () => {

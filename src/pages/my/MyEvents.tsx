@@ -9,7 +9,7 @@ import Spinner from '@components/shared/Spinner';
 
 import { EventType } from '@/types/Event';
 import useUser from '@hooks/useUser';
-import { addDummyEvents, getMyEvents } from '@services/eventService';
+import { getMyEvents } from '@services/eventService';
 import error from '@assets/images/error_illustration.svg';
 import { calculateEventStatus } from '@utils/my/calculateEventStatus';
 import { StatusMenuType } from '@constants/eventStatusMenus';

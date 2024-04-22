@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronDown, MoreHorizontal } from 'lucide-react';
 import {
   ColumnDef,
@@ -32,86 +33,93 @@ import {
 import { Input } from '@components/ui/input';
 
 import { EventType } from '@/types/Event';
-import { Link } from 'react-router-dom';
+import { deleteMyEvent } from '@services/eventService';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 
 interface EventTableProps {
   data: EventType[];
 }
 
-const columns: ColumnDef<EventType>[] = [
-  {
-    id: '썸네일',
-    accessorKey: 'thumbnail',
-    header: '',
-    cell: ({ row }) => (
-      <div className='h-[50px] w-[150px] overflow-hidden rounded-md'>
-        <img
-          src={row.original.thumbnail as string}
-          alt='Thumbnail'
-          className='size-full h-full w-full object-cover'
-        />
-      </div>
-    ),
-  },
-  {
-    id: '이벤트 이름',
-    accessorKey: 'name',
-    header: '이벤트 이름',
-    cell: ({ row }) => {
-      return (
-        <div className='capitalize'>
-          <Link to={`/event/${row.original.uid}`}>{row.original.name}</Link>
-        </div>
-      );
-    },
-  },
-  {
-    id: '상태',
-    header: 'status',
-    cell: ({ row }) => <div>{row.original.status}</div>,
-  },
-  {
-    id: '판매율',
-    header: '판매율',
-    cell: ({ row }) => {
-      const totalTickets = row.original.ticketOptions.reduce(
-        (sum, option) => sum + option.scheduledCount,
-        0,
-      );
-      const soldTickets = row.original.ticketOptions.reduce(
-        (sum, option) => sum + option.soldCount,
-        0,
-      );
-      const salesRate = ((soldTickets / totalTickets) * 100).toFixed(2);
-      return `${soldTickets}/${totalTickets} (${salesRate}%)`;
-    },
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuItem>수정하기</DropdownMenuItem>
-            <DropdownMenuItem>삭제하기</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
 function EventTable({ data }: EventTableProps) {
+  const { openAlert } = useGlobalAlertStore();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  const columns: ColumnDef<EventType>[] = [
+    {
+      id: '썸네일',
+      accessorKey: 'thumbnail',
+      header: '',
+      cell: ({ row }) => (
+        <div className='h-[50px] w-[150px] overflow-hidden rounded-md'>
+          <img
+            src={row.original.thumbnail as string}
+            alt='Thumbnail'
+            className='size-full h-full w-full object-cover'
+          />
+        </div>
+      ),
+    },
+    {
+      id: '이벤트 이름',
+      accessorKey: 'name',
+      header: '이벤트 이름',
+      cell: ({ row }) => {
+        return (
+          <div className='capitalize'>
+            <Link to={`/event/${row.original.uid}`}>{row.original.name}</Link>
+          </div>
+        );
+      },
+    },
+    {
+      id: '상태',
+      header: 'status',
+      cell: ({ row }) => <div>{row.original.status}</div>,
+    },
+    {
+      id: '판매율',
+      header: '판매율',
+      cell: ({ row }) => {
+        const totalTickets = row.original.ticketOptions.reduce(
+          (sum, option) => sum + option.scheduledCount,
+          0,
+        );
+        const soldTickets = row.original.ticketOptions.reduce(
+          (sum, option) => sum + option.soldCount,
+          0,
+        );
+        const salesRate = ((soldTickets / totalTickets) * 100).toFixed(2);
+        return `${soldTickets}/${totalTickets} (${salesRate}%)`;
+      },
+    },
+    {
+      id: 'actions',
+      enableHiding: false,
+      cell: ({ row }) => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='ghost' className='h-8 w-8 p-0'>
+                <span className='sr-only'>Open menu</span>
+                <MoreHorizontal className='h-4 w-4' />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuItem>수정하기</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleDeleteEvent(row.original.uid as string)}
+              >
+                삭제하기
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
     data: data,
@@ -129,6 +137,22 @@ function EventTable({ data }: EventTableProps) {
       columnVisibility,
     },
   });
+
+  const handleDeleteEvent = async (eventId: string) => {
+    if (window.confirm('이 이벤트를 삭제하시겠습니까?')) {
+      await deleteMyEvent(eventId)
+        .then(result => {
+          if (result.success) {
+            openAlert('이벤트가 삭제되었습니다.', '');
+          } else {
+            openAlert('다시 시도해 주세요.', result.error as string);
+          }
+        })
+        .catch(error => {
+          openAlert('다시 시도해 주세요.', error.error);
+        });
+    }
+  };
 
   return (
     <div className='w-full'>
