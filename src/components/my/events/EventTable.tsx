@@ -34,14 +34,16 @@ import { Input } from '@components/ui/input';
 import { Badge } from '@components/ui/badge';
 
 import { EventType } from '@/types/Event';
-import { deleteMyEvent } from '@services/eventService';
+import { deleteEvent } from '@services/eventService';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface EventTableProps {
   data: EventType[];
 }
 
 function EventTable({ data }: EventTableProps) {
+  const queryClient = useQueryClient();
   const { openAlert } = useGlobalAlertStore();
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -150,19 +152,26 @@ function EventTable({ data }: EventTableProps) {
     },
   });
 
+  const deleteEventMutation = useMutation(deleteEvent, {
+    onSuccess: result => {
+      if (result.success) {
+        openAlert('이벤트가 삭제되었습니다.', '');
+        queryClient.invalidateQueries('myEvents');
+      } else {
+        openAlert(
+          '오류가 발생했습니다. 다시 시도해 주세요.',
+          result.error as string,
+        );
+      }
+    },
+    onError: error => {
+      openAlert('다시 시도해 주세요.', error as string);
+    },
+  });
+
   const handleDeleteEvent = async (eventId: string) => {
     if (window.confirm('이 이벤트를 삭제하시겠습니까?')) {
-      await deleteMyEvent(eventId)
-        .then(result => {
-          if (result.success) {
-            openAlert('이벤트가 삭제되었습니다.', '');
-          } else {
-            openAlert('다시 시도해 주세요.', result.error as string);
-          }
-        })
-        .catch(error => {
-          openAlert('다시 시도해 주세요.', error.error);
-        });
+      deleteEventMutation.mutate(eventId);
     }
   };
 

@@ -35,6 +35,7 @@ function MyEvents() {
       cacheTime: 1000 * 60 * 30,
     },
   );
+
   const filteredData = status
     ? data?.filter(event => event.status === status) || []
     : data || [];

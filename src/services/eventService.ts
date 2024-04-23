@@ -81,6 +81,13 @@ export const createEvent = async (data: EventFormValues) => {
   }
 };
 
+export const getEvent = async (eventId: string): Promise<EventType> => {
+  const docRef = doc(db, 'events', eventId);
+  const docSnap = await getDoc(docRef);
+
+  return (docSnap.data() as EventType) || null;
+};
+
 export const updateEvent = async (data: EventFormValues) => {
   // 기존 이벤트 데이터 가져오기
   const eventRef = doc(db, 'events', data.uid!);
@@ -154,11 +161,25 @@ export const updateEvent = async (data: EventFormValues) => {
   }
 };
 
-export const getEvent = async (eventId: string): Promise<EventType> => {
-  const docRef = doc(db, 'events', eventId);
-  const docSnap = await getDoc(docRef);
-
-  return (docSnap.data() as EventType) || null;
+export const deleteEvent = async (eventId: string) => {
+  try {
+    const eventRef = doc(db, 'events', eventId);
+    await deleteDoc(eventRef);
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting event: ', error);
+    if (error instanceof FirebaseError) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    } else {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
 };
 
 export const getMyEvents = async (
@@ -180,27 +201,6 @@ export const getMyEvents = async (
   }));
 
   return myEvents;
-};
-
-export const deleteMyEvent = async (eventId: string) => {
-  try {
-    const eventRef = doc(db, 'events', eventId);
-    await deleteDoc(eventRef);
-    return { success: true };
-  } catch (error) {
-    console.error('Error deleting event: ', error);
-    if (error instanceof FirebaseError) {
-      return {
-        success: false,
-        error: error.message,
-      };
-    } else {
-      return {
-        success: false,
-        error: error,
-      };
-    }
-  }
 };
 
 export const addDummyEvents = async () => {

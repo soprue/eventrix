@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,9 +29,10 @@ interface EventFormProps {
 }
 
 function EventForm({ initialData }: EventFormProps) {
-  const user = useUser();
-  const { openAlert } = useGlobalAlertStore();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { openAlert } = useGlobalAlertStore();
+  const user = useUser();
 
   const form = useForm<EventFormValues>({
     mode: 'onChange',
@@ -77,9 +79,50 @@ function EventForm({ initialData }: EventFormProps) {
     setIsPostcodeOpen(prev => !prev);
   };
 
+  const createMutation = useMutation(
+    (newEventData: EventFormValues) => createEvent(newEventData),
+    {
+      onSuccess: result => {
+        if (result.success) {
+          queryClient.invalidateQueries(['myEvents', user?.uid]);
+          openAlert('이벤트가 등록되었습니다.', '');
+          navigate('/my/events');
+        } else {
+          openAlert(
+            '오류가 발생했습니다. 다시 시도해 주세요.',
+            result.error as string,
+          );
+        }
+      },
+      onError: error => {
+        openAlert('오류가 발생했습니다. 다시 시도해 주세요.', error as string);
+      },
+    },
+  );
+
+  const updateMutation = useMutation(
+    (editEventData: EventFormValues) => updateEvent(editEventData),
+    {
+      onSuccess: result => {
+        if (result.success) {
+          queryClient.invalidateQueries(['myEvents', user?.uid]);
+          openAlert('이벤트가 수정되었습니다.', '');
+          navigate('/my/events');
+        } else {
+          openAlert(
+            '오류가 발생했습니다. 다시 시도해 주세요.',
+            result.error as string,
+          );
+        }
+      },
+      onError: error => {
+        openAlert('오류가 발생했습니다. 다시 시도해 주세요.', error as string);
+      },
+    },
+  );
+
   function onSubmit(data: EventFormValues) {
     if (initialData) {
-      // 수정 모드
       const eventData: EventFormValues = {
         ...data,
         organizerUID: user?.uid as string,
@@ -87,38 +130,15 @@ function EventForm({ initialData }: EventFormProps) {
         tickets,
       };
 
-      updateEvent(eventData)
-        .then(result => {
-          if (result.success) {
-            openAlert('이벤트가 수정되었습니다.', '');
-            navigate('/my/events');
-          } else {
-            openAlert('다시 시도해 주세요.', result.error as string);
-          }
-        })
-        .catch(error => {
-          openAlert('다시 시도해 주세요.', error.error);
-        });
+      updateMutation.mutate(eventData);
     } else {
-      // 등록 모드
       const eventData: EventFormValues = {
         ...data,
         organizerUID: user?.uid as string,
         tickets,
       };
 
-      createEvent(eventData)
-        .then(result => {
-          if (result.success) {
-            openAlert('이벤트가 등록되었습니다.', '');
-            navigate('/my/events');
-          } else {
-            openAlert('다시 시도해 주세요.', result.error as string);
-          }
-        })
-        .catch(error => {
-          openAlert('다시 시도해 주세요.', error.error);
-        });
+      createMutation.mutate(eventData);
     }
   }
 
