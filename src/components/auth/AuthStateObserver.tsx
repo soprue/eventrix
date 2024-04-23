@@ -19,8 +19,7 @@ function AuthStateObserver() {
             const userDoc = await getDoc(userRef);
             setUser(userDoc.data() as UserType);
           })
-          .catch(error => {
-            console.error('Token renewal error:', error);
+          .catch(() => {
             setUser(null);
           });
       } else {

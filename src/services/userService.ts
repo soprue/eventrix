@@ -70,7 +70,6 @@ export const signInWithGoogle = async (): Promise<UserType> => {
       loginType: 'google',
     };
   } catch (error) {
-    console.error('Google 로그인 실패:', error);
     return {
       uid: null,
       nickname: null,

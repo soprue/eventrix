@@ -31,7 +31,6 @@ async function resizeAndConvertImage(
       canvas.height = height;
 
       if (!ctx) {
-        console.error('Canvas에서 2D 컨텍스트를 가져오는 데 실패했습니다.');
         return;
       }
       ctx.drawImage(img, 0, 0, width, height);

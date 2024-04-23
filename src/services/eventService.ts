@@ -167,7 +167,6 @@ export const deleteEvent = async (eventId: string) => {
     await deleteDoc(eventRef);
     return { success: true };
   } catch (error) {
-    console.error('Error deleting event: ', error);
     if (error instanceof FirebaseError) {
       return {
         success: false,
@@ -201,6 +200,21 @@ export const getMyEvents = async (
   }));
 
   return myEvents;
+};
+
+export const getAllEvents = async (): Promise<EventType[]> => {
+  const eventsRef = collection(db, 'events');
+
+  const q = query(eventsRef, orderBy('eventCreationDate', 'desc'));
+
+  const querySnapshot = await getDocs(q);
+
+  const events = querySnapshot.docs.map(doc => ({
+    uid: doc.id,
+    ...(doc.data() as EventType),
+  }));
+
+  return events;
 };
 
 export const addDummyEvents = async () => {
