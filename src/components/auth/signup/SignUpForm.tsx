@@ -43,7 +43,7 @@ function SignUpForm() {
 
   function onSubmit(values: SignUpFormValues) {
     signUpWithEmail(values)
-      .then((result) => {
+      .then(result => {
         if (result.success) {
           openAlert(
             '환영합니다!',
@@ -53,38 +53,38 @@ function SignUpForm() {
           openAlert('다시 시도해 주세요.', result.error as string);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         openAlert('다시 시도해 주세요.', error);
       });
   }
 
   return (
     <>
-      <p className="text-3xl font-bold text-center mb-12">회원가입</p>
+      <p className='mb-12 text-center text-3xl font-bold'>회원가입</p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
-            name="userType"
+            name='userType'
             render={({ field }) => (
-              <FormItem className="space-y-3 flex justify-center">
+              <FormItem className='flex justify-center space-y-3'>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex gap-6"
+                    className='flex gap-6'
                   >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value="organizer" />
+                        <RadioGroupItem value='organizer' />
                       </FormControl>
-                      <FormLabel className="font-normal">주최자</FormLabel>
+                      <FormLabel className='font-normal'>주최자</FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value="buyer" />
+                        <RadioGroupItem value='buyer' />
                       </FormControl>
-                      <FormLabel className="font-normal">참여자</FormLabel>
+                      <FormLabel className='font-normal'>참여자</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
@@ -92,15 +92,15 @@ function SignUpForm() {
             )}
           />
           <FormField
-            name="email"
+            name='email'
             render={() => (
               <FormItem>
                 <FormLabel>이메일</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="이메일을 입력해 주세요."
+                    placeholder='이메일을 입력해 주세요.'
                     {...form.register('email', {
-                      setValueAs: (value) => value.trim(),
+                      setValueAs: value => value.trim(),
                     })}
                   />
                 </FormControl>
@@ -109,15 +109,15 @@ function SignUpForm() {
             )}
           />
           <FormField
-            name="name"
+            name='name'
             render={() => (
               <FormItem>
                 <FormLabel>닉네임</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="닉네임을 입력해 주세요."
+                    placeholder='닉네임을 입력해 주세요.'
                     {...form.register('nickname', {
-                      setValueAs: (value) => value.trim(),
+                      setValueAs: value => value.trim(),
                     })}
                   />
                 </FormControl>
@@ -126,14 +126,14 @@ function SignUpForm() {
             )}
           />
           <FormField
-            name="password"
+            name='password'
             render={() => (
               <FormItem>
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
-                    placeholder="8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요."
+                    type='password'
+                    placeholder='8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요.'
                     {...form.register('password')}
                   />
                 </FormControl>
@@ -142,14 +142,14 @@ function SignUpForm() {
             )}
           />
           <FormField
-            name="passwordConfirm"
+            name='passwordConfirm'
             render={() => (
               <FormItem>
                 <FormLabel>비밀번호 확인</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
-                    placeholder="비밀번호를 다시 입력해 주세요."
+                    type='password'
+                    placeholder='비밀번호를 다시 입력해 주세요.'
                     {...form.register('passwordConfirm')}
                   />
                 </FormControl>
@@ -158,15 +158,15 @@ function SignUpForm() {
             )}
           />
           <FormField
-            name="phone"
+            name='phone'
             render={() => (
               <FormItem>
                 <FormLabel>전화번호</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="-를 제외하고 입력해 주세요."
+                    placeholder='-를 제외하고 입력해 주세요.'
                     {...form.register('phone', {
-                      setValueAs: (value) => value.trim(),
+                      setValueAs: value => value.trim(),
                     })}
                   />
                 </FormControl>
@@ -174,7 +174,7 @@ function SignUpForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={모두입력되었는지}>
+          <Button type='submit' className='w-full' disabled={모두입력되었는지}>
             회원가입
           </Button>
         </form>
@@ -194,7 +194,7 @@ const formSchema = z
       .string()
       .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
       .refine(
-        (val) =>
+        val =>
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
             val,
           ) ||
@@ -214,7 +214,7 @@ const formSchema = z
       .regex(/^\d+$/, '전화번호는 숫자만 포함해야 합니다.')
       .min(10, '전화번호는 최소 10자 이상이어야 합니다.'),
   })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine(data => data.password === data.passwordConfirm, {
     message: '비밀번호가 일치하지 않습니다.',
     path: ['passwordConfirm'],
   });

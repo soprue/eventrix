@@ -13,7 +13,7 @@ interface Action {
 
 export const useUserStore = create<State & Action>()(
   persist(
-    (set) => ({
+    set => ({
       user: null,
       setUser: (user: UserType | null) => set(() => ({ user })),
     }),

@@ -1,3 +1,5 @@
+import { Category } from '@constants/categories';
+
 export interface SignUpFormValues {
   userType: 'organizer' | 'buyer';
   email: string;
@@ -10,4 +12,30 @@ export interface SignUpFormValues {
 export interface SignInFormValues {
   email: string;
   password: string;
+}
+
+export interface EventFormValues {
+  uid?: string;
+  organizerUID?: string;
+  thumbnail: File | string | null;
+  name: string;
+  startDate: Date | null;
+  startTime: string;
+  endDate: Date | null;
+  endTime: string;
+  category: Category;
+  location: string;
+  registrationStartDate: Date | null;
+  registrationStartTime: string;
+  registrationEndDate: Date | null;
+  registrationEndTime: string;
+  description: string;
+  tickets: TicketFormValues[];
+}
+
+interface TicketFormValues {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }

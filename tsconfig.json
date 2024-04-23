@@ -30,7 +30,8 @@
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"],
