@@ -5,9 +5,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
   writeBatch,
@@ -202,19 +204,29 @@ export const getMyEvents = async (
   return myEvents;
 };
 
-export const getAllEvents = async (): Promise<EventType[]> => {
-  const eventsRef = collection(db, 'events');
+export const getAllEvents = async ({ pageParam = null }) => {
+  // 페이지당 아이템 수
+  const PAGE_SIZE = 12;
 
-  const q = query(eventsRef, orderBy('eventCreationDate', 'desc'));
+  const eventsRef = collection(db, 'events');
+  const q = pageParam
+    ? query(
+        eventsRef,
+        orderBy('eventCreationDate', 'desc'),
+        startAfter(pageParam),
+        limit(PAGE_SIZE),
+      )
+    : query(eventsRef, orderBy('eventCreationDate', 'desc'), limit(PAGE_SIZE));
 
   const querySnapshot = await getDocs(q);
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 
   const events = querySnapshot.docs.map(doc => ({
     uid: doc.id,
     ...(doc.data() as EventType),
   }));
 
-  return events;
+  return { events, lastVisible };
 };
 
 export const addDummyEvents = async () => {

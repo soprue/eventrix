@@ -18,12 +18,14 @@ export const eventDummyData: EventType[] = [
     likesCount: 500,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '일반 참가',
         price: 100000,
         scheduledCount: 300,
         soldCount: 50,
       },
       {
+        id: 'c66e189f-9c16-4511-91fa-f0d05d12c2c9',
         optionName: 'VIP 참가',
         price: 200000,
         scheduledCount: 100,
@@ -49,6 +51,7 @@ export const eventDummyData: EventType[] = [
     likesCount: 200,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '기본 참가',
         price: 150000,
         scheduledCount: 200,
@@ -74,12 +77,14 @@ export const eventDummyData: EventType[] = [
     likesCount: 300,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '일반 참가',
         price: 50000,
         scheduledCount: 150,
         soldCount: 75,
       },
       {
+        id: 'c66e189f-9c16-4511-91fa-f0d05d12c2c9',
         optionName: '프리미엄 참가',
         price: 100000,
         scheduledCount: 50,
@@ -105,12 +110,14 @@ export const eventDummyData: EventType[] = [
     likesCount: 420,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '기본 참가',
         price: 300000,
         scheduledCount: 200,
         soldCount: 120,
       },
       {
+        id: 'c66e189f-9c16-4511-91fa-f0d05d12c2c9',
         optionName: '프리미엄 참가',
         price: 450000,
         scheduledCount: 100,
@@ -136,6 +143,7 @@ export const eventDummyData: EventType[] = [
     likesCount: 200,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '표준 참가',
         price: 100000,
         scheduledCount: 150,
@@ -161,12 +169,14 @@ export const eventDummyData: EventType[] = [
     likesCount: 300,
     ticketOptions: [
       {
+        id: '7571e92b-f38b-4878-959c-f76ab9290ed8',
         optionName: '일반 참가',
         price: 80000,
         scheduledCount: 200,
         soldCount: 50,
       },
       {
+        id: 'c66e189f-9c16-4511-91fa-f0d05d12c2c9',
         optionName: '특별 참가',
         price: 150000,
         scheduledCount: 50,
