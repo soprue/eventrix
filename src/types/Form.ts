@@ -15,8 +15,9 @@ export interface SignInFormValues {
 }
 
 export interface EventFormValues {
+  uid?: string;
   organizerUID?: string;
-  thumbnail: File | null;
+  thumbnail: File | string | null;
   name: string;
   startDate: Date | null;
   startTime: string;
@@ -33,6 +34,7 @@ export interface EventFormValues {
 }
 
 interface TicketFormValues {
+  id: string;
   name: string;
   price: number;
   quantity: number;

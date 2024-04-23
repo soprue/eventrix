@@ -1,6 +1,7 @@
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { TiDelete } from 'react-icons/ti';
 import { GoPlus } from 'react-icons/go';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Input } from '@components/ui/input';
 import { Button } from '@components/ui/button';
@@ -21,6 +22,11 @@ function EventTicketInput({ form }: EventTicketInputProps) {
     <div className='flex flex-col gap-2 '>
       {fields.map((field, index) => (
         <div key={field.id} className='flex gap-2'>
+          <Input
+            type='hidden'
+            {...form.register(`tickets.${index}.id`)}
+            defaultValue={field.id || uuidv4()}
+          />
           <div className='flex basis-[32%] items-center gap-2'>
             <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
               티켓 이름
@@ -78,7 +84,14 @@ function EventTicketInput({ form }: EventTicketInputProps) {
           <Button
             type='button'
             variant='outline'
-            onClick={() => append({ name: '', price: 0, quantity: 0 })}
+            onClick={() =>
+              append({
+                id: uuidv4(),
+                name: '',
+                price: 0,
+                quantity: 0,
+              })
+            }
             className='h-fit gap-1 text-xs'
           >
             <GoPlus />

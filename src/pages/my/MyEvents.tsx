@@ -10,7 +10,7 @@ import Spinner from '@components/shared/Spinner';
 import { EventType } from '@/types/Event';
 import useUser from '@hooks/useUser';
 import { getMyEvents } from '@services/eventService';
-import error from '@assets/images/error_illustration.svg';
+import errorImage from '@assets/images/error_illustration.svg';
 import { calculateEventStatus } from '@utils/my/calculateEventStatus';
 import { StatusMenuType } from '@constants/eventStatusMenus';
 
@@ -52,7 +52,7 @@ function MyEvents() {
   if (isError)
     return (
       <div className='flex min-h-[calc(100dvh-64px)] w-full flex-col items-center justify-center'>
-        <img src={error} alt='오류 이미지' className='mb-16 w-1/4' />
+        <img src={errorImage} alt='오류 이미지' className='mb-16 w-1/4' />
         <p className='text-center text-lg font-medium'>
           오류가 발생했습니다.
           <br />
@@ -66,7 +66,7 @@ function MyEvents() {
       {/* <button onClick={addDummyEvents}>더미데이터 추가</button> */}
       <div className='mb-4 flex justify-end'>
         <Button>
-          <Link to='/events/new'>등록하기</Link>
+          <Link to='/my/events/new'>등록하기</Link>
         </Button>
       </div>
       <div>

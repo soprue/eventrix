@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Form } from '@components/ui/form';
 import { Button } from '@components/ui/button';
@@ -16,11 +17,17 @@ import EventDescriptionInput from './input/EventDescriptionInput';
 import EventTicketInput from './input/EventTicketInput';
 
 import { EventFormValues } from '@/types/Form';
-import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { EventType } from '@/types/Event';
 import useUser from '@hooks/useUser';
-import { createEvent } from '@services/eventService';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { createEvent, updateEvent } from '@services/eventService';
+import transformEventDataToFormValues from '@utils/my/transformEventDataToFormValues';
 
-function EventForm() {
+interface EventFormProps {
+  initialData?: EventType | null;
+}
+
+function EventForm({ initialData }: EventFormProps) {
   const user = useUser();
   const { openAlert } = useGlobalAlertStore();
   const navigate = useNavigate();
@@ -42,9 +49,18 @@ function EventForm() {
       registrationEndDate: null,
       registrationEndTime: '',
       description: '',
-      tickets: [{ name: '', price: 0, quantity: 0 }],
+      tickets: [{ id: uuidv4(), name: '', price: 0, quantity: 0 }],
     },
   });
+
+  // initialData가 변경될 때 폼을 업데이트
+  useEffect(() => {
+    if (initialData) {
+      const formValues = transformEventDataToFormValues(initialData);
+      form.reset(formValues);
+      setThumbnailPreview(initialData.thumbnail as string);
+    }
+  }, [initialData, form]);
 
   const startDate = form.watch('startDate');
   const startTime = form.watch('startTime');
@@ -52,6 +68,7 @@ function EventForm() {
   const registrationStartTime = form.watch('registrationStartTime');
   const registrationEndDate = form.watch('registrationEndDate');
   const location = form.watch('location');
+  const tickets = form.watch('tickets');
 
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
@@ -61,23 +78,48 @@ function EventForm() {
   };
 
   function onSubmit(data: EventFormValues) {
-    const eventData: EventFormValues = {
-      ...data,
-      organizerUID: user?.uid as string,
-    };
+    if (initialData) {
+      // 수정 모드
+      const eventData: EventFormValues = {
+        ...data,
+        organizerUID: user?.uid as string,
+        uid: initialData.uid,
+        tickets,
+      };
 
-    createEvent(eventData)
-      .then(result => {
-        if (result.success) {
-          openAlert('이벤트가 등록되었습니다.', '');
-          navigate('/my/events');
-        } else {
-          openAlert('다시 시도해 주세요.', result.error as string);
-        }
-      })
-      .catch(error => {
-        openAlert('다시 시도해 주세요.', error.error);
-      });
+      updateEvent(eventData)
+        .then(result => {
+          if (result.success) {
+            openAlert('이벤트가 수정되었습니다.', '');
+            navigate('/my/events');
+          } else {
+            openAlert('다시 시도해 주세요.', result.error as string);
+          }
+        })
+        .catch(error => {
+          openAlert('다시 시도해 주세요.', error.error);
+        });
+    } else {
+      // 등록 모드
+      const eventData: EventFormValues = {
+        ...data,
+        organizerUID: user?.uid as string,
+        tickets,
+      };
+
+      createEvent(eventData)
+        .then(result => {
+          if (result.success) {
+            openAlert('이벤트가 등록되었습니다.', '');
+            navigate('/my/events');
+          } else {
+            openAlert('다시 시도해 주세요.', result.error as string);
+          }
+        })
+        .catch(error => {
+          openAlert('다시 시도해 주세요.', error.error);
+        });
+    }
   }
 
   return (
@@ -136,9 +178,11 @@ const ticketSchema = z.object({
 });
 
 const eventFormSchema = z.object({
-  thumbnail: z.any().refine(val => val instanceof Blob, {
-    message: '썸네일은 필수입니다.',
-  }),
+  thumbnail: z
+    .union([z.instanceof(Blob), z.string()])
+    .refine(val => val !== '', {
+      message: '썸네일은 필수입니다.',
+    }),
   name: z.string().min(1, '이벤트 이름은 필수입니다.').trim(),
   startDate: z
     .date()

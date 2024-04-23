@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@components/ui/table';
 import { Button } from '@components/ui/button';
 import {
   DropdownMenu,
@@ -113,7 +113,14 @@ function EventTable({ data }: EventTableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuItem>수정하기</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  to={`/my/events/edit?id=${row.original.uid}`}
+                  className='w-full'
+                >
+                  수정하기
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleDeleteEvent(row.original.uid as string)}
               >

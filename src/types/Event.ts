@@ -15,6 +15,7 @@ export interface EventType {
   description: string;
   likesCount: number;
   ticketOptions: {
+    id: string;
     optionName: string;
     price: number;
     scheduledCount: number;

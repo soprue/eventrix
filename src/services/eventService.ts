@@ -3,10 +3,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
   setDoc,
+  updateDoc,
   where,
   writeBatch,
 } from 'firebase/firestore';
@@ -42,6 +44,7 @@ export const createEvent = async (data: EventFormValues) => {
   );
 
   const ticketOptions = data.tickets.map(ticket => ({
+    id: ticket.id,
     optionName: ticket.name,
     price: ticket.price,
     scheduledCount: ticket.quantity,
@@ -76,6 +79,86 @@ export const createEvent = async (data: EventFormValues) => {
       return { success: false, error: error };
     }
   }
+};
+
+export const updateEvent = async (data: EventFormValues) => {
+  // 기존 이벤트 데이터 가져오기
+  const eventRef = doc(db, 'events', data.uid!);
+  const eventSnap = await getDoc(eventRef);
+  const existingEvent = eventSnap.data() as EventType;
+
+  // Thumbnail이 파일인지 확인
+  const isFile = data.thumbnail instanceof File;
+
+  // Storage에 새로운 Thumbnail 업로드
+  let thumbnailUrl = '';
+  if (isFile) {
+    const storageRef = ref(storage, `eventThumbnails/${data.uid}.webp`);
+    const fileSnapshot = await uploadBytes(storageRef, data.thumbnail as File);
+    thumbnailUrl = await getDownloadURL(fileSnapshot.ref);
+  } else {
+    // 파일이 아닌 경우는 기존 썸네일 URL 그대로 사용
+    thumbnailUrl = data.thumbnail as string;
+  }
+
+  const startDateTime = combineDateAndTime(
+    data.startDate as Date,
+    data.startTime,
+  );
+  const endDateTime = combineDateAndTime(data.endDate as Date, data.endTime);
+  const registrationStart = combineDateAndTime(
+    data.registrationStartDate as Date,
+    data.registrationStartTime,
+  );
+  const registrationEnd = combineDateAndTime(
+    data.registrationEndDate as Date,
+    data.registrationEndTime,
+  );
+
+  const ticketOptions = data.tickets.map(ticket => {
+    const existingTicket = existingEvent.ticketOptions.find(
+      t => t.id === ticket.id,
+    );
+    const soldCount = existingTicket ? existingTicket.soldCount : 0; // 기존 soldCount 유지
+    return {
+      id: ticket.id,
+      optionName: ticket.name,
+      price: ticket.price,
+      scheduledCount: ticket.quantity,
+      soldCount,
+    };
+  });
+
+  const eventData = {
+    thumbnail: thumbnailUrl,
+    name: data.name,
+    category: data.category,
+    startDateTime,
+    endDateTime,
+    registrationStart,
+    registrationEnd,
+    location: data.location,
+    description: data.description,
+    ticketOptions,
+  };
+
+  try {
+    await updateDoc(eventRef, eventData);
+    return { success: true };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: error };
+    }
+  }
+};
+
+export const getEvent = async (eventId: string): Promise<EventType> => {
+  const docRef = doc(db, 'events', eventId);
+  const docSnap = await getDoc(docRef);
+
+  return (docSnap.data() as EventType) || null;
 };
 
 export const getMyEvents = async (

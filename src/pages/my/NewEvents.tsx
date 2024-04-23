@@ -1,11 +1,7 @@
 import EventForm from '@components/my/events/EventForm';
 
 function MyNewEvents() {
-  return (
-    <div>
-      <EventForm />
-    </div>
-  );
+  return <EventForm />;
 }
 
 export default MyNewEvents;

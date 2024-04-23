@@ -27,8 +27,8 @@ import EventInputTitle from '../EventInputTitle';
 
 import { EventFormValues } from '@/types/Form';
 import { cn } from '@/lib/utils';
-import calculateEndTimeOptions from '@/utils/my/calculateEndTimeOptions';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
+import formatTimeForDisplay from '@utils/formatTimeForDisplay';
 
 interface EventRegistrationDateInputProps {
   form: UseFormReturn<EventFormValues>;
@@ -115,7 +115,13 @@ function EventRegistrationDateInput({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder='시작 시간을 선택해 주세요.' />
+                      <SelectValue
+                        placeholder={
+                          field.value
+                            ? formatTimeForDisplay(field.value)
+                            : `시작 시간을 선택해 주세요.`
+                        }
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -127,13 +133,9 @@ function EventRegistrationDateInput({
                         .padStart(2, '0')}:${minute
                         .toString()
                         .padStart(2, '0')}`;
-                      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-                      const ampm = hour < 12 ? '오전' : '오후';
                       return (
                         <SelectItem key={timeString} value={timeString}>
-                          {`${ampm} ${displayHour}시 ${minute
-                            .toString()
-                            .padStart(2, '0')}분`}
+                          {formatTimeForDisplay(timeString)}
                         </SelectItem>
                       );
                     })}
@@ -215,20 +217,30 @@ function EventRegistrationDateInput({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder='종료 시간을 선택해 주세요.' />
+                      <SelectValue
+                        placeholder={
+                          field.value
+                            ? formatTimeForDisplay(field.value)
+                            : `종료 시간을 선택해 주세요.`
+                        }
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {registrationStartDate &&
-                      registrationStartTime &&
-                      calculateEndTimeOptions(
-                        registrationStartDate,
-                        registrationStartTime,
-                      ).map(option => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
+                    {Array.from({ length: 48 }, (_, index) => {
+                      const hour = Math.floor(index / 2);
+                      const minute = (index % 2) * 30;
+                      const timeString = `${hour
+                        .toString()
+                        .padStart(2, '0')}:${minute
+                        .toString()
+                        .padStart(2, '0')}`;
+                      return (
+                        <SelectItem key={timeString} value={timeString}>
+                          {formatTimeForDisplay(timeString)}
                         </SelectItem>
-                      ))}
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <FormMessage />
