@@ -66,7 +66,7 @@ function MyEvents() {
       {/* <button onClick={addDummyEvents}>더미데이터 추가</button> */}
       <div className='mb-4 flex justify-end'>
         <Button>
-          <Link to='/my/events/new'>등록하기</Link>
+          <Link to='/events/new'>등록하기</Link>
         </Button>
       </div>
       <div>
