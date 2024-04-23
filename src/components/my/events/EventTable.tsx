@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
 import { Input } from '@components/ui/input';
+import { Badge } from '@components/ui/badge';
 
 import { EventType } from '@/types/Event';
 import { deleteMyEvent } from '@services/eventService';
@@ -76,8 +77,12 @@ function EventTable({ data }: EventTableProps) {
     },
     {
       id: '상태',
-      header: 'status',
-      cell: ({ row }) => <div>{row.original.status}</div>,
+      header: '상태',
+      cell: ({ row }) => (
+        <div>
+          <Badge variant='outline'>{row.original.status}</Badge>
+        </div>
+      ),
     },
     {
       id: '판매율',
