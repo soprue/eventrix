@@ -1,4 +1,4 @@
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 import EventBox from './EventBox';
 
 interface EventListProps {

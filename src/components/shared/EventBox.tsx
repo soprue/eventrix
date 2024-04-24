@@ -3,7 +3,7 @@ import { FaHeart } from 'react-icons/fa';
 
 import { Badge } from '@components/ui/badge';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 
 interface EventBoxProps {
   event: EventType;

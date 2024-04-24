@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { auth, db } from '@services/firebaseConfig';
 import { useUserStore } from '@store/useUserStore';
-import { UserType } from '@/types/User';
+import { UserType } from '@/types/user';
 
 function AuthStateObserver() {
   const { setUser } = useUserStore();

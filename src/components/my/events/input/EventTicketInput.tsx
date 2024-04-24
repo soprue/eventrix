@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Input } from '@components/ui/input';
 import { Button } from '@components/ui/button';
 
-import { EventFormValues } from '@/types/Form';
+import { EventFormValues } from '@/types/form';
 
 interface EventTicketInputProps {
   form: UseFormReturn<EventFormValues>;

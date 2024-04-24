@@ -8,7 +8,7 @@ import { Button } from '@components/ui/button';
 import Spinner from '@components/shared/Spinner';
 import ErrorBox from '@components/shared/ErrorBox';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 import useUser from '@hooks/useUser';
 import { getMyEvents } from '@services/eventService';
 import { StatusMenuType } from '@constants/eventStatusMenus';

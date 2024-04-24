@@ -17,10 +17,10 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from './firebaseConfig';
-import { EventFormValues } from '@/types/Form';
-import { EventType, PriceFilterType } from '@/types/Event';
+import { EventFormValues } from '@/types/form';
+import { EventType, PriceFilterType } from '@/types/event';
 import combineDateAndTime from '@utils/combineDateAndTime';
-import { calculateEventStatus } from '@utils/my/calculateEventStatus';
+import calculateEventStatus from '@utils/my/calculateEventStatus';
 import { eventDummyData } from '@components/my/events/DummyData';
 
 export const createEvent = async (data: EventFormValues) => {
@@ -289,4 +289,8 @@ export const addDummyEvents = async () => {
   await batch.commit();
 
   alert('이벤트 리스트가 추가되었습니다.');
+};
+
+export const searchEvents = async (search: string) => {
+  console.log(search);
 };

@@ -1,6 +1,6 @@
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 
-export function calculateEventStatus(event: EventType) {
+export default function calculateEventStatus(event: EventType) {
   const now = new Date();
   const startDateTime = event.startDateTime.toDate();
   const endDateTime = event.endDateTime.toDate();

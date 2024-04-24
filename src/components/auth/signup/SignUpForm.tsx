@@ -13,7 +13,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Button } from '@components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
-import { SignUpFormValues } from '@/types/Form';
+import { SignUpFormValues } from '@/types/form';
 import { signUpWithEmail } from '@services/userService';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 

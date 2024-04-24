@@ -9,7 +9,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import EventInputTitle from '../EventInputTitle';
 
-import { EventFormValues } from '@/types/Form';
+import { EventFormValues } from '@/types/form';
 import { CATEGORIES } from '@constants/categories';
 
 interface EventCategoryInputProps {

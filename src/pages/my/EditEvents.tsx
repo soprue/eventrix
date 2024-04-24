@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import EventForm from '@components/my/events/EventForm';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { getEvent } from '@services/eventService';
 

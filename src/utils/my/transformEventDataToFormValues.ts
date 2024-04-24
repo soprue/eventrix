@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
-import { EventType } from '@/types/Event';
-import { EventFormValues } from '@/types/Form';
+import { EventType } from '@/types/event';
+import { EventFormValues } from '@/types/form';
 
 // 이벤트 데이터를 폼 데이터로 변환하는 함수
 export default function transformEventDataToFormValues(

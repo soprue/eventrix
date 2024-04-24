@@ -5,7 +5,7 @@ import { Label } from '@components/ui/label';
 import ModalLayout from './ModalLayout';
 import ModalHeader from './ModalHeader';
 
-import { PriceFilterType } from '@/types/Event';
+import { PriceFilterType } from '@/types/event';
 
 interface ModalProps {
   data: PriceFilterType;

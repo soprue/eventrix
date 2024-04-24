@@ -11,7 +11,7 @@ import {
 import { Input } from '@components/ui/input';
 import EventInputTitle from '../EventInputTitle';
 
-import { EventFormValues } from '@/types/Form';
+import { EventFormValues } from '@/types/form';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
 
 interface EventThumbnailInputProps {

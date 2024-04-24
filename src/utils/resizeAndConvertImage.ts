@@ -5,7 +5,7 @@
  * @param {number} quality 이미지 품질 (0 ~ 1 사이의 값).
  * @returns {Promise<Blob>} webp 형식으로 변환된 이미지의 Blob.
  */
-async function resizeAndConvertImage(
+export default async function resizeAndConvertImage(
   imageBlob: Blob,
   maxSize = 1200,
   quality = 0.75,
@@ -55,5 +55,3 @@ async function resizeAndConvertImage(
     img.src = URL.createObjectURL(imageBlob);
   });
 }
-
-export default resizeAndConvertImage;

@@ -17,8 +17,8 @@ import EventRegistrationDateInput from './input/EventRegistrationDateInput';
 import EventDescriptionInput from './input/EventDescriptionInput';
 import EventTicketInput from './input/EventTicketInput';
 
-import { EventFormValues } from '@/types/Form';
-import { EventType } from '@/types/Event';
+import { EventFormValues } from '@/types/form';
+import { EventType } from '@/types/event';
 import useUser from '@hooks/useUser';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { createEvent, updateEvent } from '@services/eventService';

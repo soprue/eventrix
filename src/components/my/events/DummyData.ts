@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 
 export const eventDummyData: EventType[] = [
   {

@@ -1,6 +1,6 @@
 import { DateRange } from 'react-day-picker';
 
-import { FilterType } from '@/types/Event';
+import { FilterType } from '@/types/event';
 
 interface EventFilterButtonProps {
   label: FilterType;

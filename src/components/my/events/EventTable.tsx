@@ -33,7 +33,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Badge } from '@components/ui/badge';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
 import { deleteEvent } from '@services/eventService';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { useMutation, useQueryClient } from 'react-query';
