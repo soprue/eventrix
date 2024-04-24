@@ -28,3 +28,4 @@ export interface EventType {
 
 export type FilterType = '카테고리' | '가격';
 export type PriceFilterType = '전체' | '무료' | '유료';
+export type SortFilterType = '최신순' | '인기순';

@@ -3,7 +3,6 @@ import { signOut } from 'firebase/auth';
 import { LogOut, User } from 'lucide-react';
 
 import { Button } from '@components/ui/button';
-import { Input } from '@components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +17,7 @@ import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import logoImage from '@assets/images/logo/logo_horizontal.svg';
 import { auth } from '@services/firebaseConfig';
 import useUser from '@hooks/useUser';
+import SearchForm from './SearchForm';
 
 function Header() {
   const navigate = useNavigate();
@@ -43,11 +43,7 @@ function Header() {
         </Link>
 
         <div className='flex gap-2'>
-          <Input
-            type='text'
-            placeholder='검색'
-            className='w-[250px] focus-visible:ring-0 focus-visible:ring-offset-0'
-          />
+          <SearchForm />
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

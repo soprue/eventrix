@@ -18,10 +18,13 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/form';
-import { EventType, PriceFilterType } from '@/types/event';
+import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
 import combineDateAndTime from '@utils/combineDateAndTime';
 import calculateEventStatus from '@utils/my/calculateEventStatus';
 import { eventDummyData } from '@components/my/events/DummyData';
+
+// 페이지당 아이템 수
+const PAGE_SIZE = 12;
 
 export const createEvent = async (data: EventFormValues) => {
   const eventId = doc(collection(db, 'events')).id;
@@ -225,12 +228,10 @@ export const getAllEvents = async ({
   price = '전체',
 }: {
   pageParam: number | null;
-  sort: '최신순' | '인기순';
+  sort: SortFilterType;
   category: string[];
   price: PriceFilterType;
 }) => {
-  // 페이지당 아이템 수
-  const PAGE_SIZE = 12;
   const eventsRef = collection(db, 'events');
 
   let q = query(eventsRef);
@@ -291,6 +292,49 @@ export const addDummyEvents = async () => {
   alert('이벤트 리스트가 추가되었습니다.');
 };
 
-export const searchEvents = async (search: string) => {
-  console.log(search);
+export const searchEvents = async ({
+  pageParam = null,
+  sort = '최신순',
+  keyword,
+}: {
+  pageParam: number | null;
+  sort: SortFilterType;
+  keyword: string;
+}) => {
+  const eventsRef = collection(db, 'events');
+  const trimmedKeyword = keyword.trim().toLowerCase();
+
+  let q = query(eventsRef);
+
+  // 정렬 옵션 적용
+  if (sort === '최신순') {
+    q = query(q, orderBy('eventCreationDate', 'desc'));
+  } else if (sort === '인기순') {
+    q = query(q, orderBy('likesCount', 'desc'));
+  }
+
+  // 키워드 검색
+  q = query(
+    q,
+    where('name', '>=', trimmedKeyword),
+    where('name', '<=', trimmedKeyword + '\uf8ff'),
+  );
+
+  // 페이징 처리
+  if (pageParam) {
+    q = query(q, startAfter(pageParam), limit(PAGE_SIZE));
+  } else {
+    q = query(q, limit(PAGE_SIZE));
+  }
+
+  const querySnapshot = await getDocs(q);
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const events = querySnapshot.docs.map(doc => ({
+    uid: doc.id,
+    ...(doc.data() as EventType),
+    status: calculateEventStatus(doc.data() as EventType),
+  }));
+
+  return { events, lastVisible };
 };
