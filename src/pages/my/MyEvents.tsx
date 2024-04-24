@@ -11,7 +11,6 @@ import ErrorBox from '@components/shared/ErrorBox';
 import { EventType } from '@/types/Event';
 import useUser from '@hooks/useUser';
 import { getMyEvents } from '@services/eventService';
-import { calculateEventStatus } from '@utils/my/calculateEventStatus';
 import { StatusMenuType } from '@constants/eventStatusMenus';
 
 function MyEvents() {
@@ -24,11 +23,7 @@ function MyEvents() {
       if (!user?.uid) {
         return [];
       }
-      const events = await getMyEvents(user.uid);
-      return events.map(event => ({
-        ...event,
-        status: calculateEventStatus(event),
-      })) as EventType[];
+      return await getMyEvents(user.uid);
     },
     {
       enabled: !!user && !!user.uid,

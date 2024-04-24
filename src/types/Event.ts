@@ -24,3 +24,6 @@ export interface EventType {
   eventCreationDate: Date;
   status?: string;
 }
+
+export type FilterType = '카테고리' | '가격';
+export type PriceFilterType = '전체' | '무료' | '유료';
