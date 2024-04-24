@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { UserType } from '@/types/User';
+import { UserType } from '@/types/user';
 
 type State = {
   user: UserType | null;

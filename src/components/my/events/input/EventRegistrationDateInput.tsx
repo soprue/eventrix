@@ -25,7 +25,7 @@ import {
 } from '@components/ui/select';
 import EventInputTitle from '../EventInputTitle';
 
-import { EventFormValues } from '@/types/Form';
+import { EventFormValues } from '@/types/form';
 import { cn } from '@/lib/utils';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
 import formatTimeForDisplay from '@utils/formatTimeForDisplay';

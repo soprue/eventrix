@@ -1,4 +1,4 @@
-export const AuthErrorMap: { [key: string]: string } = {
+export const AUTH_ERROR_MAP: { [key: string]: string } = {
   'auth/invalid-email': '유효하지 않은 이메일 형식입니다.',
   'auth/email-already-in-use': '이미 사용 중인 이메일 주소입니다.',
   'auth/weak-password':

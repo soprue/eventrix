@@ -17,8 +17,8 @@ import EventRegistrationDateInput from './input/EventRegistrationDateInput';
 import EventDescriptionInput from './input/EventDescriptionInput';
 import EventTicketInput from './input/EventTicketInput';
 
-import { EventFormValues } from '@/types/Form';
-import { EventType } from '@/types/Event';
+import { EventFormValues } from '@/types/form';
+import { EventType } from '@/types/event';
 import useUser from '@hooks/useUser';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { createEvent, updateEvent } from '@services/eventService';
@@ -44,7 +44,7 @@ function EventForm({ initialData }: EventFormProps) {
       startTime: '',
       endDate: null,
       endTime: '',
-      category: 'IT/Technology',
+      category: 'IT/기술',
       location: '',
       registrationStartDate: null,
       registrationStartTime: '',
@@ -193,7 +193,6 @@ export default EventForm;
 
 const ticketSchema = z.object({
   name: z.string().nonempty({ message: '티켓 이름은 필수입니다.' }),
-  price: z.number().positive({ message: '티켓 가격은 0보다 커야 합니다.' }),
   quantity: z.number().positive({ message: '판매 개수는 0보다 커야 합니다.' }),
 });
 
@@ -235,12 +234,9 @@ const eventFormSchema = z.object({
     .array(ticketSchema)
     .refine(
       tickets =>
-        tickets.every(
-          ticket =>
-            ticket.name !== '' && ticket.price > 0 && ticket.quantity > 0,
-        ),
+        tickets.every(ticket => ticket.name !== '' && ticket.quantity > 0),
       {
-        message: '모든 티켓은 이름, 가격, 수량을 정확히 입력해야 합니다.',
+        message: '모든 티켓은 이름, 수량을 정확히 입력해야 합니다.',
       },
     ),
 });

@@ -9,7 +9,7 @@ import {
 import { Textarea } from '@components/ui/textarea';
 import EventInputTitle from '../EventInputTitle';
 
-import { EventFormValues } from '@/types/Form';
+import { EventFormValues } from '@/types/form';
 
 interface EventDescriptionInputProps {
   form: UseFormReturn<EventFormValues>;

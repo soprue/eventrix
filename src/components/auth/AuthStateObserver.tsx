@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { auth, db } from '@services/firebaseConfig';
 import { useUserStore } from '@store/useUserStore';
-import { UserType } from '@/types/User';
+import { UserType } from '@/types/user';
 
 function AuthStateObserver() {
   const { setUser } = useUserStore();
@@ -19,8 +19,7 @@ function AuthStateObserver() {
             const userDoc = await getDoc(userRef);
             setUser(userDoc.data() as UserType);
           })
-          .catch(error => {
-            console.error('Token renewal error:', error);
+          .catch(() => {
             setUser(null);
           });
       } else {

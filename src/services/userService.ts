@@ -9,10 +9,10 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FirebaseError } from 'firebase/app';
 
 import { auth, db } from './firebaseConfig';
-import { UserType } from '@/types/User';
-import { SignInFormValues, SignUpFormValues } from '@/types/Form';
+import { UserType } from '@/types/user';
+import { SignInFormValues, SignUpFormValues } from '@/types/form';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
-import { AuthErrorMap } from '@constants/errorCodes';
+import { AUTH_ERROR_MAP } from '@constants/errorCodes';
 
 const DEFAULT_IMAGE_URL =
   'https://firebasestorage.googleapis.com/v0/b/eventrix-7cf95.appspot.com/o/profileImages%2Fdefault_user.webp?alt=media&token=c0f074c4-5011-44a0-b0d8-db76b07cfba5';
@@ -70,7 +70,6 @@ export const signInWithGoogle = async (): Promise<UserType> => {
       loginType: 'google',
     };
   } catch (error) {
-    console.error('Google 로그인 실패:', error);
     return {
       uid: null,
       nickname: null,
@@ -104,10 +103,10 @@ export const signUpWithEmail = async (data: SignUpFormValues) => {
   } catch (error) {
     if (error instanceof FirebaseError) {
       const errorMessage = Object.prototype.hasOwnProperty.call(
-        AuthErrorMap,
+        AUTH_ERROR_MAP,
         error.code,
       )
-        ? AuthErrorMap[error.code]
+        ? AUTH_ERROR_MAP[error.code]
         : error.code;
       return { success: false, error: errorMessage };
     } else {
@@ -127,10 +126,10 @@ export const signInWithEmail = async (data: SignInFormValues) => {
   } catch (error) {
     if (error instanceof FirebaseError) {
       const errorMessage = Object.prototype.hasOwnProperty.call(
-        AuthErrorMap,
+        AUTH_ERROR_MAP,
         error.code,
       )
-        ? AuthErrorMap[error.code]
+        ? AUTH_ERROR_MAP[error.code]
         : error.code;
       return { success: false, error: errorMessage };
     } else {

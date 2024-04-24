@@ -5,9 +5,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
   writeBatch,
@@ -15,10 +17,14 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from './firebaseConfig';
-import { EventFormValues } from '@/types/Form';
-import { EventType } from '@/types/Event';
+import { EventFormValues } from '@/types/form';
+import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
 import combineDateAndTime from '@utils/combineDateAndTime';
-import { eventDummyData } from '@/components/my/events/DummyData';
+import calculateEventStatus from '@utils/my/calculateEventStatus';
+import { eventDummyData } from '@components/my/events/DummyData';
+
+// 페이지당 아이템 수
+const PAGE_SIZE = 12;
 
 export const createEvent = async (data: EventFormValues) => {
   const eventId = doc(collection(db, 'events')).id;
@@ -51,6 +57,10 @@ export const createEvent = async (data: EventFormValues) => {
     soldCount: 0,
   }));
 
+  const prices = ticketOptions.map(option => option.price);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
   // 이벤트 데이터 객체 생성
   const eventData = {
     uid: eventId,
@@ -66,6 +76,8 @@ export const createEvent = async (data: EventFormValues) => {
     description: data.description,
     likesCount: 0,
     ticketOptions,
+    minPrice,
+    maxPrice,
     eventCreationDate: new Date(),
   };
 
@@ -136,6 +148,10 @@ export const updateEvent = async (data: EventFormValues) => {
     };
   });
 
+  const prices = ticketOptions.map(option => option.price);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
   const eventData = {
     thumbnail: thumbnailUrl,
     name: data.name,
@@ -147,6 +163,8 @@ export const updateEvent = async (data: EventFormValues) => {
     location: data.location,
     description: data.description,
     ticketOptions,
+    minPrice,
+    maxPrice,
   };
 
   try {
@@ -167,7 +185,6 @@ export const deleteEvent = async (eventId: string) => {
     await deleteDoc(eventRef);
     return { success: true };
   } catch (error) {
-    console.error('Error deleting event: ', error);
     if (error instanceof FirebaseError) {
       return {
         success: false,
@@ -198,9 +215,67 @@ export const getMyEvents = async (
   const myEvents = querySnapshot.docs.map(doc => ({
     uid: doc.id,
     ...(doc.data() as EventType),
+    status: calculateEventStatus(doc.data() as EventType),
   }));
 
   return myEvents;
+};
+
+export const getAllEvents = async ({
+  pageParam = null,
+  sort = '최신순',
+  category = [],
+  price = '전체',
+}: {
+  pageParam: number | null;
+  sort: SortFilterType;
+  category: string[];
+  price: PriceFilterType;
+}) => {
+  const eventsRef = collection(db, 'events');
+
+  let q = query(eventsRef);
+
+  // 카테고리 필터 적용
+  if (category.length > 0) {
+    q = query(q, where('category', 'in', category));
+  }
+
+  // 가격 필터 적용
+  if (price !== '전체') {
+    if (price === '무료') {
+      // "무료"는 minPrice가 0원인 경우
+      q = query(q, where('minPrice', '==', 0));
+    } else if (price === '유료') {
+      // "유료"는 minPrice가 0원 초과인 경우
+      q = query(q, where('minPrice', '>', 0));
+    }
+  }
+
+  // 정렬 옵션 적용
+  if (sort === '최신순') {
+    q = query(q, orderBy('eventCreationDate', 'desc'));
+  } else if (sort === '인기순') {
+    q = query(q, orderBy('likesCount', 'desc'));
+  }
+
+  // 페이징 처리
+  if (pageParam) {
+    q = query(q, startAfter(pageParam), limit(PAGE_SIZE));
+  } else {
+    q = query(q, limit(PAGE_SIZE));
+  }
+
+  const querySnapshot = await getDocs(q);
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const events = querySnapshot.docs.map(doc => ({
+    uid: doc.id,
+    ...(doc.data() as EventType),
+    status: calculateEventStatus(doc.data() as EventType),
+  }));
+
+  return { events, lastVisible };
 };
 
 export const addDummyEvents = async () => {
@@ -215,4 +290,51 @@ export const addDummyEvents = async () => {
   await batch.commit();
 
   alert('이벤트 리스트가 추가되었습니다.');
+};
+
+export const searchEvents = async ({
+  pageParam = null,
+  sort = '최신순',
+  keyword,
+}: {
+  pageParam: number | null;
+  sort: SortFilterType;
+  keyword: string;
+}) => {
+  const eventsRef = collection(db, 'events');
+  const trimmedKeyword = keyword.trim().toLowerCase();
+
+  let q = query(eventsRef);
+
+  // 정렬 옵션 적용
+  if (sort === '최신순') {
+    q = query(q, orderBy('eventCreationDate', 'desc'));
+  } else if (sort === '인기순') {
+    q = query(q, orderBy('likesCount', 'desc'));
+  }
+
+  // 키워드 검색
+  q = query(
+    q,
+    where('name', '>=', trimmedKeyword),
+    where('name', '<=', trimmedKeyword + '\uf8ff'),
+  );
+
+  // 페이징 처리
+  if (pageParam) {
+    q = query(q, startAfter(pageParam), limit(PAGE_SIZE));
+  } else {
+    q = query(q, limit(PAGE_SIZE));
+  }
+
+  const querySnapshot = await getDocs(q);
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const events = querySnapshot.docs.map(doc => ({
+    uid: doc.id,
+    ...(doc.data() as EventType),
+    status: calculateEventStatus(doc.data() as EventType),
+  }));
+
+  return { events, lastVisible };
 };

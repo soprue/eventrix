@@ -3,13 +3,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import EventForm from '@components/my/events/EventForm';
 
-import { EventType } from '@/types/Event';
+import { EventType } from '@/types/event';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { getEvent } from '@services/eventService';
 
 function MyEditEvent() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get('id');
+  const { openAlert } = useGlobalAlertStore();
 
   const [initialData, setInitialData] = useState<EventType | null>(null);
 
@@ -23,7 +25,9 @@ function MyEditEvent() {
             navigate('/404');
           }
         })
-        .catch(error => console.error('Error fetching event data: ', error));
+        .catch(error => {
+          openAlert('오류가 발생했습니다.', error as string);
+        });
     };
 
     fetchEventData();

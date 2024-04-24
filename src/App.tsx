@@ -11,6 +11,7 @@ import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';
 import MainPage from '@pages/Main';
 const NotFound = lazy(() => import('@pages/404'));
+const SearchPage = lazy(() => import('@pages/Search'));
 const SignInPage = lazy(() => import('@pages/SignIn'));
 const SignUpPage = lazy(() => import('@pages/SignUp'));
 const MyPage = lazy(() => import('@pages/my/MyPage'));
@@ -37,6 +38,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<MainPage />} />
           <Route path='/*' element={<NotFound />} />
+          <Route path='/search' element={<SearchPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path='/signin' element={<SignInPage />} />

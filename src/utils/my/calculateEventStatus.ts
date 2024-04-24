@@ -1,12 +1,11 @@
-import { EventType } from '@/types/Event';
-import { Timestamp } from 'firebase/firestore';
+import { EventType } from '@/types/event';
 
-export function calculateEventStatus(event: EventType) {
+export default function calculateEventStatus(event: EventType) {
   const now = new Date();
-  const startDateTime = toDate(event.startDateTime);
-  const endDateTime = toDate(event.endDateTime);
-  const registrationStart = toDate(event.registrationStart);
-  const registrationEnd = toDate(event.registrationEnd);
+  const startDateTime = event.startDateTime.toDate();
+  const endDateTime = event.endDateTime.toDate();
+  const registrationStart = event.registrationStart.toDate();
+  const registrationEnd = event.registrationEnd.toDate();
   const totalTickets = event.ticketOptions.reduce(
     (sum, option) => sum + option.scheduledCount,
     0,
@@ -35,12 +34,4 @@ export function calculateEventStatus(event: EventType) {
     return '행사 종료';
   }
   return '상태 확인 필요';
-}
-
-function toDate(date: Date | Timestamp): Date {
-  if (date instanceof Date) {
-    return date;
-  } else {
-    return date.toDate();
-  }
 }

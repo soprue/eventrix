@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import StatusItem from './StatusItem';
 
 import RightArrow from '@assets/images/icons/RightArrow.svg';
-import { StatusMenuType, statusMenus } from '@constants/eventStatusMenus';
+import { StatusMenuType, STATUS_MENU } from '@constants/eventStatusMenus';
 
 interface StatusProps {
   statuses: string[];
@@ -32,7 +32,7 @@ function Status({ statuses, status, setStatus }: StatusProps) {
     <div className='flex flex-col gap-6'>
       <div className='border-line-normal bg-background-tertiary flex w-full justify-center rounded-lg border py-[22px]'>
         <ul className='flex gap-9'>
-          {statusMenus.map((menu, idx) => {
+          {STATUS_MENU.map((menu, idx) => {
             return (
               <li key={menu} className='flex gap-9'>
                 <StatusItem
@@ -41,7 +41,7 @@ function Status({ statuses, status, setStatus }: StatusProps) {
                   active={status === menu}
                   onClick={() => handleStatusChange(menu)}
                 />
-                {idx != statusMenus.length - 1 && (
+                {idx != STATUS_MENU.length - 1 && (
                   <img src={RightArrow} alt='RightArrow' />
                 )}
               </li>
