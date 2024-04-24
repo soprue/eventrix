@@ -44,7 +44,7 @@ function EventForm({ initialData }: EventFormProps) {
       startTime: '',
       endDate: null,
       endTime: '',
-      category: 'IT/Technology',
+      category: 'IT/기술',
       location: '',
       registrationStartDate: null,
       registrationStartTime: '',
