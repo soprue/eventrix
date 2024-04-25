@@ -3,6 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
 import Spinner from '@components/shared/Spinner';
+import SpinnerBox from '@components/shared/SpinnerBox';
 import ErrorBox from '@components/shared/ErrorBox';
 import EventList from '@components/shared/EventList';
 import EventFilterButton from '@components/main/EventFilterButton';
@@ -89,12 +90,7 @@ function Main() {
       </div>
 
       {isLoading ? (
-        <div
-          role='status'
-          className='flex min-h-[calc(100dvh-250px)] w-full items-center justify-center'
-        >
-          <Spinner />
-        </div>
+        <SpinnerBox className='min-h-[calc(100dvh-250px)]' />
       ) : (
         <>
           <EventList events={events} />

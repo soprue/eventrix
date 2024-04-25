@@ -5,7 +5,7 @@ import AuthStateObserver from '@components/auth/AuthStateObserver';
 import PublicRoute from '@components/auth/PublicRoute';
 import PrivateRoute from '@components/auth/PrivateRoute';
 import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
-import Spinner from '@components/shared/Spinner';
+import SpinnerBox from '@components/shared/SpinnerBox';
 
 import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';
@@ -21,16 +21,7 @@ const EditEventsPage = lazy(() => import('@pages/my/EditEvents'));
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div
-          role='status'
-          className='flex h-dvh w-full items-center justify-center'
-        >
-          <Spinner />
-        </div>
-      }
-    >
+    <Suspense fallback={<SpinnerBox className='h-dvh' />}>
       <AuthStateObserver />
       <GlobalAlertDialog />
 

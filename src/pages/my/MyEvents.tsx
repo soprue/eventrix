@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import Status from '@components/my/events/Status';
 import EventTable from '@components/my/events/EventTable';
 import { Button } from '@components/ui/button';
-import Spinner from '@components/shared/Spinner';
+import SpinnerBox from '@components/shared/SpinnerBox';
 import ErrorBox from '@components/shared/ErrorBox';
 
 import { EventType } from '@/types/event';
@@ -35,15 +35,7 @@ function MyEvents() {
     ? data?.filter(event => event.status === status) || []
     : data || [];
 
-  if (isLoading)
-    return (
-      <div
-        role='status'
-        className='flex min-h-[calc(100dvh-64px)] w-full items-center justify-center'
-      >
-        <Spinner />
-      </div>
-    );
+  if (isLoading) return <SpinnerBox />;
 
   if (isError) return <ErrorBox />;
 
