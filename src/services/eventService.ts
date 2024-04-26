@@ -351,3 +351,17 @@ export const getUserLikes = async (user: string) => {
 
   return userData?.likedEvents || [];
 };
+
+export const toggleLikeEvent = async (user: string, eventId: string) => {
+  const userRef = doc(db, 'users', user);
+  const userSnap = await getDoc(userRef);
+
+  const userData = userSnap.data();
+  const likedEvents = userData?.likedEvents || [];
+
+  const updatedLikedEvents = likedEvents.includes(eventId)
+    ? likedEvents.filter((id: string) => id !== eventId)
+    : [...likedEvents, eventId];
+
+  await updateDoc(userRef, { likedEvents: updatedLikedEvents });
+};
