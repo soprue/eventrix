@@ -97,7 +97,11 @@ export const getEvent = async (eventId: string): Promise<EventType> => {
   const docRef = doc(db, 'events', eventId);
   const docSnap = await getDoc(docRef);
 
-  return (docSnap.data() as EventType) || null;
+  const event = {
+    ...(docSnap.data() as EventType),
+    status: calculateEventStatus(docSnap.data() as EventType),
+  };
+  return event || null;
 };
 
 export const updateEvent = async (data: EventFormValues) => {
