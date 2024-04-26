@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  runTransaction,
   setDoc,
   startAfter,
   updateDoc,
@@ -346,18 +347,36 @@ export const searchEvents = async ({
 };
 
 export const toggleLikeEvent = async (userId: string, eventId: string) => {
-  const likeRef = doc(collection(db, 'userLikes'));
+  const userLikesRef = collection(db, 'userLikes');
+  const likeRef = doc(userLikesRef, `${userId}_${eventId}`);
+  const eventRef = doc(db, 'events', eventId);
 
-  const snap = await getDoc(likeRef);
-  if (snap.exists()) {
-    await deleteDoc(likeRef);
-  } else {
-    await setDoc(likeRef, {
-      userId,
-      eventId,
-      likedAt: Timestamp.fromDate(new Date()),
-    });
-  }
+  // 트랜잭션을 사용하여 좋아요 상태와 likesCount 동기화
+  await runTransaction(db, async transaction => {
+    const likeSnap = await transaction.get(likeRef);
+    const eventSnap = await transaction.get(eventRef);
+
+    if (!eventSnap.exists()) {
+      throw new Error('Event does not exist!');
+    }
+
+    let newLikesCount = eventSnap.data().likesCount || 0;
+
+    if (likeSnap.exists()) {
+      transaction.delete(likeRef);
+      newLikesCount -= 1;
+    } else {
+      transaction.set(likeRef, {
+        userId,
+        eventId,
+        likedAt: Timestamp.fromDate(new Date()),
+      });
+      newLikesCount += 1;
+    }
+
+    // 이벤트 문서의 likesCount 업데이트
+    transaction.update(eventRef, { likesCount: newLikesCount });
+  });
 };
 
 export const getUserLikes = async (userId: string): Promise<LikedEvent[]> => {
