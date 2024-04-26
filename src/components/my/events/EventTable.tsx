@@ -37,6 +37,7 @@ import { EventType } from '@/types/event';
 import { deleteEvent } from '@services/eventService';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { useMutation, useQueryClient } from 'react-query';
+import usePrefetchEvent from '@/hooks/usePrefetchEvent';
 
 interface EventTableProps {
   data: EventType[];
@@ -45,6 +46,7 @@ interface EventTableProps {
 function EventTable({ data }: EventTableProps) {
   const queryClient = useQueryClient();
   const { openAlert } = useGlobalAlertStore();
+  const prefetchEvent = usePrefetchEvent();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -60,7 +62,7 @@ function EventTable({ data }: EventTableProps) {
           <img
             src={row.original.thumbnail as string}
             alt='Thumbnail'
-            className='size-full h-full w-full object-cover'
+            className='size-full object-cover'
           />
         </div>
       ),
@@ -72,7 +74,12 @@ function EventTable({ data }: EventTableProps) {
       cell: ({ row }) => {
         return (
           <div className='capitalize'>
-            <Link to={`/event/${row.original.uid}`}>{row.original.name}</Link>
+            <Link
+              to={`/event/${row.original.uid}`}
+              onMouseEnter={() => prefetchEvent(row.original.uid!)}
+            >
+              {row.original.name}
+            </Link>
           </div>
         );
       },
