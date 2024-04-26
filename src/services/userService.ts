@@ -17,7 +17,13 @@ import { AUTH_ERROR_MAP } from '@constants/errorCodes';
 const DEFAULT_IMAGE_URL =
   'https://firebasestorage.googleapis.com/v0/b/eventrix-7cf95.appspot.com/o/profileImages%2Fdefault_user.webp?alt=media&token=c0f074c4-5011-44a0-b0d8-db76b07cfba5';
 
-// 프로필 이미지를 Storage에 저장하고 URL을 반환하는 함수
+/**
+ * 사용자의 프로필 이미지를 Firebase Storage에 업로드하고 URL을 반환합니다.
+ * @param {Blob} imageFile - 업로드할 이미지 파일입니다.
+ * @param {string} folder - 저장할 스토리지 폴더 경로입니다.
+ * @param {string} fileName - 저장될 파일의 이름입니다.
+ * @returns {Promise<string>} - 업로드된 이미지의 URL을 반환합니다.
+ */
 async function uploadImage(imageFile: Blob, folder: string, fileName: string) {
   const storage = getStorage();
   const storageRef = ref(storage, `${folder}/${fileName}.webp`);
@@ -28,6 +34,10 @@ async function uploadImage(imageFile: Blob, folder: string, fileName: string) {
   return getDownloadURL(storageRef);
 }
 
+/**
+ * Google 인증 제공자를 사용하여 로그인합니다. 로그인 성공 시 사용자 정보를 Firestore에 저장합니다.
+ * @returns {Promise<UserType>} - 로그인한 사용자의 정보를 반환합니다.
+ */
 export const signInWithGoogle = async (): Promise<UserType> => {
   try {
     const provider = new GoogleAuthProvider();
@@ -79,6 +89,11 @@ export const signInWithGoogle = async (): Promise<UserType> => {
   }
 };
 
+/**
+ * 이메일과 비밀번호를 사용하여 새로운 사용자 계정을 생성하고, 사용자 정보를 Firestore에 저장합니다.
+ * @param {SignUpFormValues} data - 사용자가 입력한 회원가입 정보입니다.
+ * @returns {Promise<{success: boolean, data?: User, error?: string}>} - 회원가입 성공 여부와 결과 데이터 또는 에러 메시지를 반환합니다.
+ */
 export const signUpWithEmail = async (data: SignUpFormValues) => {
   try {
     const result = await createUserWithEmailAndPassword(
@@ -115,6 +130,11 @@ export const signUpWithEmail = async (data: SignUpFormValues) => {
   }
 };
 
+/**
+ * 이메일과 비밀번호를 사용하여 로그인합니다.
+ * @param {SignInFormValues} data - 로그인 폼에서 입력된 사용자의 이메일과 비밀번호입니다.
+ * @returns {Promise<{success: boolean, data?: User, error?: string}>} - 로그인 성공 여부와 사용자 데이터 또는 에러 메시지를 반환합니다.
+ */
 export const signInWithEmail = async (data: SignInFormValues) => {
   try {
     const result = await signInWithEmailAndPassword(
@@ -138,6 +158,11 @@ export const signInWithEmail = async (data: SignInFormValues) => {
   }
 };
 
+/**
+ * 주어진 UID를 가진 사용자의 정보를 Firestore에서 검색합니다.
+ * @param {string} uid - 검색할 사용자의 UID입니다.
+ * @returns {Promise<UserType>} - 검색된 사용자의 정보를 반환합니다.
+ */
 export const getUserInfo = async (uid: string): Promise<UserType> => {
   const userRef = doc(db, 'users', uid);
   const docSnap = await getDoc(userRef);

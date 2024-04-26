@@ -8,7 +8,7 @@ import EventList from '@components/shared/EventList';
 import ErrorBox from '@components/shared/ErrorBox';
 
 import useUser from '@hooks/useUser';
-import { getUserLikesScrollList } from '@services/eventService';
+import { getUserLikesWithPagination } from '@services/eventService';
 
 function MyLikedEvents() {
   const user = useUser();
@@ -23,7 +23,8 @@ function MyLikedEvents() {
     hasNextPage,
   } = useInfiniteQuery(
     ['userLikesScrollList', user?.uid],
-    ({ pageParam }) => getUserLikesScrollList(pageParam, user?.uid as string),
+    ({ pageParam }) =>
+      getUserLikesWithPagination(pageParam, user?.uid as string),
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
       enabled: !!user?.uid,
