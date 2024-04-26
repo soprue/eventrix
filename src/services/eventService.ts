@@ -1,5 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import {
+  Timestamp,
   collection,
   deleteDoc,
   doc,
@@ -357,11 +358,15 @@ export const toggleLikeEvent = async (user: string, eventId: string) => {
   const userSnap = await getDoc(userRef);
 
   const userData = userSnap.data();
-  const likedEvents = userData?.likedEvents || [];
+  const likedEvents = userData?.likedEvents || {};
 
-  const updatedLikedEvents = likedEvents.includes(eventId)
-    ? likedEvents.filter((id: string) => id !== eventId)
-    : [...likedEvents, eventId];
+  const currentTime = Timestamp.fromDate(new Date());
 
-  await updateDoc(userRef, { likedEvents: updatedLikedEvents });
+  if (likedEvents[eventId]) {
+    delete likedEvents[eventId];
+  } else {
+    likedEvents[eventId] = currentTime;
+  }
+
+  await updateDoc(userRef, { likedEvents });
 };

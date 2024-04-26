@@ -15,6 +15,13 @@ function LikeButton({ eventUID }: LikeButtonProps) {
   const { openAlert } = useGlobalAlertStore();
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
+  useQuery(['userLikes', user?.uid], () => getUserLikes(user?.uid as string), {
+    enabled: !!user?.uid,
+    onSuccess: userLikes => {
+      setIsLiked(Object.keys(userLikes).includes(eventUID));
+    },
+  });
+
   const toggleLikeMutation = useMutation(
     () => toggleLikeEvent(user!.uid as string, eventUID),
     {
@@ -26,13 +33,6 @@ function LikeButton({ eventUID }: LikeButtonProps) {
       },
     },
   );
-
-  useQuery(['userLikes', user?.uid], () => getUserLikes(user?.uid as string), {
-    enabled: !!user?.uid,
-    onSuccess: userLikes => {
-      setIsLiked(userLikes?.includes(eventUID));
-    },
-  });
 
   const handleToggleLike = () => {
     if (!user) {
