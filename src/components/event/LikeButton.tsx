@@ -17,8 +17,8 @@ function LikeButton({ eventUID }: LikeButtonProps) {
 
   useQuery(['userLikes', user?.uid], () => getUserLikes(user?.uid as string), {
     enabled: !!user?.uid,
-    onSuccess: userLikes => {
-      setIsLiked(Object.keys(userLikes).includes(eventUID));
+    onSuccess: likedEvents => {
+      setIsLiked(likedEvents.some(like => like.eventId === eventUID));
     },
   });
 

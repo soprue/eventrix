@@ -58,7 +58,6 @@ function Search() {
   if (isError) return <ErrorBox />;
 
   const events = data?.pages.flatMap(page => page.events) || [];
-  console.log(events);
 
   return (
     <>

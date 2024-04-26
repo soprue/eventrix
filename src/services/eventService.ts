@@ -20,6 +20,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/form';
 import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
+import { LikedEvent } from '@/types/likedEvent';
 import combineDateAndTime from '@utils/mypage/combineDateAndTime';
 import calculateEventStatus from '@utils/mypage/calculateEventStatus';
 import { eventDummyData } from '@components/mypage/events/DummyData';
@@ -344,29 +345,57 @@ export const searchEvents = async ({
   return { events, lastVisible };
 };
 
-export const getUserLikes = async (user: string) => {
-  const userRef = doc(db, 'users', user);
-  const userSnap = await getDoc(userRef);
+export const toggleLikeEvent = async (userId: string, eventId: string) => {
+  const likeRef = doc(collection(db, 'userLikes'));
 
-  const userData = userSnap.data();
-
-  return userData?.likedEvents || [];
+  const snap = await getDoc(likeRef);
+  if (snap.exists()) {
+    await deleteDoc(likeRef);
+  } else {
+    await setDoc(likeRef, {
+      userId,
+      eventId,
+      likedAt: Timestamp.fromDate(new Date()),
+    });
+  }
 };
 
-export const toggleLikeEvent = async (user: string, eventId: string) => {
-  const userRef = doc(db, 'users', user);
-  const userSnap = await getDoc(userRef);
+export const getUserLikes = async (userId: string): Promise<LikedEvent[]> => {
+  const q = query(collection(db, 'userLikes'), where('userId', '==', userId));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => doc.data() as LikedEvent);
+};
 
-  const userData = userSnap.data();
-  const likedEvents = userData?.likedEvents || {};
+export const getUserLikesScrollList = async (
+  pageParam = null,
+  userId: string,
+) => {
+  const likesRef = collection(db, 'userLikes');
+  let q = query(
+    likesRef,
+    where('userId', '==', userId),
+    orderBy('likedAt', 'desc'),
+    limit(10),
+  );
 
-  const currentTime = Timestamp.fromDate(new Date());
-
-  if (likedEvents[eventId]) {
-    delete likedEvents[eventId];
-  } else {
-    likedEvents[eventId] = currentTime;
+  if (pageParam) {
+    q = query(q, startAfter(pageParam));
   }
 
-  await updateDoc(userRef, { likedEvents });
+  const snapshot = await getDocs(q);
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  const eventIds = snapshot.docs.map(doc => doc.data().eventId);
+  const events = await Promise.all(
+    eventIds.map(async eventId => {
+      const eventRef = doc(db, 'events', eventId);
+      const eventSnap = await getDoc(eventRef);
+      return { id: eventId, ...(eventSnap.data() as EventType) };
+    }),
+  );
+
+  return {
+    events: events,
+    nextCursor: lastVisible ? lastVisible.data().likedAt : undefined,
+  };
 };
