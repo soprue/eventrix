@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { FaHeart } from 'react-icons/fa';
+import { GoHeartFill } from 'react-icons/go';
 
 import { Badge } from '@components/ui/badge';
 
 import { EventType } from '@/types/event';
+import usePrefetchEvent from '@hooks/usePrefetchEvent';
 
 interface EventBoxProps {
   event: EventType;
@@ -11,6 +12,7 @@ interface EventBoxProps {
 
 function EventBox({ event }: EventBoxProps) {
   const navigate = useNavigate();
+  const prefetchEvent = usePrefetchEvent();
   const name =
     event.name.length > 20 ? event.name.slice(0, 19) + '...' : event.name;
 
@@ -18,6 +20,7 @@ function EventBox({ event }: EventBoxProps) {
     <div
       className='h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
       onClick={() => navigate(`/event/${event.uid}`)}
+      onMouseEnter={() => prefetchEvent(event.uid!)}
     >
       <div className='relative h-[240px] overflow-hidden'>
         {(event.status === '모집 마감' || event.status === '행사 종료') && (
@@ -28,14 +31,14 @@ function EventBox({ event }: EventBoxProps) {
         <img
           src={event.thumbnail as string}
           alt={event.name}
-          className='size-full h-full w-full object-cover'
+          className='size-full object-cover'
         />
       </div>
       <div className='p-3'>
         <div className='flex justify-between'>
           <p>{event.category}</p>
           <Badge variant='outline' className='gap-2 text-xs font-normal'>
-            <FaHeart size={10} />
+            <GoHeartFill size={10} />
             {event.likesCount}
           </Badge>
         </div>

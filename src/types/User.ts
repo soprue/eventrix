@@ -4,7 +4,7 @@ export interface UserType {
   userType: string | null;
   loginType: string | null;
   email?: string;
-  phoneNumber?: string;
+  phone?: string;
   profileImage?: string;
   likedEvents?: string[];
   token?: string;

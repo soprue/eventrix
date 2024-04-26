@@ -5,7 +5,7 @@ import AuthStateObserver from '@components/auth/AuthStateObserver';
 import PublicRoute from '@components/auth/PublicRoute';
 import PrivateRoute from '@components/auth/PrivateRoute';
 import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
-import Spinner from '@components/shared/Spinner';
+import SpinnerBox from '@components/shared/SpinnerBox';
 
 import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';
@@ -18,19 +18,11 @@ const MyPage = lazy(() => import('@pages/my/MyPage'));
 const MyEventsPage = lazy(() => import('@pages/my/MyEvents'));
 const NewEventsPage = lazy(() => import('@pages/my/NewEvents'));
 const EditEventsPage = lazy(() => import('@pages/my/EditEvents'));
+const EventDetailPage = lazy(() => import('@pages/EventDetail'));
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div
-          role='status'
-          className='flex h-dvh w-full items-center justify-center'
-        >
-          <Spinner />
-        </div>
-      }
-    >
+    <Suspense fallback={<SpinnerBox className='h-dvh' />}>
       <AuthStateObserver />
       <GlobalAlertDialog />
 
@@ -39,6 +31,7 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/search' element={<SearchPage />} />
+          <Route path='/event/:id' element={<EventDetailPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path='/signin' element={<SignInPage />} />

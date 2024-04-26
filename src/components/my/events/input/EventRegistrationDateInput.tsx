@@ -28,7 +28,7 @@ import EventInputTitle from '../EventInputTitle';
 import { EventFormValues } from '@/types/form';
 import { cn } from '@/lib/utils';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
-import formatTimeForDisplay from '@utils/formatTimeForDisplay';
+import formatTimeTo12HourClock from '@/utils/my/formatTimeTo12HourClock';
 
 interface EventRegistrationDateInputProps {
   form: UseFormReturn<EventFormValues>;
@@ -118,7 +118,7 @@ function EventRegistrationDateInput({
                       <SelectValue
                         placeholder={
                           field.value
-                            ? formatTimeForDisplay(field.value)
+                            ? formatTimeTo12HourClock(field.value)
                             : `시작 시간을 선택해 주세요.`
                         }
                       />
@@ -135,7 +135,7 @@ function EventRegistrationDateInput({
                         .padStart(2, '0')}`;
                       return (
                         <SelectItem key={timeString} value={timeString}>
-                          {formatTimeForDisplay(timeString)}
+                          {formatTimeTo12HourClock(timeString)}
                         </SelectItem>
                       );
                     })}
@@ -220,7 +220,7 @@ function EventRegistrationDateInput({
                       <SelectValue
                         placeholder={
                           field.value
-                            ? formatTimeForDisplay(field.value)
+                            ? formatTimeTo12HourClock(field.value)
                             : `종료 시간을 선택해 주세요.`
                         }
                       />
@@ -237,7 +237,7 @@ function EventRegistrationDateInput({
                         .padStart(2, '0')}`;
                       return (
                         <SelectItem key={timeString} value={timeString}>
-                          {formatTimeForDisplay(timeString)}
+                          {formatTimeTo12HourClock(timeString)}
                         </SelectItem>
                       );
                     })}

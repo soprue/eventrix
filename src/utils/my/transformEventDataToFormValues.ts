@@ -1,9 +1,20 @@
-import { Timestamp } from 'firebase/firestore';
-
 import { EventType } from '@/types/event';
 import { EventFormValues } from '@/types/form';
+import formatTime from '../formatTime';
 
-// 이벤트 데이터를 폼 데이터로 변환하는 함수
+/**
+ * Firestore에서 가져온 이벤트 데이터를 폼 입력 값으로 변환합니다.
+ *
+ * 이 함수는 Firestore 이벤트 문서의 데이터를 UI 폼에서 사용할 수 있는 형식으로 매핑합니다.
+ * 이 과정에서 일부 데이터는 추가적인 변환을 거쳐 처리됩니다 (예: Timestamp를 Date 객체로).
+ *
+ * @param {EventType} eventData - Firestore에서 가져온 이벤트 데이터.
+ * @returns {EventFormValues} 폼 입력에 사용될 데이터 객체.
+ *
+ * @example
+ * const formData = transformEventDataToFormValues(eventData);
+ * console.log(formData);
+ */
 export default function transformEventDataToFormValues(
   eventData: EventType,
 ): EventFormValues {
@@ -29,10 +40,4 @@ export default function transformEventDataToFormValues(
       quantity: ticket.scheduledCount,
     })),
   };
-}
-
-// 시간을 'HH:mm' 형식으로 변환
-function formatTime(date: Timestamp): string {
-  const d = date.toDate() as Date;
-  return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 }
