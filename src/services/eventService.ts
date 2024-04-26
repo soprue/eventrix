@@ -19,7 +19,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/form';
 import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
-import combineDateAndTime from '@utils/combineDateAndTime';
+import combineDateAndTime from '@utils/my/combineDateAndTime';
 import calculateEventStatus from '@utils/my/calculateEventStatus';
 import { eventDummyData } from '@components/my/events/DummyData';
 
@@ -337,4 +337,13 @@ export const searchEvents = async ({
   }));
 
   return { events, lastVisible };
+};
+
+export const getUserLikes = async (user: string) => {
+  const userRef = doc(db, 'users', user);
+  const userSnap = await getDoc(userRef);
+
+  const userData = userSnap.data();
+
+  return userData?.likedEvents || [];
 };
