@@ -137,3 +137,10 @@ export const signInWithEmail = async (data: SignInFormValues) => {
     }
   }
 };
+
+export const getUserInfo = async (uid: string): Promise<UserType> => {
+  const userRef = doc(db, 'users', uid);
+  const docSnap = await getDoc(userRef);
+
+  return docSnap.data() as UserType;
+};

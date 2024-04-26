@@ -18,6 +18,7 @@ const MyPage = lazy(() => import('@pages/my/MyPage'));
 const MyEventsPage = lazy(() => import('@pages/my/MyEvents'));
 const NewEventsPage = lazy(() => import('@pages/my/NewEvents'));
 const EditEventsPage = lazy(() => import('@pages/my/EditEvents'));
+const EventDetailPage = lazy(() => import('@pages/EventDetail'));
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/search' element={<SearchPage />} />
+          <Route path='/event/:id' element={<EventDetailPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path='/signin' element={<SignInPage />} />

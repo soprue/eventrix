@@ -15,15 +15,17 @@ export interface EventType {
   location: string;
   description: string;
   likesCount: number;
-  ticketOptions: {
-    id: string;
-    optionName: string;
-    price: number;
-    scheduledCount: number;
-    soldCount: number;
-  }[];
+  ticketOptions: TicketType[];
   eventCreationDate: Timestamp;
   status?: string;
+}
+
+export interface TicketType {
+  id: string;
+  optionName: string;
+  price: number;
+  scheduledCount: number;
+  soldCount: number;
 }
 
 export type FilterType = '카테고리' | '가격';

@@ -9,18 +9,18 @@ import { Timestamp } from 'firebase/firestore';
  *
  * @param {Timestamp} startTimestamp - 이벤트의 시작 시간을 포함하는 Timestamp 객체.
  * @param {Timestamp} endTimestamp - 이벤트의 종료 시간을 포함하는 Timestamp 객체.
- * @returns {string} 형식화된 이벤트 시간 문자열. 날짜와 시간을 포함하며, 날짜가 걸쳐 있을 경우 각 날짜와 시간을 포함합니다.
+ * @returns {string} 형식화된 이벤트 시간 문자열. 각 날짜와 시간을 포함합니다.
  *
  * @example
  * const startTimestamp = new Timestamp(...); // 이벤트 시작 Timestamp
  * const endTimestamp = new Timestamp(...); // 이벤트 종료 Timestamp
  * const eventTime = formatEventDateTime(startTimestamp, endTimestamp);
- * console.log(eventTime); // "2024년 04월 15일 (월) 오전 9:00 - 오후 5:00" 또는 "2024년 04월 15일 (월) 오전 9:00 - 2024년 04월 16일 (화) 오후 5:00"
+ * console.log(eventTime); // "2024년 04월 15일 (월) 오전 9:00 - 2024년 04월 16일 (화) 오후 5:00"
  */
 export default function formatEventDateTime(
   startTimestamp: Timestamp,
   endTimestamp: Timestamp,
-) {
+): string {
   const startDate = startTimestamp.toDate();
   const endDate = endTimestamp.toDate();
 
@@ -42,19 +42,12 @@ export default function formatEventDateTime(
   const formattedStartDate = fullDateFormatter.format(startDate);
   const formattedStartTime = timeFormatter.format(startDate);
 
-  if (startDate.toDateString() === endDate.toDateString()) {
-    // 같은 날짜인 경우
-    const formattedEndTime = timeFormatter.format(endDate);
-    return `${formattedStartDate} ${formattedStartTime} - ${formattedEndTime}`;
-  } else {
-    // 다른 날짜인 경우
-    const partialDateFormatter = new Intl.DateTimeFormat('ko-KR', {
-      month: 'long',
-      day: '2-digit',
-      weekday: 'long',
-    });
-    const formattedEndDate = partialDateFormatter.format(endDate);
-    const formattedEndTime = timeFormatter.format(endDate);
-    return `${formattedStartDate} ${formattedStartTime} - ${formattedEndDate} ${formattedEndTime}`;
-  }
+  const partialDateFormatter = new Intl.DateTimeFormat('ko-KR', {
+    month: 'long',
+    day: '2-digit',
+    weekday: 'long',
+  });
+  const formattedEndDate = partialDateFormatter.format(endDate);
+  const formattedEndTime = timeFormatter.format(endDate);
+  return `${formattedStartDate} ${formattedStartTime} - ${formattedEndDate} ${formattedEndTime}`;
 }

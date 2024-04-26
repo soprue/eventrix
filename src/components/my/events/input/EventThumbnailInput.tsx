@@ -57,7 +57,7 @@ function EventThumbnailInput({
           <img
             src={thumbnailPreview}
             alt='Thumbnail Preview'
-            className='size-full h-full w-full object-cover'
+            className='size-full object-cover'
           />
         </div>
       ) : (
