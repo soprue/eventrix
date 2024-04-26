@@ -19,9 +19,9 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/form';
 import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
-import combineDateAndTime from '@utils/my/combineDateAndTime';
-import calculateEventStatus from '@utils/my/calculateEventStatus';
-import { eventDummyData } from '@components/my/events/DummyData';
+import combineDateAndTime from '@utils/mypage/combineDateAndTime';
+import calculateEventStatus from '@utils/mypage/calculateEventStatus';
+import { eventDummyData } from '@components/mypage/events/DummyData';
 
 // 페이지당 아이템 수
 const PAGE_SIZE = 12;

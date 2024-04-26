@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import EventForm from '@components/my/events/EventForm';
+import EventForm from '@components/mypage/events/EventForm';
 
 import { EventType } from '@/types/event';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';

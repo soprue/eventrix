@@ -2,9 +2,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
-import { Select } from '@radix-ui/react-select';
 
-import { Button } from '@components/ui/button';
 import {
   FormControl,
   FormField,
@@ -16,8 +14,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
+import { Button } from '@components/ui/button';
 import { Calendar } from '@components/ui/calendar';
 import {
+  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -28,30 +28,38 @@ import EventInputTitle from '../EventInputTitle';
 import { EventFormValues } from '@/types/form';
 import { cn } from '@/lib/utils';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
-import formatTimeTo12HourClock from '@utils/my/formatTimeTo12HourClock';
+import formatTimeTo12HourClock from '@/utils/mypage/formatTimeTo12HourClock';
 
-interface EventDateInputProps {
+interface EventRegistrationDateInputProps {
   form: UseFormReturn<EventFormValues>;
   startDate: Date | null;
-  startTime: string;
-  registrationEndDate: Date | null;
+  registrationStartDate: Date | null;
+  registrationStartTime: string;
 }
 
-function EventDateInput({
+function EventRegistrationDateInput({
   form,
   startDate,
-  startTime,
-  registrationEndDate,
-}: EventDateInputProps) {
+  registrationStartDate,
+  registrationStartTime,
+}: EventRegistrationDateInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle title='이벤트 일시' />
-
+      <EventInputTitle
+        title={
+          <>
+            모집 기간{' '}
+            <span className='text-xs font-normal text-gray-500'>
+              (이벤트 일시를 먼저 선택해 주세요.)
+            </span>
+          </>
+        }
+      />
       <div className='flex flex-wrap'>
         <div className='flex-grow basis-[22%]'>
           <FormField
             control={form.control}
-            name='startDate'
+            name='registrationStartDate'
             render={({ field }) => (
               <FormItem className='flex flex-grow flex-col'>
                 <Popover>
@@ -79,12 +87,10 @@ function EventDateInput({
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={field.onChange}
                       disabled={date => {
-                        const registrationEndDateValue = registrationEndDate
-                          ? new Date(registrationEndDate)
-                          : null;
-                        return registrationEndDateValue
-                          ? date <= registrationEndDateValue
-                          : new Date() > date;
+                        const startDateValue = startDate
+                          ? new Date(startDate)
+                          : new Date();
+                        return date < new Date() || date >= startDateValue;
                       }}
                       initialFocus
                     />
@@ -100,7 +106,7 @@ function EventDateInput({
           <FormField
             control={form.control}
             rules={{ required: '시작 시간은 필수입니다.' }}
-            name='startTime'
+            name='registrationStartTime'
             render={({ field }) => (
               <FormItem className='flex flex-grow flex-col'>
                 <Select
@@ -148,7 +154,7 @@ function EventDateInput({
         <div className='flex-grow basis-[22%]'>
           <FormField
             control={form.control}
-            name='endDate'
+            name='registrationEndDate'
             render={({ field }) => (
               <FormItem className='flex flex-grow flex-col'>
                 <Popover>
@@ -175,11 +181,18 @@ function EventDateInput({
                       mode='single'
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={field.onChange}
-                      disabled={date =>
-                        startDate
-                          ? date < new Date(startDate)
-                          : date < new Date()
-                      }
+                      disabled={date => {
+                        const registrationStartDateValue = registrationStartDate
+                          ? new Date(registrationStartDate)
+                          : new Date();
+                        const eventStartDateValue = startDate
+                          ? new Date(startDate)
+                          : new Date();
+                        return (
+                          date < registrationStartDateValue ||
+                          date >= eventStartDateValue
+                        ); // 모집 시작 날짜 이후이면서 이벤트 시작 날짜 이전 날짜만 선택 가능
+                      }}
                       initialFocus
                     />
                   </PopoverContent>
@@ -194,13 +207,13 @@ function EventDateInput({
           <FormField
             control={form.control}
             rules={{ required: '종료 시간은 필수입니다.' }}
-            name='endTime'
+            name='registrationEndTime'
             render={({ field }) => (
               <FormItem className='flex flex-grow flex-col'>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  disabled={!startDate || !startTime}
+                  disabled={!registrationStartDate || !registrationStartTime}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -240,4 +253,4 @@ function EventDateInput({
   );
 }
 
-export default EventDateInput;
+export default EventRegistrationDateInput;

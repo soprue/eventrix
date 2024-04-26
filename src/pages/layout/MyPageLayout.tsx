@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import Header from '@components/layout/Header';
-import MyNavigation from '@components/my/MyNavigation';
+import MyNavigation from '@components/mypage/MyNavigation';
 
 function MyPageLayout() {
   return (

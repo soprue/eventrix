@@ -14,10 +14,10 @@ const NotFound = lazy(() => import('@pages/404'));
 const SearchPage = lazy(() => import('@pages/Search'));
 const SignInPage = lazy(() => import('@pages/SignIn'));
 const SignUpPage = lazy(() => import('@pages/SignUp'));
-const MyPage = lazy(() => import('@pages/my/MyPage'));
-const MyEventsPage = lazy(() => import('@pages/my/MyEvents'));
-const NewEventsPage = lazy(() => import('@pages/my/NewEvents'));
-const EditEventsPage = lazy(() => import('@pages/my/EditEvents'));
+const MyPage = lazy(() => import('@pages/mypage/MyPage'));
+const MyEventsPage = lazy(() => import('@pages/mypage/MyEvents'));
+const NewEventsPage = lazy(() => import('@pages/mypage/NewEvents'));
+const EditEventsPage = lazy(() => import('@pages/mypage/EditEvents'));
 const EventDetailPage = lazy(() => import('@pages/EventDetail'));
 
 function App() {
@@ -41,12 +41,12 @@ function App() {
 
         <Route element={<MyPageLayout />}>
           <Route element={<PrivateRoute />}>
-            <Route path='/my' element={<MyPage />} />
+            <Route path='/mypage' element={<MyPage />} />
           </Route>
           <Route element={<PrivateRoute allowedTypes='organizer' />}>
-            <Route path='/my/events' element={<MyEventsPage />} />
-            <Route path='/my/events/new' element={<NewEventsPage />} />
-            <Route path='/my/events/edit' element={<EditEventsPage />} />
+            <Route path='/mypage/events' element={<MyEventsPage />} />
+            <Route path='/mypage/events/new' element={<NewEventsPage />} />
+            <Route path='/mypage/events/edit' element={<EditEventsPage />} />
           </Route>
         </Route>
       </Routes>
