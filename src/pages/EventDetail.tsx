@@ -1,4 +1,3 @@
-import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatPhoneNumber } from '@toss/utils';
 import MDEditor from '@uiw/react-md-editor';
@@ -12,43 +11,23 @@ import LikeButton from '@components/event/LikeButton';
 import InfoRow from '@components/event/InfoRow';
 import TicketBox from '@components/event/TicketBox';
 
-import { EventType } from '@/types/event';
-import { UserType } from '@/types/user';
-import { getEvent } from '@services/eventService';
-import { getUserInfo } from '@services/userService';
 import formatEventDateTime from '@utils/event/formatEventDateTime';
 import useUser from '@hooks/useUser';
+import useEventDetail from '@hooks/useEventDetail';
+import useOrganizerInfo from '@hooks/useOrganizerInfo';
 
 function EventDetail() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { id } = useParams();
   const user = useUser();
 
-  // 이벤트 정보를 비동기로 가져오는 쿼리
-  const {
-    data: eventData,
-    isLoading,
-    isError,
-  } = useQuery<EventType>(['event', id], () => getEvent(id!), {
-    initialData: () => {
-      return queryClient.getQueryData(['event', id]);
-    },
-  });
-
-  // 주최자 정보를 비동기로 가져오는 쿼리
-  const { data: organizerData } = useQuery<UserType>(
-    ['user', eventData?.organizerUID],
-    () => getUserInfo(eventData?.organizerUID as string),
-    {
-      enabled: !!eventData?.organizerUID,
-    },
+  const { data: eventData, isLoading, isError } = useEventDetail();
+  const { data: organizerData } = useOrganizerInfo(
+    eventData?.organizerUID as string,
   );
 
   if (isLoading) return <SpinnerBox />;
-
   if (isError) return <ErrorBox />;
-
   if (!eventData) {
     navigate('/404');
     return null;
@@ -79,7 +58,12 @@ function EventDetail() {
               이벤트 참여하기
             </Button>
           ) : (
-            <Button className='w-full'>이벤트 참여하기</Button>
+            <Button
+              className='w-full'
+              onClick={() => navigate(`/register/${id}`)}
+            >
+              이벤트 참여하기
+            </Button>
           )}
         </div>
       </div>
