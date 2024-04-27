@@ -10,18 +10,20 @@ import SpinnerBox from '@components/shared/SpinnerBox';
 import ErrorBox from '@components/shared/ErrorBox';
 import LikeButton from '@components/event/LikeButton';
 import InfoRow from '@components/event/InfoRow';
+import TicketBox from '@components/event/TicketBox';
 
 import { EventType } from '@/types/event';
 import { UserType } from '@/types/user';
 import { getEvent } from '@services/eventService';
 import { getUserInfo } from '@services/userService';
 import formatEventDateTime from '@utils/event/formatEventDateTime';
-import TicketBox from '@/components/event/TicketBox';
+import useUser from '@hooks/useUser';
 
 function EventDetail() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
+  const user = useUser();
 
   // 이벤트 정보를 비동기로 가져오는 쿼리
   const {
@@ -52,11 +54,8 @@ function EventDetail() {
     return null;
   }
 
-  console.log(eventData);
-  console.log(organizerData);
-
   return (
-    <div className='py-10'>
+    <div className='pb-16 pt-10'>
       <div className='h-[350px] w-full overflow-hidden rounded-md'>
         <img
           src={eventData?.thumbnail}
@@ -69,12 +68,19 @@ function EventDetail() {
         <div className='flex w-[800px] justify-between'>
           <div className='text- text-[28px] font-medium'>{eventData?.name}</div>
           <div>
-            <LikeButton id={id!} />
+            {user?.userType === 'buyer' && <LikeButton eventUID={id!} />}
           </div>
         </div>
 
         <div className='w-[310px]'>
-          <Button className='w-full'>이벤트 참여하기</Button>
+          {eventData?.status !== '모집 진행' ||
+          user?.userType === 'organizer' ? (
+            <Button className='w-full' disabled>
+              이벤트 참여하기
+            </Button>
+          ) : (
+            <Button className='w-full'>이벤트 참여하기</Button>
+          )}
         </div>
       </div>
 
@@ -120,7 +126,8 @@ function EventDetail() {
               </div>
               <div className='flex items-center gap-2'>
                 <FaPhoneAlt />
-                {formatPhoneNumber(organizerData?.phone as string)}
+                {organizerData &&
+                  formatPhoneNumber(organizerData?.phone as string)}
               </div>
             </div>
           </div>

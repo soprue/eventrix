@@ -56,7 +56,7 @@ function Header() {
                 <DropdownMenuGroup>
                   <DropdownMenuItem
                     className='py-3'
-                    onClick={() => navigate('/my')}
+                    onClick={() => navigate('/mypage')}
                   >
                     <User className='mr-2 h-4 w-4' />
                     <span>마이페이지</span>

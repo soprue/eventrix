@@ -1,4 +1,4 @@
-import EventForm from '@components/my/events/EventForm';
+import EventForm from '@components/mypage/events/EventForm';
 
 function MyNewEvents() {
   return <EventForm />;

@@ -124,7 +124,7 @@ function EventTable({ data }: EventTableProps) {
             <DropdownMenuContent align='end'>
               <DropdownMenuItem>
                 <Link
-                  to={`/my/events/edit?id=${row.original.uid}`}
+                  to={`/mypage/events/edit?id=${row.original.uid}`}
                   className='w-full'
                 >
                   수정하기

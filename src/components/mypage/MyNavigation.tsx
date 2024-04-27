@@ -8,7 +8,7 @@ function MyNavigation() {
     <div className='flex min-h-[calc(100vh-64px)] w-[200px] flex-col border-r border-gray-200 p-4 pt-10'>
       <nav className='flex flex-col gap-5 text-xl'>
         <NavLink
-          to='/my'
+          to='/mypage'
           end
           className={({ isActive }) =>
             isActive ? 'text-black' : 'text-gray-300'
@@ -19,7 +19,7 @@ function MyNavigation() {
         {user?.userType === 'organizer' && (
           <>
             <NavLink
-              to='/my/events'
+              to='/mypage/events'
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -27,7 +27,7 @@ function MyNavigation() {
               이벤트 관리
             </NavLink>
             <NavLink
-              to='/my/orders'
+              to='/mypage/orders'
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -39,7 +39,7 @@ function MyNavigation() {
         {user?.userType === 'buyer' && (
           <>
             <NavLink
-              to='/my/tickets'
+              to='/mypage/tickets'
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
@@ -47,7 +47,7 @@ function MyNavigation() {
               이벤트 참여 내역
             </NavLink>
             <NavLink
-              to='/my/likes'
+              to='/mypage/likes'
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }

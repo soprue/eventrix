@@ -1,5 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import {
+  Timestamp,
   collection,
   deleteDoc,
   doc,
@@ -8,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  runTransaction,
   setDoc,
   startAfter,
   updateDoc,
@@ -19,13 +21,19 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from './firebaseConfig';
 import { EventFormValues } from '@/types/form';
 import { EventType, PriceFilterType, SortFilterType } from '@/types/event';
-import combineDateAndTime from '@utils/my/combineDateAndTime';
-import calculateEventStatus from '@utils/my/calculateEventStatus';
-import { eventDummyData } from '@components/my/events/DummyData';
+import { LikedEvent } from '@/types/likedEvent';
+import combineDateAndTime from '@utils/mypage/combineDateAndTime';
+import calculateEventStatus from '@utils/mypage/calculateEventStatus';
+import { eventDummyData } from '@components/mypage/events/DummyData';
 
 // 페이지당 아이템 수
 const PAGE_SIZE = 12;
 
+/**
+ * Firestore에 이벤트를 생성하고 Firebase Storage에 썸네일 이미지를 업로드합니다.
+ * @param {EventFormValues} data - 저장할 이벤트 데이터입니다.
+ * @returns {Promise<{success: boolean, eventId?: string, error?: string}>} - 이벤트 생성 시도 결과입니다.
+ */
 export const createEvent = async (data: EventFormValues) => {
   const eventId = doc(collection(db, 'events')).id;
 
@@ -93,13 +101,27 @@ export const createEvent = async (data: EventFormValues) => {
   }
 };
 
+/**
+ * 제공된 이벤트 ID를 기반으로 Firestore에서 이벤트를 검색합니다.
+ * @param {string} eventId - 검색할 이벤트의 ID입니다.
+ * @returns {Promise<EventType>} - 검색된 이벤트 데이터입니다.
+ */
 export const getEvent = async (eventId: string): Promise<EventType> => {
   const docRef = doc(db, 'events', eventId);
   const docSnap = await getDoc(docRef);
 
-  return (docSnap.data() as EventType) || null;
+  const event = {
+    ...(docSnap.data() as EventType),
+    status: calculateEventStatus(docSnap.data() as EventType),
+  };
+  return event || null;
 };
 
+/**
+ * 기존 이벤트를 Firestore에서 업데이트하고 선택적으로 새 썸네일 이미지를 업로드합니다.
+ * @param {EventFormValues} data - 이벤트의 업데이트된 데이터입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} - 업데이트 시도 결과입니다.
+ */
 export const updateEvent = async (data: EventFormValues) => {
   // 기존 이벤트 데이터 가져오기
   const eventRef = doc(db, 'events', data.uid!);
@@ -179,6 +201,11 @@ export const updateEvent = async (data: EventFormValues) => {
   }
 };
 
+/**
+ * 제공된 이벤트 ID를 기반으로 Firestore에서 이벤트를 삭제합니다.
+ * @param {string} eventId - 삭제할 이벤트의 ID입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} - 삭제 시도 결과입니다.
+ */
 export const deleteEvent = async (eventId: string) => {
   try {
     const eventRef = doc(db, 'events', eventId);
@@ -199,6 +226,11 @@ export const deleteEvent = async (eventId: string) => {
   }
 };
 
+/**
+ * 주최자 UID를 기반으로 Firestore에서 해당 주최자의 모든 이벤트를 검색합니다.
+ * @param {string} organizerUID - 이벤트 주최자의 UID입니다.
+ * @returns {Promise<EventType[]>} - 검색된 이벤트 목록을 반환합니다.
+ */
 export const getMyEvents = async (
   organizerUID: string,
 ): Promise<EventType[]> => {
@@ -221,6 +253,15 @@ export const getMyEvents = async (
   return myEvents;
 };
 
+/**
+ * 모든 이벤트를 검색하며, 필터와 페이징 옵션을 적용할 수 있습니다.
+ * @param {Object} options - 이벤트 검색 옵션을 포함한 객체입니다.
+ * @param {number|null} options.pageParam - 페이징 처리를 위한 페이지 매개변수입니다.
+ * @param {SortFilterType} options.sort - 이벤트를 정렬하는 기준입니다.
+ * @param {string[]} options.category - 카테고리에 따른 필터링을 위한 배열입니다.
+ * @param {PriceFilterType} options.price - 가격 필터링 옵션입니다.
+ * @returns {Promise<{events: EventType[], lastVisible: DocumentSnapshot}>} - 검색된 이벤트와 마지막 문서의 스냅샷을 반환합니다.
+ */
 export const getAllEvents = async ({
   pageParam = null,
   sort = '최신순',
@@ -278,6 +319,10 @@ export const getAllEvents = async ({
   return { events, lastVisible };
 };
 
+/**
+ * 더미 이벤트 데이터를 Firestore에 일괄 추가합니다.
+ * @returns {Promise<void>} - 함수 실행 후 반환 값 없음.
+ */
 export const addDummyEvents = async () => {
   const batch = writeBatch(db);
 
@@ -292,6 +337,14 @@ export const addDummyEvents = async () => {
   alert('이벤트 리스트가 추가되었습니다.');
 };
 
+/**
+ * 키워드를 기반으로 이벤트를 검색합니다. 정렬 및 페이징 처리를 적용할 수 있습니다.
+ * @param {Object} options - 검색 옵션을 포함한 객체입니다.
+ * @param {number|null} options.pageParam - 페이징 처리를 위한 페이지 매개변수입니다.
+ * @param {SortFilterType} options.sort - 이벤트를 정렬하는 기준입니다.
+ * @param {string} options.keyword - 검색할 키워드입니다.
+ * @returns {Promise<{events: EventType[], lastVisible: DocumentSnapshot}>} - 검색된 이벤트와 마지막 문서의 스냅샷을 반환합니다.
+ */
 export const searchEvents = async ({
   pageParam = null,
   sort = '최신순',
@@ -339,11 +392,92 @@ export const searchEvents = async ({
   return { events, lastVisible };
 };
 
-export const getUserLikes = async (user: string) => {
-  const userRef = doc(db, 'users', user);
-  const userSnap = await getDoc(userRef);
+/**
+ * 사용자가 이벤트를 좋아요 토글하는 기능입니다. Firestore 트랜잭션을 사용하여 좋아요 수를 동기화합니다.
+ * @param {string} userId - 사용자 ID입니다.
+ * @param {string} eventId - 좋아요 토글할 이벤트의 ID입니다.
+ * @returns {Promise<void>} - 함수 실행 후 반환 값 없음.
+ */
+export const toggleLikeEvent = async (userId: string, eventId: string) => {
+  const userLikesRef = collection(db, 'userLikes');
+  const likeRef = doc(userLikesRef, `${userId}_${eventId}`);
+  const eventRef = doc(db, 'events', eventId);
 
-  const userData = userSnap.data();
+  // 트랜잭션을 사용하여 좋아요 상태와 likesCount 동기화
+  await runTransaction(db, async transaction => {
+    const likeSnap = await transaction.get(likeRef);
+    const eventSnap = await transaction.get(eventRef);
 
-  return userData?.likedEvents || [];
+    if (!eventSnap.exists()) {
+      throw new Error('Event does not exist!');
+    }
+
+    let newLikesCount = eventSnap.data().likesCount || 0;
+
+    if (likeSnap.exists()) {
+      transaction.delete(likeRef);
+      newLikesCount -= 1;
+    } else {
+      transaction.set(likeRef, {
+        userId,
+        eventId,
+        likedAt: Timestamp.fromDate(new Date()),
+      });
+      newLikesCount += 1;
+    }
+
+    // 이벤트 문서의 likesCount 업데이트
+    transaction.update(eventRef, { likesCount: newLikesCount });
+  });
+};
+
+/**
+ * 특정 사용자가 좋아요한 이벤트 목록을 검색합니다.
+ * @param {string} userId - 사용자 ID입니다.
+ * @returns {Promise<LikedEvent[]>} - 좋아요한 이벤트 목록을 반환합니다.
+ */
+export const getUserLikes = async (userId: string): Promise<LikedEvent[]> => {
+  const q = query(collection(db, 'userLikes'), where('userId', '==', userId));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => doc.data() as LikedEvent);
+};
+
+/**
+ * 사용자가 좋아요한 이벤트 목록을 스크롤 리스트로 검색합니다. 페이징 처리가 적용됩니다.
+ * @param {number|null} pageParam - 페이징 처리를 위한 페이지 매개변수입니다.
+ * @param {string} userId - 사용자 ID입니다.
+ * @returns {Promise<{events: EventType[], nextCursor: Timestamp|undefined}>} - 검색된 이벤트와 다음 커서 위치를 반환합니다.
+ */
+export const getUserLikesWithPagination = async (
+  pageParam = null,
+  userId: string,
+) => {
+  const likesRef = collection(db, 'userLikes');
+  let q = query(
+    likesRef,
+    where('userId', '==', userId),
+    orderBy('likedAt', 'desc'),
+    limit(10),
+  );
+
+  if (pageParam) {
+    q = query(q, startAfter(pageParam));
+  }
+
+  const snapshot = await getDocs(q);
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  const eventIds = snapshot.docs.map(doc => doc.data().eventId);
+  const events = await Promise.all(
+    eventIds.map(async eventId => {
+      const eventRef = doc(db, 'events', eventId);
+      const eventSnap = await getDoc(eventRef);
+      return { id: eventId, ...(eventSnap.data() as EventType) };
+    }),
+  );
+
+  return {
+    events: events,
+    nextCursor: lastVisible ? lastVisible.data().likedAt : undefined,
+  };
 };

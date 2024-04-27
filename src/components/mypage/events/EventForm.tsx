@@ -22,7 +22,7 @@ import { EventType } from '@/types/event';
 import useUser from '@hooks/useUser';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { createEvent, updateEvent } from '@services/eventService';
-import transformEventDataToFormValues from '@utils/my/transformEventDataToFormValues';
+import transformEventDataToFormValues from '@utils/mypage/transformEventDataToFormValues';
 
 interface EventFormProps {
   initialData?: EventType | null;
@@ -86,7 +86,7 @@ function EventForm({ initialData }: EventFormProps) {
         if (result.success) {
           queryClient.invalidateQueries(['myEvents', user?.uid]);
           openAlert('이벤트가 등록되었습니다.', '');
-          navigate('/my/events');
+          navigate('/mypage/events');
         } else {
           openAlert(
             '오류가 발생했습니다. 다시 시도해 주세요.',
@@ -107,7 +107,7 @@ function EventForm({ initialData }: EventFormProps) {
         if (result.success) {
           queryClient.invalidateQueries(['myEvents', user?.uid]);
           openAlert('이벤트가 수정되었습니다.', '');
-          navigate('/my/events');
+          navigate('/mypage/events');
         } else {
           openAlert(
             '오류가 발생했습니다. 다시 시도해 주세요.',

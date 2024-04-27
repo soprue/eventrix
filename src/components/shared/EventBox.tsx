@@ -14,7 +14,7 @@ function EventBox({ event }: EventBoxProps) {
   const navigate = useNavigate();
   const prefetchEvent = usePrefetchEvent();
   const name =
-    event.name.length > 20 ? event.name.slice(0, 19) + '...' : event.name;
+    event.name.length > 30 ? event.name.slice(0, 30) + '...' : event.name;
 
   return (
     <div
@@ -22,7 +22,7 @@ function EventBox({ event }: EventBoxProps) {
       onClick={() => navigate(`/event/${event.uid}`)}
       onMouseEnter={() => prefetchEvent(event.uid!)}
     >
-      <div className='relative h-[240px] overflow-hidden'>
+      <div className='relative h-[215px] overflow-hidden'>
         {(event.status === '모집 마감' || event.status === '행사 종료') && (
           <div className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'>
             {event.status}
