@@ -3,13 +3,13 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
 import Spinner from '@components/shared/Spinner';
-import SpinnerBox from '@components/shared/SpinnerBox';
 import ErrorBox from '@components/shared/ErrorBox';
 import EventList from '@components/shared/EventList';
 import EventFilterButton from '@components/main/EventFilterButton';
 import ModalCategory from '@components/main/ModalCategory';
 import ModalPrice from '@components/main/ModalPrice';
 import SortSelect from '@components/shared/SortSelect';
+import EventSkeletonList from '@components/shared/EventSkeletonList';
 
 import { FilterType, PriceFilterType, SortFilterType } from '@/types/event';
 import { getAllEvents } from '@services/eventService';
@@ -90,7 +90,7 @@ function Main() {
       </div>
 
       {isLoading ? (
-        <SpinnerBox className='min-h-[calc(100dvh-250px)]' />
+        <EventSkeletonList />
       ) : (
         <>
           <EventList events={events} />

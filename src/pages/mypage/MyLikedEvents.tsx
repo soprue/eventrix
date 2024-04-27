@@ -2,10 +2,10 @@ import { useInfiniteQuery } from 'react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import SpinnerBox from '@components/shared/SpinnerBox';
 import Spinner from '@components/shared/Spinner';
 import EventList from '@components/shared/EventList';
 import ErrorBox from '@components/shared/ErrorBox';
+import EventSkeletonList from '@components/shared/EventSkeletonList';
 
 import useUser from '@hooks/useUser';
 import { getUserLikesWithPagination } from '@services/eventService';
@@ -44,7 +44,7 @@ function MyLikedEvents() {
   return (
     <>
       {isLoading ? (
-        <SpinnerBox className='min-h-[calc(100dvh-550px)]' />
+        <EventSkeletonList />
       ) : (
         <>
           <EventList events={events} />
