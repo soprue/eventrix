@@ -1,11 +1,9 @@
 import { useQuery, useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
 
 import { EventType } from '@/types/event';
 import { getEvent } from '@services/eventService';
 
-function useEventDetail() {
-  const { id } = useParams();
+function useEventDetail(id: string) {
   const queryClient = useQueryClient();
   return useQuery<EventType>(['event', id], () => getEvent(id!), {
     initialData: () => {

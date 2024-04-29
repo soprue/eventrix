@@ -22,7 +22,7 @@ function EventDetail() {
   const { id } = useParams();
   const user = useUser();
 
-  const { data: eventData, isLoading, isError } = useEventDetail();
+  const { data: eventData, isLoading, isError } = useEventDetail(id!);
   const { data: organizerData } = useOrganizerInfo(
     eventData?.organizerUID as string,
   );

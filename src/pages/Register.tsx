@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
 import { Button } from '@components/ui/button';
@@ -21,14 +21,17 @@ import InfoRow from '@components/event/InfoRow';
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
 import formatEventDateTime from '@utils/event/formatEventDateTime';
+import { useCartStore } from '@store/useCartStore';
 
 function Register() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [selectedTicket, setSelectedTicket] = useState<string>('');
   const [ticketQuantity, setTicketQuantity] = useState<string>('1');
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  const { data: eventData, isLoading, isError } = useEventDetail();
+  const { addToCart } = useCartStore();
+  const { data: eventData, isLoading, isError } = useEventDetail(id!);
   const { data: organizerData } = useOrganizerInfo(
     eventData?.organizerUID as string,
   );
@@ -41,25 +44,28 @@ function Register() {
     );
     if (ticketOption) {
       setSelectedTicket(ticketId);
-      updateTotalPrice(ticketOption.price, Number(ticketQuantity));
+      setTicketQuantity('1');
     }
   };
 
   const handleQuantityChange = (value: string) => {
     setTicketQuantity(value);
-    if (selectedTicket) {
-      const ticketOption = eventData?.ticketOptions.find(
-        option => option.id === selectedTicket,
-      );
-      if (ticketOption) {
-        updateTotalPrice(ticketOption.price, Number(value));
-      }
-    }
   };
 
   const updateTotalPrice = (price: number, quantity: number) => {
     setTotalPrice(price * quantity);
   };
+
+  useEffect(() => {
+    if (selectedTicket) {
+      const ticketOption = eventData?.ticketOptions.find(
+        option => option.id === selectedTicket,
+      );
+      if (ticketOption) {
+        updateTotalPrice(ticketOption.price, Number(ticketQuantity));
+      }
+    }
+  }, [ticketQuantity, selectedTicket, eventData]);
 
   const handleSubmit = (actionType: string) => {
     if (actionType === 'pay') {
@@ -67,8 +73,22 @@ function Register() {
       //   state: { ticketId: selectedTicket, quantity: ticketQuantity },
       // });
     } else {
-      // 장바구니 로직 처리
-      navigate('/cart');
+      if (selectedTicket && eventData) {
+        const ticketOption = eventData.ticketOptions.find(
+          option => option.id === selectedTicket,
+        );
+        if (ticketOption) {
+          addToCart({
+            eventId: eventData.uid!,
+            eventName: eventData.name,
+            ticketId: selectedTicket,
+            name: ticketOption.optionName,
+            price: ticketOption.price,
+            quantity: Number(ticketQuantity),
+          });
+          navigate('/cart');
+        }
+      }
     }
   };
 

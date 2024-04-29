@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
 import { Button } from '@components/ui/button';
@@ -14,18 +14,28 @@ import {
 } from '@components/ui/select';
 
 import { useCartStore } from '@store/useCartStore';
+import groupCartItems from '@utils/cart/groupCartItems';
 
 function Cart() {
   const navigate = useNavigate();
   const { cartItems } = useCartStore();
 
-  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const groupedItems = useMemo(() => groupCartItems(cartItems), [cartItems]);
+  const totalPrice = useMemo(() => {
+    return groupedItems.reduce((total, group) => {
+      const groupTotalPrice = group.tickets.reduce(
+        (acc, ticket) => acc + ticket.price * ticket.quantity,
+        0,
+      );
+      return total + groupTotalPrice;
+    }, 0);
+  }, [groupedItems]);
 
   return (
     <div className='my-32'>
       <p className='text-3xl font-bold'>장바구니</p>
 
-      {cartItems.length !== 0 ? (
+      {cartItems.length === 0 ? (
         <div className='mt-10 border-b border-t border-border py-10 text-center leading-8'>
           <p className='text-xl font-semibold'>
             장바구니에 담긴 이벤트가 없습니다.
@@ -43,50 +53,45 @@ function Cart() {
       ) : (
         <>
           <div className='mb-32 mt-12 border-t border-border'>
-            <div className='mb-4 flex items-center gap-8 border-b border-border py-6'>
-              <div className='flex basis-1/6 items-center justify-center gap-8'>
-                <Checkbox id='terms' />
-                <div className='block h-[64px] w-[130px] rounded-md bg-black'>
-                  <img src='' alt='이벤트 썸네일' />
+            {groupedItems.map(group => {
+              const groupTotalPrice = group.tickets.reduce(
+                (acc, ticket) => acc + ticket.price * ticket.quantity,
+                0,
+              );
+              return (
+                <div className='mb-4 flex items-center gap-8 border-b border-border py-6'>
+                  <div className='flex basis-1/12 items-center justify-center gap-8'>
+                    <Checkbox id='terms' />
+                  </div>
+                  <div className='flex basis-9/12 flex-col gap-2'>
+                    <div className='mb-4 font-semibold'>
+                      <Link to={`/event/${group.eventId}`}>
+                        {group.eventName}
+                      </Link>
+                    </div>
+                    {group.tickets.map(ticket => (
+                      <div className='flex items-center justify-between'>
+                        {ticket.name}
+                        <Select defaultValue={String(ticket.quantity)}>
+                          <SelectTrigger className='w-[100px]'>
+                            <SelectValue placeholder={ticket.quantity} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value='1'>1</SelectItem>
+                              <SelectItem value='2'>2</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='basis-2/12 text-right text-lg font-semibold'>
+                    ₩ {commaizeNumber(groupTotalPrice)}
+                  </div>
                 </div>
-              </div>
-              <div className='flex basis-4/6 flex-col gap-2'>
-                <div className='mb-4 font-semibold'>
-                  Regional Scrum Gathering Seoul 2024
-                </div>
-                <div className='flex items-center justify-between'>
-                  일반 티켓
-                  <Select defaultValue='1'>
-                    <SelectTrigger className='w-[100px]'>
-                      <SelectValue placeholder='1' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value='1'>1</SelectItem>
-                        <SelectItem value='2'>2</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className='flex items-center justify-between'>
-                  VIP 티켓
-                  <Select defaultValue='1'>
-                    <SelectTrigger className='w-[100px]'>
-                      <SelectValue placeholder='1' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value='1'>1</SelectItem>
-                        <SelectItem value='2'>2</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className='basis-1/6 text-right text-lg font-semibold'>
-                ₩ 27,000
-              </div>
-            </div>
+              );
+            })}
             <Button variant='outline'>선택 삭제</Button>
           </div>
 
