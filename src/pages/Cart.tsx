@@ -18,7 +18,7 @@ import groupCartItems from '@utils/cart/groupCartItems';
 
 function Cart() {
   const navigate = useNavigate();
-  const { cartItems } = useCartStore();
+  const { cartItems, updateItemQuantity } = useCartStore();
 
   const groupedItems = useMemo(() => groupCartItems(cartItems), [cartItems]);
   const totalPrice = useMemo(() => {
@@ -30,6 +30,10 @@ function Cart() {
       return total + groupTotalPrice;
     }, 0);
   }, [groupedItems]);
+
+  const handleQuantityChange = (ticketId: string, quantity: string) => {
+    updateItemQuantity(ticketId, parseInt(quantity, 10));
+  };
 
   return (
     <div className='my-32'>
@@ -72,7 +76,12 @@ function Cart() {
                     {group.tickets.map(ticket => (
                       <div className='flex items-center justify-between'>
                         {ticket.name}
-                        <Select defaultValue={String(ticket.quantity)}>
+                        <Select
+                          defaultValue={String(ticket.quantity)}
+                          onValueChange={value =>
+                            handleQuantityChange(ticket.ticketId, value)
+                          }
+                        >
                           <SelectTrigger className='w-[100px]'>
                             <SelectValue placeholder={ticket.quantity} />
                           </SelectTrigger>
