@@ -3,15 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
 import { Button } from '@components/ui/button';
-import { Checkbox } from '@components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/select';
+import CartBox from '@components/cart/CartBox';
 
 import { useCartStore } from '@store/useCartStore';
 import groupCartItems from '@utils/cart/groupCartItems';
@@ -33,14 +25,6 @@ function Cart() {
       return total + groupTotalPrice;
     }, 0);
   }, [groupedItems]);
-
-  const handleQuantityChange = (ticketId: string, quantity: string) => {
-    updateItemQuantity(ticketId, parseInt(quantity, 10));
-  };
-
-  const handleCheckboxChange = (ticketId: string) => {
-    setSelectedTickets(prev => ({ ...prev, [ticketId]: !prev[ticketId] }));
-  };
 
   const handleRemoveSelected = () => {
     Object.keys(selectedTickets).forEach(ticketId => {
@@ -88,39 +72,11 @@ function Cart() {
                       </Link>
                     </div>
                     {group.tickets.map(ticket => (
-                      <div className='flex items-center justify-between'>
-                        <div className='flex items-center justify-start gap-8'>
-                          <Checkbox
-                            key={ticket.ticketId}
-                            id={ticket.ticketId}
-                            onClick={() =>
-                              handleCheckboxChange(ticket.ticketId)
-                            }
-                          />
-                          <label htmlFor={ticket.ticketId}>
-                            {ticket.name}
-                            <span className='ml-6 inline-block text-sm text-gray-500'>
-                              ₩ {commaizeNumber(ticket.price)}
-                            </span>
-                          </label>
-                        </div>
-                        <Select
-                          defaultValue={String(ticket.quantity)}
-                          onValueChange={value =>
-                            handleQuantityChange(ticket.ticketId, value)
-                          }
-                        >
-                          <SelectTrigger className='w-[100px]'>
-                            <SelectValue placeholder={ticket.quantity} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value='1'>1</SelectItem>
-                              <SelectItem value='2'>2</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                      <CartBox
+                        ticket={ticket}
+                        setSelectedTickets={setSelectedTickets}
+                        updateItemQuantity={updateItemQuantity}
+                      />
                     ))}
                   </div>
                   <div className='basis-1/6 text-right text-lg font-semibold'>
