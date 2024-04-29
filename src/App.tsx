@@ -21,6 +21,7 @@ const NewEventsPage = lazy(() => import('@pages/mypage/NewEvents'));
 const EditEventsPage = lazy(() => import('@pages/mypage/EditEvents'));
 const EventDetailPage = lazy(() => import('@pages/EventDetail'));
 const RegisterPage = lazy(() => import('@pages/Register'));
+const CartPage = lazy(() => import('@pages/Cart'));
 
 function App() {
   return (
@@ -40,8 +41,9 @@ function App() {
             <Route path='/signup' element={<SignUpPage />} />
           </Route>
 
-          <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute allowedTypes='buyer' />}>
             <Route path='/register/:id' element={<RegisterPage />} />
+            <Route path='/cart' element={<CartPage />} />
           </Route>
         </Route>
 

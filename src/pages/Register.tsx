@@ -68,6 +68,7 @@ function Register() {
       // });
     } else {
       // 장바구니 로직 처리
+      navigate('/cart');
     }
   };
 
@@ -135,7 +136,12 @@ function Register() {
           >
             결제하기
           </Button>
-          <Button disabled={!티켓을선택했는지}>장바구니에 담기</Button>
+          <Button
+            disabled={!티켓을선택했는지}
+            onClick={() => handleSubmit('cart')}
+          >
+            장바구니에 담기
+          </Button>
         </div>
       </div>
     </div>
