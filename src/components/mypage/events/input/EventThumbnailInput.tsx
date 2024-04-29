@@ -40,11 +40,19 @@ function EventThumbnailInput({
         lastModified: new Date().getTime(),
       });
 
+      // 이전 이미지 URL을 해제
+      if (thumbnailPreview) {
+        URL.revokeObjectURL(thumbnailPreview);
+      }
+
       // 이미지 미리보기 설정
       form.setValue('thumbnail', webpImageFile, { shouldValidate: true });
       const imageUrl = URL.createObjectURL(webpImageFile);
       setThumbnailPreview(imageUrl);
     } else {
+      if (thumbnailPreview) {
+        URL.revokeObjectURL(thumbnailPreview);
+      }
       setThumbnailPreview(null);
     }
   };
