@@ -10,6 +10,7 @@ type State = {
 interface Action {
   addToCart: (item: CartItemType) => void;
   updateItemQuantity: (itemId: string, quantity: number) => void;
+  removeFromCart: (itemId: string) => void;
 }
 
 export const useCartStore = create<State & Action>()(
@@ -40,6 +41,10 @@ export const useCartStore = create<State & Action>()(
           cartItems: state.cartItems.map(item =>
             item.ticketId === itemId ? { ...item, quantity } : item,
           ),
+        })),
+      removeFromCart: itemId =>
+        set(state => ({
+          cartItems: state.cartItems.filter(item => item.ticketId !== itemId),
         })),
     }),
     {

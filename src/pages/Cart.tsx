@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
@@ -18,7 +18,10 @@ import groupCartItems from '@utils/cart/groupCartItems';
 
 function Cart() {
   const navigate = useNavigate();
-  const { cartItems, updateItemQuantity } = useCartStore();
+  const { cartItems, updateItemQuantity, removeFromCart } = useCartStore();
+  const [selectedTickets, setSelectedTickets] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const groupedItems = useMemo(() => groupCartItems(cartItems), [cartItems]);
   const totalPrice = useMemo(() => {
@@ -35,6 +38,20 @@ function Cart() {
     updateItemQuantity(ticketId, parseInt(quantity, 10));
   };
 
+  const handleCheckboxChange = (ticketId: string) => {
+    setSelectedTickets(prev => ({ ...prev, [ticketId]: !prev[ticketId] }));
+  };
+
+  const handleRemoveSelected = () => {
+    Object.keys(selectedTickets).forEach(ticketId => {
+      if (selectedTickets[ticketId]) {
+        removeFromCart(ticketId);
+      }
+    });
+    setSelectedTickets({});
+  };
+
+  console.log(selectedTickets);
   return (
     <div className='my-32'>
       <p className='text-3xl font-bold'>장바구니</p>
@@ -64,10 +81,7 @@ function Cart() {
               );
               return (
                 <div className='mb-4 flex items-center gap-8 border-b border-border py-6'>
-                  <div className='flex basis-1/12 items-center justify-center gap-8'>
-                    <Checkbox id='terms' />
-                  </div>
-                  <div className='flex basis-9/12 flex-col gap-2'>
+                  <div className='flex basis-5/6 flex-col gap-2'>
                     <div className='mb-4 font-semibold'>
                       <Link to={`/event/${group.eventId}`}>
                         {group.eventName}
@@ -75,7 +89,21 @@ function Cart() {
                     </div>
                     {group.tickets.map(ticket => (
                       <div className='flex items-center justify-between'>
-                        {ticket.name}
+                        <div className='flex items-center justify-start gap-8'>
+                          <Checkbox
+                            key={ticket.ticketId}
+                            id={ticket.ticketId}
+                            onClick={() =>
+                              handleCheckboxChange(ticket.ticketId)
+                            }
+                          />
+                          <label htmlFor={ticket.ticketId}>
+                            {ticket.name}
+                            <span className='ml-6 inline-block text-sm text-gray-500'>
+                              ₩ {commaizeNumber(ticket.price)}
+                            </span>
+                          </label>
+                        </div>
                         <Select
                           defaultValue={String(ticket.quantity)}
                           onValueChange={value =>
@@ -95,13 +123,15 @@ function Cart() {
                       </div>
                     ))}
                   </div>
-                  <div className='basis-2/12 text-right text-lg font-semibold'>
+                  <div className='basis-1/6 text-right text-lg font-semibold'>
                     ₩ {commaizeNumber(groupTotalPrice)}
                   </div>
                 </div>
               );
             })}
-            <Button variant='outline'>선택 삭제</Button>
+            <Button variant='outline' onClick={handleRemoveSelected}>
+              선택 삭제
+            </Button>
           </div>
 
           <div className='flex w-full flex-col gap-6'>
