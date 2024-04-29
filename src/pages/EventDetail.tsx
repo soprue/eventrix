@@ -10,6 +10,7 @@ import ErrorBox from '@components/shared/ErrorBox';
 import LikeButton from '@components/event/LikeButton';
 import InfoRow from '@components/event/InfoRow';
 import TicketBox from '@components/event/TicketBox';
+import InfoBox from '@components/event/InfoBox';
 
 import formatEventDateTime from '@utils/event/formatEventDateTime';
 import useUser from '@hooks/useUser';
@@ -70,7 +71,7 @@ function EventDetail() {
 
       <div className='flex justify-between'>
         <div className='w-[800px]'>
-          <div className='mb-9 flex w-full flex-col gap-2 border-b border-t border-border px-2 py-6'>
+          <InfoBox className='mb-9'>
             <InfoRow
               label='일시'
               value={formatEventDateTime(
@@ -87,7 +88,7 @@ function EventDetail() {
             />
             <InfoRow label='장소' value={eventData?.location} />
             <InfoRow label='주최' value={organizerData?.nickname as string} />
-          </div>
+          </InfoBox>
 
           <div data-color-mode='light' className='p-4'>
             <MDEditor.Markdown source={eventData.description} />
