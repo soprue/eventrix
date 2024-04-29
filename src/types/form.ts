@@ -30,10 +30,10 @@ export interface EventFormValues {
   registrationEndDate: Date | null;
   registrationEndTime: string;
   description: string;
-  tickets: TicketFormValues[];
+  tickets: TicketValues[];
 }
 
-interface TicketFormValues {
+export interface TicketValues {
   id: string;
   name: string;
   price: number;

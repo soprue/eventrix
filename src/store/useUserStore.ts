@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { UserType } from '@/types/user';
 
@@ -19,7 +19,7 @@ export const useUserStore = create<State & Action>()(
     }),
     {
       name: 'user-store',
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

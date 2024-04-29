@@ -1,14 +1,17 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-interface State {
+type State = {
   isOpen: boolean;
   title: string;
   description: string;
+};
+
+interface Action {
   openAlert: (title: string, description: string) => void;
   closeAlert: () => void;
 }
 
-export const useGlobalAlertStore = create<State>(set => ({
+export const useGlobalAlertStore = create<State & Action>(set => ({
   isOpen: false,
   title: '',
   description: '',

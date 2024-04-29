@@ -18,7 +18,7 @@ function SortSelect({ sort, setSort }: SortSelectProps) {
   return (
     <div className='flex items-center gap-[11px]'>
       <span className='text-gray-600'>정렬방식</span>
-      <Select onValueChange={(value: '최신순' | '인기순') => setSort(value)}>
+      <Select onValueChange={(value: SortFilterType) => setSort(value)}>
         <SelectTrigger className='h-[46px] w-[100px] rounded-full'>
           <SelectValue placeholder={`${sort}`} />
         </SelectTrigger>

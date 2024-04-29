@@ -8,10 +8,10 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { Form, FormControl, FormField, FormItem } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import SortSelect from '@components/shared/SortSelect';
-import SpinnerBox from '@components/shared/SpinnerBox';
 import Spinner from '@components/shared/Spinner';
 import EventList from '@components/shared/EventList';
 import ErrorBox from '@components/shared/ErrorBox';
+import EventSkeletonList from '@components/shared/EventSkeletonList';
 
 import { SortFilterType } from '@/types/event';
 import { searchEvents } from '@services/eventService';
@@ -107,7 +107,7 @@ function Search() {
       </div>
 
       {isLoading ? (
-        <SpinnerBox className='min-h-[calc(100dvh-550px)]' />
+        <EventSkeletonList />
       ) : (
         <>
           <EventList events={events} />

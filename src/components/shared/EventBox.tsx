@@ -23,11 +23,9 @@ function EventBox({ event }: EventBoxProps) {
       onMouseEnter={() => prefetchEvent(event.uid!)}
     >
       <div className='relative h-[215px] overflow-hidden'>
-        {(event.status === '모집 마감' || event.status === '행사 종료') && (
-          <div className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'>
-            {event.status}
-          </div>
-        )}
+        <div className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'>
+          {event.status}
+        </div>
         <img
           src={event.thumbnail as string}
           alt={event.name}
