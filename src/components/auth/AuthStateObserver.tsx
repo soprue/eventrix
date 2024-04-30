@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 
+import { UserType } from '@/types/user';
 import { auth, db } from '@services/firebaseConfig';
 import { useUserStore } from '@store/useUserStore';
-import { UserType } from '@/types/user';
+import { useCartStore } from '@store/useCartStore';
 
 function AuthStateObserver() {
   const { setUser } = useUserStore();
+  const { clearCart } = useCartStore();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -21,14 +23,16 @@ function AuthStateObserver() {
           })
           .catch(() => {
             setUser(null);
+            clearCart();
           });
       } else {
         setUser(null);
+        clearCart();
       }
     });
 
     return () => unsubscribe();
-  }, [setUser]);
+  }, [setUser, clearCart]);
 
   return null;
 }

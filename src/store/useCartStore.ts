@@ -11,6 +11,7 @@ interface Action {
   addToCart: (item: CartItemType) => void;
   updateItemQuantity: (itemId: string, quantity: number) => void;
   removeFromCart: (itemId: string) => void;
+  clearCart: () => void;
 }
 
 export const useCartStore = create<State & Action>()(
@@ -23,7 +24,6 @@ export const useCartStore = create<State & Action>()(
             cartItem => cartItem.ticketId === item.ticketId,
           );
           if (existingItem) {
-            // 이미 존재하는 티켓의 경우 수량만 업데이트
             return {
               cartItems: state.cartItems.map(cartItem =>
                 cartItem.ticketId === item.ticketId
@@ -32,7 +32,6 @@ export const useCartStore = create<State & Action>()(
               ),
             };
           } else {
-            // 새 티켓을 장바구니에 추가
             return { cartItems: [...state.cartItems, item] };
           }
         }),
@@ -46,6 +45,7 @@ export const useCartStore = create<State & Action>()(
         set(state => ({
           cartItems: state.cartItems.filter(item => item.ticketId !== itemId),
         })),
+      clearCart: () => set({ cartItems: [] }),
     }),
     {
       name: 'cart-store',
