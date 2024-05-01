@@ -63,14 +63,16 @@ function Register() {
         );
         if (ticketOption) {
           navigate('/payment', {
-            state: {
-              eventId: eventData.uid!,
-              eventName: eventData.name,
-              ticketId: selectedTicket,
-              name: ticketOption.optionName,
-              price: ticketOption.price,
-              quantity: Number(ticketQuantity),
-            },
+            state: [
+              {
+                eventId: eventData.uid!,
+                eventName: eventData.name,
+                ticketId: selectedTicket,
+                name: ticketOption.optionName,
+                price: ticketOption.price,
+                quantity: Number(ticketQuantity),
+              },
+            ],
           });
         }
       }

@@ -7,7 +7,7 @@ import EventInputTitle from '../EventInputTitle';
 
 import { EventFormValues } from '@/types/form';
 
-interface PostcodeData {
+export interface PostcodeType {
   address: string;
   addressType: string;
   bname: string;
@@ -29,7 +29,7 @@ function EventLocationInput({
   togglePostcode,
   setIsPostcodeOpen,
 }: EventLocationInputProps) {
-  const handlePostcodeComplete = (data: PostcodeData) => {
+  const handlePostcodeComplete = (data: PostcodeType) => {
     let fullAddress = data.address;
     let extraAddress = '';
 

@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { commaizeNumber } from '@toss/utils';
+import PaymentBox from '@components/payment/PaymentBox';
+import PaymentForm from '@components/payment/PaymentForm';
 
 import { CartItemType } from '@/types/cart';
+import { PaymentFormValues } from '@/types/form';
 import groupCartItems from '@utils/cart/groupCartItems';
-import PaymentBox from '@/components/payment/PaymentBox';
-import { commaizeNumber } from '@toss/utils';
 
 function Payment() {
   const navigate = useNavigate();
@@ -23,13 +25,17 @@ function Payment() {
     }, 0);
   }, [groupedItems]);
 
+  const onSubmit = (data: PaymentFormValues) => {
+    console.log(data);
+  };
+
   if (!state) {
     navigate('/404');
     return null;
   }
 
   return (
-    <div className='flex flex-col gap-20'>
+    <div className='flex flex-col gap-10'>
       <div className='mt-12'>
         <p className='mb-4 text-2xl'>구매 목록</p>
         <div className='border-t border-border'>
@@ -69,11 +75,8 @@ function Payment() {
       </div>
 
       <div>
-        <p className='mb-4 text-2xl'>티켓 수령 방법</p>
-      </div>
-
-      <div>
         <p className='mb-4 text-2xl'>결제 방법</p>
+        <PaymentForm onSubmit={onSubmit} />
       </div>
     </div>
   );
