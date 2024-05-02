@@ -1,11 +1,12 @@
-import PortOne from '@portone/browser-sdk/v2';
 import {
   addDoc,
   collection,
   doc,
   runTransaction,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
+import PortOne from '@portone/browser-sdk/v2';
 
 import { db } from './firebaseConfig';
 import { CartItemType } from '@/types/cart';
@@ -104,30 +105,33 @@ const recordPurchase = async (
   totalPrice: number,
 ) => {
   try {
-    // 티켓 정보를 먼저 저장하고, 각 티켓의 UID를 저장
+    const orderRef = await addDoc(collection(db, 'orders'), {
+      buyerUID: user.uid,
+      orderDate: serverTimestamp(),
+      totalPrice: totalPrice,
+      deliveryMethod: payment.deliveryMethod,
+      deliveryAddress: payment.deliveryAddress,
+      deliveryMessage: payment.deliveryMessage,
+    });
+
     const ticketRefs = await Promise.all(
       tickets.map(ticket =>
         addDoc(collection(db, 'tickets'), {
           buyerUID: user.uid,
           eventUID: ticket.eventId,
+          orderUID: orderRef.id,
           ticketOptionName: ticket.name,
           quantity: ticket.quantity,
           ticketPrice: ticket.price,
           ticketStatus:
-            payment.deliveryMethod === '현장 수령' ? '현장 수령' : '배송',
+            payment.deliveryMethod === '현장 수령' ? '현장 수령' : '배송 준비',
           purchaseDate: serverTimestamp(),
         }),
       ),
     );
 
-    // 주문 컬렉션에 주문 정보 추가, 티켓의 UID를 포함
-    const orderRef = await addDoc(collection(db, 'orders'), {
-      buyerUID: user.uid,
+    await updateDoc(orderRef, {
       tickets: ticketRefs.map(ref => ref.id),
-      orderDate: serverTimestamp(),
-      totalPrice: totalPrice,
-      deliveryAddress: payment.deliveryAddress,
-      deliveryMessage: payment.deliveryMessage,
     });
 
     return { success: true, orderId: orderRef.id };
