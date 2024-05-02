@@ -14,6 +14,15 @@ import { PaymentFormValues } from '@/types/form';
 import { UserType } from '@/types/user';
 import { TicketType } from '@/types/event';
 
+/**
+ * PortOne SDK를 사용하여 결제 처리를 요청하고 Firestore 내에서 트랜잭션을 처리합니다.
+ * @param {Object} data - 결제 처리에 필요한 데이터입니다.
+ * @param {UserType | null} data.user - 구매를 진행하는 사용자입니다.
+ * @param {CartItemType[]} data.tickets - 사용자가 구매하는 티켓 배열입니다.
+ * @param {PaymentFormValues} data.payment - 배송 및 결제 정보를 포함하는 결제 폼 값입니다.
+ * @param {number} data.totalPrice - 주문의 총 가격입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} 결제 요청의 결과를 반환하는 프로미스입니다.
+ */
 export const requestPayment = async (data: {
   user: UserType | null;
   tickets: CartItemType[];
@@ -97,7 +106,14 @@ export const requestPayment = async (data: {
   }
 };
 
-// 티켓과 주문 정보를 데이터베이스에 저장하는 함수
+/**
+ * Firestore 데이터베이스에 구매 정보를 기록합니다. 주문 및 티켓 문서를 생성합니다.
+ * @param {UserType} user - 구매자에 대한 정보를 포함하는 사용자 객체입니다.
+ * @param {CartItemType[]} tickets - 구매되는 티켓 배열입니다.
+ * @param {PaymentFormValues} payment - 결제 및 배송 정보입니다.
+ * @param {number} totalPrice - 모든 티켓의 총 가격입니다.
+ * @returns {Promise<{success: boolean, orderId?: string, error?: string}>} 주문 기록의 결과를 반환하는 프로미스입니다.
+ */
 const recordPurchase = async (
   user: UserType,
   tickets: CartItemType[],
