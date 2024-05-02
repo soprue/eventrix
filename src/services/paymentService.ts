@@ -66,18 +66,20 @@ export const requestPayment = async (data: {
         transaction.update(eventRef, { ticketOptions: updatedTicketOptions });
       });
 
-      const response = await PortOne.requestPayment({
-        storeId: import.meta.env.VITE_PORTONE_STORE_ID,
-        channelKey: import.meta.env.VITE_PORTONE_CHANNEL_KEY,
-        paymentId: `payment-${crypto.randomUUID()}`,
-        orderName: 'EVENTRIX',
-        totalAmount: 1000,
-        currency: 'CURRENCY_KRW',
-        payMethod: 'CARD',
-      });
+      if (totalPrice > 0) {
+        const response = await PortOne.requestPayment({
+          storeId: import.meta.env.VITE_PORTONE_STORE_ID,
+          channelKey: import.meta.env.VITE_PORTONE_CHANNEL_KEY,
+          paymentId: `payment-${crypto.randomUUID()}`,
+          orderName: 'EVENTRIX',
+          totalAmount: totalPrice,
+          currency: 'CURRENCY_KRW',
+          payMethod: 'CARD',
+        });
 
-      if (response!.code) {
-        throw new Error(response?.message);
+        if (response!.code) {
+          throw new Error(response?.message);
+        }
       }
 
       // 결제 성공 후 구매 정보 기록
