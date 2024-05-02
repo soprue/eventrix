@@ -9,8 +9,8 @@ function NotFound() {
 
   return (
     <div className='flex h-[calc(100dvh-64px)] w-full justify-center'>
-      <div className='flex w-full max-w-[600px] flex-col items-center justify-center gap-24'>
-        <img src={NotFoundImage} alt='NotFoundImage' className='w-80' />
+      <div className='flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
+        <img src={NotFoundImage} alt='404 이미지' className='w-80' />
         <div className='flex w-full flex-col items-center gap-4'>
           <p className='text-2xl font-semibold'>페이지를 찾을 수 없습니다.</p>
           <Button className='w-full' onClick={() => navigate('/')}>

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { commaizeNumber } from '@toss/utils';
 
@@ -10,19 +10,19 @@ import { CartItemType } from '@/types/cart';
 import { PaymentFormValues } from '@/types/form';
 import groupCartItems from '@utils/cart/groupCartItems';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { useCartStore } from '@store/useCartStore';
 import { requestPayment } from '@services/paymentService';
 import useUser from '@hooks/useUser';
 
 interface PaymentReadyProps {
   setStep: Dispatch<SetStateAction<number>>;
+  state: CartItemType[];
 }
 
-function PaymentReady({ setStep }: PaymentReadyProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as CartItemType[];
+function PaymentReady({ setStep, state }: PaymentReadyProps) {
   const user = useUser();
   const { openAlert } = useGlobalAlertStore();
+  const { removeFromCart } = useCartStore();
 
   const form = useForm<PaymentFormValues>({
     mode: 'onChange',
@@ -57,20 +57,21 @@ function PaymentReady({ setStep }: PaymentReadyProps) {
       openAlert('모든 배송 정보를 입력해주세요.', '');
       return;
     }
-
     const paymentData = {
       user,
       tickets: state,
       payment: data,
       totalPrice,
     };
-
     setIsPaymentProcessing(true);
-
     requestPayment(paymentData)
       .then(result => {
         if (result.success) {
           setStep(prev => prev + 1);
+
+          state.forEach(ticket => {
+            removeFromCart(ticket.ticketId);
+          });
         } else {
           openAlert('오류가 발생했습니다.', result.error as string);
         }
@@ -82,11 +83,6 @@ function PaymentReady({ setStep }: PaymentReadyProps) {
         setIsPaymentProcessing(false);
       });
   };
-
-  if (!state) {
-    navigate('/404');
-    return null;
-  }
 
   return (
     <div className='my-12 flex flex-col gap-10'>
