@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@components/ui/button';
 
-import ConfirmedImage from '@assets/images/order_confirmed.svg';
+import ConfirmedImage from '@assets/images/astronaut_illustration.svg';
 
 function PaymentDone() {
   const navigate = useNavigate();
 
   return (
     <div className='flex h-[calc(100dvh-64px)] w-full justify-center'>
-      <div className='flex w-full max-w-[600px] flex-col items-center justify-center gap-20'>
+      <div className='flex w-full max-w-[600px] flex-col items-center justify-center gap-24'>
         <img src={ConfirmedImage} alt='confirmed' className='w-80' />
         <div className='flex w-full flex-col items-center gap-4'>
           <p className='text-2xl font-semibold'>

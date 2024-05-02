@@ -28,11 +28,11 @@ function EventDetail() {
   );
 
   if (isLoading) return <SpinnerBox />;
-  if (isError) return <ErrorBox />;
   if (!eventData) {
     navigate('/404');
     return null;
   }
+  if (isError) return <ErrorBox />;
 
   return (
     <div className='pb-16 pt-10'>

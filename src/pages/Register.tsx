@@ -97,11 +97,11 @@ function Register() {
   };
 
   if (isLoading) return <SpinnerBox />;
-  if (isError) return <ErrorBox />;
   if (!eventData) {
     navigate('/404');
     return null;
   }
+  if (isError) return <ErrorBox />;
 
   return (
     <div className='w-full py-14'>
