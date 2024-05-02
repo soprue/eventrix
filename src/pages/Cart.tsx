@@ -15,7 +15,13 @@ function Cart() {
     [key: string]: boolean;
   }>({});
 
+  const 티켓을선택했는지 = useMemo(
+    () => Object.values(selectedTickets).some(value => value),
+    [selectedTickets],
+  );
+
   const groupedItems = useMemo(() => groupCartItems(cartItems), [cartItems]);
+
   const totalPrice = useMemo(() => {
     return groupedItems.reduce((total, group) => {
       const groupTotalPrice = group.tickets.reduce(
@@ -35,7 +41,14 @@ function Cart() {
     setSelectedTickets({});
   };
 
-  console.log(selectedTickets);
+  const handleSubmit = () => {
+    const paymentData = cartItems.filter(
+      item => selectedTickets[item.ticketId],
+    );
+
+    navigate('/payment', { state: paymentData });
+  };
+
   return (
     <div className='my-32'>
       <p className='text-3xl font-bold'>장바구니</p>
@@ -64,7 +77,10 @@ function Cart() {
                 0,
               );
               return (
-                <div className='mb-4 flex items-center gap-8 border-b border-border py-6'>
+                <div
+                  key={group.eventId}
+                  className='mb-4 flex items-center gap-8 border-b border-border py-6'
+                >
                   <div className='flex basis-5/6 flex-col gap-2'>
                     <div className='mb-4 font-semibold'>
                       <Link to={`/event/${group.eventId}`}>
@@ -73,6 +89,7 @@ function Cart() {
                     </div>
                     {group.tickets.map(ticket => (
                       <CartBox
+                        key={ticket.ticketId}
                         ticket={ticket}
                         setSelectedTickets={setSelectedTickets}
                         updateItemQuantity={updateItemQuantity}
@@ -96,7 +113,12 @@ function Cart() {
               <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
             </p>
             <div className='grid grid-cols-1'>
-              <Button disabled>결제하기</Button>
+              <Button
+                disabled={!티켓을선택했는지}
+                onClick={() => handleSubmit()}
+              >
+                결제하기
+              </Button>
             </div>
           </div>
         </>

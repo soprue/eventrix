@@ -3,20 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
 import { Button } from '@components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
-import { Label } from '@components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/select';
+import { RadioGroup } from '@components/ui/radio-group';
 import SpinnerBox from '@components/shared/SpinnerBox';
 import ErrorBox from '@components/shared/ErrorBox';
 import InfoBox from '@components/event/InfoBox';
 import InfoRow from '@components/event/InfoRow';
+import TicketOptionBox from '@components/register/TicketOptionBox';
 
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
@@ -48,10 +40,6 @@ function Register() {
     }
   };
 
-  const handleQuantityChange = (value: string) => {
-    setTicketQuantity(value);
-  };
-
   const updateTotalPrice = (price: number, quantity: number) => {
     setTotalPrice(price * quantity);
   };
@@ -69,9 +57,25 @@ function Register() {
 
   const handleSubmit = (actionType: string) => {
     if (actionType === 'pay') {
-      // navigate('/payment', {
-      //   state: { ticketId: selectedTicket, quantity: ticketQuantity },
-      // });
+      if (selectedTicket && eventData) {
+        const ticketOption = eventData.ticketOptions.find(
+          option => option.id === selectedTicket,
+        );
+        if (ticketOption) {
+          navigate('/payment', {
+            state: [
+              {
+                eventId: eventData.uid!,
+                eventName: eventData.name,
+                ticketId: selectedTicket,
+                name: ticketOption.optionName,
+                price: ticketOption.price,
+                quantity: Number(ticketQuantity),
+              },
+            ],
+          });
+        }
+      }
     } else {
       if (selectedTicket && eventData) {
         const ticketOption = eventData.ticketOptions.find(
@@ -93,11 +97,11 @@ function Register() {
   };
 
   if (isLoading) return <SpinnerBox />;
-  if (isError) return <ErrorBox />;
   if (!eventData) {
     navigate('/404');
     return null;
   }
+  if (isError) return <ErrorBox />;
 
   return (
     <div className='w-full py-14'>
@@ -118,28 +122,11 @@ function Register() {
       <div className='my-20'>
         <RadioGroup onValueChange={handleTicketChange} className='gap-8'>
           {eventData?.ticketOptions.map(option => (
-            <div key={option.id} className='flex items-center justify-between'>
-              <div className='flex items-center space-x-8'>
-                <RadioGroupItem value={option.id} id={option.id} />
-                <Label htmlFor={option.id} className='!font-normal'>
-                  <p className='text-sm'>₩ {commaizeNumber(option.price)}</p>
-                  <p className='text-lg'>{option.optionName}</p>
-                </Label>
-              </div>
-              <div>
-                <Select defaultValue='1' onValueChange={handleQuantityChange}>
-                  <SelectTrigger className='w-[100px]'>
-                    <SelectValue placeholder='1' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value='1'>1</SelectItem>
-                      <SelectItem value='2'>2</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+            <TicketOptionBox
+              key={option.id}
+              option={option}
+              setTicketQuantity={setTicketQuantity}
+            />
           ))}
         </RadioGroup>
       </div>

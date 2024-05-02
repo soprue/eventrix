@@ -39,3 +39,10 @@ export interface TicketValues {
   price: number;
   quantity: number;
 }
+
+export interface PaymentFormValues {
+  deliveryMethod: '현장 수령' | '배송';
+  deliveryAddress: string;
+  deliveryDetailAddress: string;
+  deliveryMessage: string;
+}
