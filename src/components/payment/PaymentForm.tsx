@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
@@ -11,26 +11,23 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
 
 import { PaymentFormValues } from '@/types/form';
 import { PostcodeType } from '@/components/mypage/events/input/EventLocationInput';
 
 interface PaymentFormProps {
+  form: UseFormReturn<PaymentFormValues>;
   onSubmit: (data: PaymentFormValues) => void;
+  isPaymentProcessing: boolean;
 }
 
-function PaymentForm({ onSubmit }: PaymentFormProps) {
+function PaymentForm({
+  form,
+  onSubmit,
+  isPaymentProcessing,
+}: PaymentFormProps) {
   const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
-
-  const form = useForm<PaymentFormValues>({
-    mode: 'onChange',
-    defaultValues: {
-      deliveryMethod: '현장 수령',
-      deliveryAddress: '',
-      deliveryDetailAddress: '',
-      deliveryMessage: '',
-    },
-  });
 
   const deliveryMethod = form.watch('deliveryMethod');
   const deliveryAddress = form.watch('deliveryAddress');
@@ -84,16 +81,20 @@ function PaymentForm({ onSubmit }: PaymentFormProps) {
                     <FormControl className='flex-none'>
                       <RadioGroupItem value='현장 수령' />
                     </FormControl>
-                    <div className='grow'>
-                      <FormLabel className='font-normal'>현장 수령</FormLabel>
+                    <div className='!mt-0 grow'>
+                      <FormLabel className='!text-base font-normal'>
+                        현장 수령
+                      </FormLabel>
                     </div>
                   </FormItem>
                   <FormItem className='flex items-baseline gap-8'>
                     <FormControl className='flex-none'>
                       <RadioGroupItem value='배송' />
                     </FormControl>
-                    <div className='grow'>
-                      <FormLabel className='font-normal'>배송</FormLabel>
+                    <div className='!mt-0 grow'>
+                      <FormLabel className='!text-base font-normal'>
+                        배송
+                      </FormLabel>
                       <div className='mt-4 flex w-full flex-col gap-2'>
                         <div
                           className={`${deliveryMethod !== '배송' && 'cursor-not-allowed opacity-50'} ${!deliveryAddress && 'text-muted-foreground'} w-full cursor-pointer overflow-hidden rounded-md border border-input px-3 py-2 text-sm`}
@@ -128,6 +129,14 @@ function PaymentForm({ onSubmit }: PaymentFormProps) {
             </FormItem>
           )}
         />
+
+        <Button
+          type='submit'
+          disabled={isPaymentProcessing}
+          className='mt-10 w-full'
+        >
+          결제하기
+        </Button>
       </form>
     </Form>
   );

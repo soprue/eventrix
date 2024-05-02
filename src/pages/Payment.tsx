@@ -1,17 +1,35 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { commaizeNumber } from '@toss/utils';
+
 import PaymentBox from '@components/payment/PaymentBox';
 import PaymentForm from '@components/payment/PaymentForm';
 
 import { CartItemType } from '@/types/cart';
 import { PaymentFormValues } from '@/types/form';
 import groupCartItems from '@utils/cart/groupCartItems';
+import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
+import { requestPayment } from '@services/paymentService';
+import useUser from '@/hooks/useUser';
 
 function Payment() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as CartItemType[];
+  const user = useUser();
+  const { openAlert } = useGlobalAlertStore();
+
+  const form = useForm<PaymentFormValues>({
+    mode: 'onChange',
+    defaultValues: {
+      deliveryMethod: '현장 수령',
+      deliveryAddress: '',
+      deliveryDetailAddress: '',
+      deliveryMessage: '',
+    },
+  });
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
 
   const groupedItems = useMemo(() => groupCartItems(state), [state]);
 
@@ -25,8 +43,40 @@ function Payment() {
     }, 0);
   }, [groupedItems]);
 
-  const onSubmit = (data: PaymentFormValues) => {
-    console.log(data);
+  const handlePayment = (data: PaymentFormValues) => {
+    if (
+      data.deliveryMethod === '배송' &&
+      (!data.deliveryAddress ||
+        !data.deliveryDetailAddress ||
+        !data.deliveryMessage)
+    ) {
+      openAlert('모든 배송 정보를 입력해주세요.', '');
+      return;
+    }
+
+    const paymentData = {
+      user,
+      tickets: state,
+      payment: data,
+      totalPrice,
+    };
+
+    setIsPaymentProcessing(true);
+
+    requestPayment(paymentData)
+      .then(result => {
+        if (result.success) {
+          console.log(result);
+        } else {
+          openAlert('오류가 발생했습니다.', result.error as string);
+        }
+      })
+      .catch(error => {
+        openAlert('오류가 발생했습니다.', error);
+      })
+      .finally(() => {
+        setIsPaymentProcessing(false);
+      });
   };
 
   if (!state) {
@@ -35,8 +85,8 @@ function Payment() {
   }
 
   return (
-    <div className='flex flex-col gap-10'>
-      <div className='mt-12'>
+    <div className='my-12 flex flex-col gap-10'>
+      <div>
         <p className='mb-4 text-2xl'>구매 목록</p>
         <div className='border-t border-border'>
           {groupedItems.map(group => {
@@ -74,10 +124,11 @@ function Payment() {
         </div>
       </div>
 
-      <div>
-        <p className='mb-4 text-2xl'>결제 방법</p>
-        <PaymentForm onSubmit={onSubmit} />
-      </div>
+      <PaymentForm
+        form={form}
+        onSubmit={handlePayment}
+        isPaymentProcessing={isPaymentProcessing}
+      />
     </div>
   );
 }
