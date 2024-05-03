@@ -4,10 +4,10 @@ import { commaizeNumber } from '@toss/utils';
 
 import SpinnerBox from '@shared/SpinnerBox';
 import ErrorBox from '@shared/ErrorBox';
+import EventInfoBox from '@shared/EventInfoBox';
+import EventInfoRow from '@shared/EventInfoRow';
 import { Button } from '@components/ui/button';
 import { RadioGroup } from '@components/ui/radio-group';
-import InfoBox from '@components/event/InfoBox';
-import InfoRow from '@components/event/InfoRow';
 import TicketOptionBox from '@components/register/TicketOptionBox';
 
 import useEventDetail from '@hooks/useEventDetail';
@@ -107,17 +107,17 @@ function Register() {
     <div className='w-full py-14'>
       <div className='text- text-[28px] font-medium'>{eventData?.name}</div>
 
-      <InfoBox className='mt-11'>
-        <InfoRow
+      <EventInfoBox className='mt-11'>
+        <EventInfoRow
           label='일시'
           value={formatEventDateTime(
             eventData.startDateTime,
             eventData.endDateTime,
           )}
         />
-        <InfoRow label='장소' value={eventData?.location} />
-        <InfoRow label='주최' value={organizerData?.nickname as string} />
-      </InfoBox>
+        <EventInfoRow label='장소' value={eventData?.location} />
+        <EventInfoRow label='주최' value={organizerData?.nickname as string} />
+      </EventInfoBox>
 
       <div className='my-20'>
         <RadioGroup onValueChange={handleTicketChange} className='gap-8'>

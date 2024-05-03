@@ -1,9 +1,9 @@
-interface InfoBoxProps {
+interface EventInfoBoxProps {
   children: React.ReactNode;
   className?: string;
 }
 
-function InfoBox({ children, className = '' }: InfoBoxProps) {
+function EventInfoBox({ children, className = '' }: EventInfoBoxProps) {
   return (
     <div
       className={`${className} flex w-full flex-col gap-2 border-b border-t border-border px-2 py-6`}
@@ -13,4 +13,4 @@ function InfoBox({ children, className = '' }: InfoBoxProps) {
   );
 }
 
-export default InfoBox;
+export default EventInfoBox;

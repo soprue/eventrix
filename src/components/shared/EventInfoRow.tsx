@@ -1,10 +1,10 @@
-interface InfoRowProps {
+interface EventInfoRowProps {
   size?: 'md' | 'sm';
   label: string;
   value: string;
 }
 
-function InfoRow({ size = 'md', label, value }: InfoRowProps) {
+function EventInfoRow({ size = 'md', label, value }: EventInfoRowProps) {
   const fontSize = size === 'md' ? 'text-base' : 'text-sm';
 
   return (
@@ -15,4 +15,4 @@ function InfoRow({ size = 'md', label, value }: InfoRowProps) {
   );
 }
 
-export default InfoRow;
+export default EventInfoRow;
