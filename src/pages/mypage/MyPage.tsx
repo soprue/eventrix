@@ -1,5 +1,11 @@
+import ProfileForm from '@components/mypage/profile/ProfileForm';
+
 function MyPage() {
-  return <div>MyPage</div>;
+  return (
+    <div>
+      <ProfileForm />
+    </div>
+  );
 }
 
 export default MyPage;

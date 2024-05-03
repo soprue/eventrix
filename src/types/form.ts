@@ -46,3 +46,9 @@ export interface PaymentFormValues {
   deliveryDetailAddress: string;
   deliveryMessage: string;
 }
+
+export interface ProfileFormValues {
+  profileImage: File | string;
+  nickname: string;
+  phone: string;
+}
