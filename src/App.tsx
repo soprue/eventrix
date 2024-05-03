@@ -1,11 +1,11 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import SpinnerBox from '@shared/SpinnerBox';
 import AuthStateObserver from '@components/auth/AuthStateObserver';
 import PublicRoute from '@components/auth/PublicRoute';
 import PrivateRoute from '@components/auth/PrivateRoute';
 import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
-import SpinnerBox from '@components/shared/SpinnerBox';
 
 import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';

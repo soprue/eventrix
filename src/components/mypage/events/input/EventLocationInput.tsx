@@ -3,7 +3,7 @@ import { UseFormReturn } from 'react-hook-form';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 
 import { Input } from '@components/ui/input';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 
@@ -59,7 +59,7 @@ function EventLocationInput({
         onChange={({ target }) => form.setValue('location', target.value)}
       />
 
-      <EventInputTitle title='이벤트 장소' />
+      <InputTitle title='이벤트 장소' />
 
       <div
         className='w-full cursor-pointer overflow-hidden rounded-md border border-input px-3 py-2 text-sm'

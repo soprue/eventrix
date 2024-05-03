@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 
@@ -18,7 +18,7 @@ interface EventNameInputProps {
 function EventNameInput({ form }: EventNameInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle title='이벤트 이름' />
+      <InputTitle title='이벤트 이름' />
 
       <FormField
         name='name'

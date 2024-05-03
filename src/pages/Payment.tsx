@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import ErrorBox from '@shared/ErrorBox';
 import PaymentReady from '@components/payment/PaymentReady';
 import PaymentDone from '@components/payment/PaymentDone';
-import ErrorBox from '@components/shared/ErrorBox';
 
 import { CartItemType } from '@/types/cart';
 
