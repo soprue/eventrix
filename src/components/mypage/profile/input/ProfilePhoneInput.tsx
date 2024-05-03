@@ -9,25 +9,25 @@ import {
 import { Input } from '@components/ui/input';
 import InputTitle from '@shared/InputTitle';
 
-import { EventFormValues } from '@/types/form';
+import { ProfileFormValues } from '@/types/form';
 
-interface EventNameInputProps {
-  form: UseFormReturn<EventFormValues>;
+interface ProfilePhoneInputProps {
+  form: UseFormReturn<ProfileFormValues>;
 }
 
-function EventNameInput({ form }: EventNameInputProps) {
+function ProfilePhoneInput({ form }: ProfilePhoneInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <InputTitle title='이벤트 이름' />
+      <InputTitle title='전화번호' />
 
       <FormField
-        name='name'
+        name='phone'
         render={() => (
           <FormItem>
             <FormControl>
               <Input
-                placeholder='이벤트 이름을 입력해 주세요.'
-                {...form.register('name', {
+                placeholder='-를 제외하고 입력해 주세요.'
+                {...form.register('phone', {
                   setValueAs: value => value.trim(),
                 })}
               />
@@ -40,4 +40,4 @@ function EventNameInput({ form }: EventNameInputProps) {
   );
 }
 
-export default EventNameInput;
+export default ProfilePhoneInput;

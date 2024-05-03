@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
+import SpinnerBox from '@shared/SpinnerBox';
+import ErrorBox from '@shared/ErrorBox';
 import { Button } from '@components/ui/button';
 import { RadioGroup } from '@components/ui/radio-group';
-import SpinnerBox from '@components/shared/SpinnerBox';
-import ErrorBox from '@components/shared/ErrorBox';
 import InfoBox from '@components/event/InfoBox';
 import InfoRow from '@components/event/InfoRow';
 import TicketOptionBox from '@components/register/TicketOptionBox';

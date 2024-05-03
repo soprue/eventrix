@@ -7,11 +7,11 @@ import { IoSearchOutline } from 'react-icons/io5';
 
 import { Form, FormControl, FormField, FormItem } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import SortSelect from '@components/shared/SortSelect';
-import Spinner from '@components/shared/Spinner';
-import EventList from '@components/shared/EventList';
-import ErrorBox from '@components/shared/ErrorBox';
-import EventSkeletonList from '@components/shared/EventSkeletonList';
+import SortSelect from '@shared/SortSelect';
+import Spinner from '@shared/Spinner';
+import EventList from '@shared/EventList';
+import ErrorBox from '@shared/ErrorBox';
+import EventSkeletonList from '@shared/EventSkeletonList';
 
 import { SortFilterType } from '@/types/event';
 import { searchEvents } from '@services/eventService';

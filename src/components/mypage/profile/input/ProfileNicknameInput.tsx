@@ -9,25 +9,25 @@ import {
 import { Input } from '@components/ui/input';
 import InputTitle from '@shared/InputTitle';
 
-import { EventFormValues } from '@/types/form';
+import { ProfileFormValues } from '@/types/form';
 
-interface EventNameInputProps {
-  form: UseFormReturn<EventFormValues>;
+interface ProfileNicknameInputProps {
+  form: UseFormReturn<ProfileFormValues>;
 }
 
-function EventNameInput({ form }: EventNameInputProps) {
+function ProfileNicknameInput({ form }: ProfileNicknameInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <InputTitle title='이벤트 이름' />
+      <InputTitle title='닉네임' />
 
       <FormField
-        name='name'
+        name='nickname'
         render={() => (
           <FormItem>
             <FormControl>
               <Input
-                placeholder='이벤트 이름을 입력해 주세요.'
-                {...form.register('name', {
+                placeholder='닉네임을 입력해 주세요.'
+                {...form.register('nickname', {
                   setValueAs: value => value.trim(),
                 })}
               />
@@ -40,4 +40,4 @@ function EventNameInput({ form }: EventNameInputProps) {
   );
 }
 
-export default EventNameInput;
+export default ProfileNicknameInput;

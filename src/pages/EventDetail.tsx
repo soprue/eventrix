@@ -4,9 +4,9 @@ import MDEditor from '@uiw/react-md-editor';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 
+import SpinnerBox from '@shared/SpinnerBox';
+import ErrorBox from '@shared/ErrorBox';
 import { Button } from '@components/ui/button';
-import SpinnerBox from '@components/shared/SpinnerBox';
-import ErrorBox from '@components/shared/ErrorBox';
 import LikeButton from '@components/event/LikeButton';
 import InfoRow from '@components/event/InfoRow';
 import TicketBox from '@components/event/TicketBox';

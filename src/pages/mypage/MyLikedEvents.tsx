@@ -2,10 +2,10 @@ import { useInfiniteQuery } from 'react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import Spinner from '@components/shared/Spinner';
-import EventList from '@components/shared/EventList';
-import ErrorBox from '@components/shared/ErrorBox';
-import EventSkeletonList from '@components/shared/EventSkeletonList';
+import Spinner from '@shared/Spinner';
+import EventList from '@shared/EventList';
+import ErrorBox from '@shared/ErrorBox';
+import EventSkeletonList from '@shared/EventSkeletonList';
 
 import useUser from '@hooks/useUser';
 import { getUserLikesWithPagination } from '@services/eventService';

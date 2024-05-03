@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/ui/select';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 import { cn } from '@/lib/utils';
@@ -45,7 +45,7 @@ function EventRegistrationDateInput({
 }: EventRegistrationDateInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle
+      <InputTitle
         title={
           <>
             모집 기간{' '}

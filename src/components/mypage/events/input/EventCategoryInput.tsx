@@ -7,7 +7,7 @@ import {
   FormLabel,
 } from '@components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 import { CATEGORIES } from '@constants/categories';
@@ -19,7 +19,7 @@ interface EventCategoryInputProps {
 function EventCategoryInput({ form }: EventCategoryInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle title='카테고리' />
+      <InputTitle title='카테고리' />
 
       <FormField
         control={form.control}

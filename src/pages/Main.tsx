@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
-import Spinner from '@components/shared/Spinner';
-import ErrorBox from '@components/shared/ErrorBox';
-import EventList from '@components/shared/EventList';
+import Spinner from '@shared/Spinner';
+import ErrorBox from '@shared/ErrorBox';
+import EventList from '@shared/EventList';
+import SortSelect from '@shared/SortSelect';
+import EventSkeletonList from '@shared/EventSkeletonList';
 import EventFilterButton from '@components/main/EventFilterButton';
 import ModalCategory from '@components/main/ModalCategory';
 import ModalPrice from '@components/main/ModalPrice';
-import SortSelect from '@components/shared/SortSelect';
-import EventSkeletonList from '@components/shared/EventSkeletonList';
 
 import { FilterType, PriceFilterType, SortFilterType } from '@/types/event';
 import { getAllEvents } from '@services/eventService';

@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
@@ -59,7 +59,7 @@ function EventThumbnailInput({
 
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle title='썸네일' />
+      <InputTitle title='썸네일' />
       {thumbnailPreview ? (
         <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input'>
           <img

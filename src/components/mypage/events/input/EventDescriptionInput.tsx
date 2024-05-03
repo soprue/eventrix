@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Textarea } from '@components/ui/textarea';
-import EventInputTitle from '../EventInputTitle';
+import InputTitle from '@shared/InputTitle';
 
 import { EventFormValues } from '@/types/form';
 
@@ -18,7 +18,7 @@ interface EventDescriptionInputProps {
 function EventDescriptionInput({ form }: EventDescriptionInputProps) {
   return (
     <div className='flex flex-col space-y-2'>
-      <EventInputTitle title='이벤트 소개' />
+      <InputTitle title='이벤트 소개' />
 
       <FormField
         control={form.control}

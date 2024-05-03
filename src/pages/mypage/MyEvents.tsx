@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
+import { Button } from '@components/ui/button';
+import SpinnerBox from '@shared/SpinnerBox';
+import ErrorBox from '@shared/ErrorBox';
 import Status from '@components/mypage/events/Status';
 import EventTable from '@components/mypage/events/EventTable';
-import { Button } from '@components/ui/button';
-import SpinnerBox from '@components/shared/SpinnerBox';
-import ErrorBox from '@components/shared/ErrorBox';
 
 import { EventType } from '@/types/event';
 import useUser from '@hooks/useUser';

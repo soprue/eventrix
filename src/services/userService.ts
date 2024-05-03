@@ -1,16 +1,21 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FirebaseError } from 'firebase/app';
 
 import { auth, db } from './firebaseConfig';
 import { UserType } from '@/types/user';
-import { SignInFormValues, SignUpFormValues } from '@/types/form';
+import {
+  ProfileFormValues,
+  SignInFormValues,
+  SignUpFormValues,
+} from '@/types/form';
 import resizeAndConvertImage from '@utils/resizeAndConvertImage';
 import { AUTH_ERROR_MAP } from '@constants/errorCodes';
 
@@ -169,3 +174,75 @@ export const getUserInfo = async (uid: string): Promise<UserType> => {
 
   return docSnap.data() as UserType;
 };
+
+/**
+ * 프로필 정보를 업데이트합니다.
+ * @param {uid} fileName - 프로필을 업데이트할 사용자의 uid입니다.
+ * @param {ProfileFormValues} data - 수정할 프로필 정보가 담긴 객체입니다.
+ * @returns {Promise<{success: boolean, message?: string}>} - 프로필 업데이트 성공 여부와 메시지를 반환합니다.
+ */
+export async function updateProfile(uid: string, data: ProfileFormValues) {
+  try {
+    const userRef = doc(db, 'users', uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      throw new Error('사용자 정보를 찾을 수 없습니다.');
+    }
+
+    const updatedData = {
+      ...(userSnap.data() as UserType),
+      nickname: data.nickname,
+      phone: data.phone,
+      profileImage: userSnap.data().profileImage, // 기존 이미지 URL을 유지
+    };
+
+    // 프로필 이미지가 File 객체인 경우 새로운 이미지로 업데이트
+    if (data.profileImage instanceof File) {
+      const newImageUrl = await uploadImage(
+        data.profileImage,
+        'profileImages',
+        uid,
+      );
+      updatedData.profileImage = newImageUrl;
+    }
+
+    await updateDoc(userRef, updatedData);
+
+    return { success: true, user: updatedData };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: error };
+    }
+  }
+}
+
+/**
+ * 지정된 사용자의 이메일 주소로 비밀번호 재설정 이메일을 보냅니다.
+ * 이 함수는 Firestore에서 사용자의 UID를 참조하여 해당 사용자의 이메일을 가져온 뒤,
+ * Firebase Authentication을 통해 비밀번호 재설정 이메일을 발송합니다.
+ *
+ * @param {string} uid - 비밀번호 재설정 이메일을 받을 사용자의 고유 식별자(UID).
+ * @returns {Promise<{success: boolean, error?: string}>}
+ */
+export async function resetPassword(uid: string) {
+  try {
+    const userRef = doc(db, 'users', uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      throw new Error('사용자 정보를 찾을 수 없습니다.');
+    }
+
+    await sendPasswordResetEmail(auth, userSnap.data().email);
+    return { success: true };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: error };
+    }
+  }
+}
