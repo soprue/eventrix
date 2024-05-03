@@ -102,7 +102,7 @@ function Search() {
 
       <div>
         <div className='mb-6 flex items-center justify-end'>
-          <SortSelect sort={sort} setSort={setSort} />
+          {events.length !== 0 && <SortSelect sort={sort} setSort={setSort} />}
         </div>
       </div>
 
