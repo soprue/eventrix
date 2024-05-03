@@ -47,7 +47,9 @@ function ProfileForm() {
           openAlert('오류가 발생했습니다.', result.error as string);
         }
       })
-      .catch(() => {});
+      .catch(error => {
+        openAlert('오류가 발생했습니다.', error);
+      });
   };
 
   return (
@@ -82,7 +84,7 @@ function ProfileForm() {
           />
           <ProfileNicknameInput form={form} />
           <ProfilePhoneInput form={form} />
-          {user?.loginType === 'email' && <ProfilePasswordInput />}
+          {user?.loginType === 'email' && <ProfilePasswordInput user={user} />}
 
           <div className='flex w-full justify-center'>
             <Button type='submit' className='mt-8'>

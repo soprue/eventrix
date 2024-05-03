@@ -1,6 +1,7 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
@@ -209,6 +210,34 @@ export async function updateProfile(uid: string, data: ProfileFormValues) {
     await updateDoc(userRef, updatedData);
 
     return { success: true, user: updatedData };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: error };
+    }
+  }
+}
+
+/**
+ * 지정된 사용자의 이메일 주소로 비밀번호 재설정 이메일을 보냅니다.
+ * 이 함수는 Firestore에서 사용자의 UID를 참조하여 해당 사용자의 이메일을 가져온 뒤,
+ * Firebase Authentication을 통해 비밀번호 재설정 이메일을 발송합니다.
+ *
+ * @param {string} uid - 비밀번호 재설정 이메일을 받을 사용자의 고유 식별자(UID).
+ * @returns {Promise<{success: boolean, error?: string}>}
+ */
+export async function resetPassword(uid: string) {
+  try {
+    const userRef = doc(db, 'users', uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      throw new Error('사용자 정보를 찾을 수 없습니다.');
+    }
+
+    await sendPasswordResetEmail(auth, userSnap.data().email);
+    return { success: true };
   } catch (error) {
     if (error instanceof FirebaseError) {
       return { success: false, error: error.message };

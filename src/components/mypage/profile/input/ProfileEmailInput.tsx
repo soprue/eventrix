@@ -13,7 +13,7 @@ function ProfileEmailInput({ loginType, email }: ProfileEmailInputProps) {
       <InputTitle title='이메일' />
 
       {loginType === 'email' && (
-        <div className='h-10 w-full overflow-hidden rounded-md border border-input px-3 py-2 text-sm'>
+        <div className='h-10 w-full cursor-default overflow-hidden rounded-md border border-input px-3 py-2 text-sm'>
           {email}
         </div>
       )}
