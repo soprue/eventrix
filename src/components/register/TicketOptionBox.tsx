@@ -11,10 +11,10 @@ import {
   SelectValue,
 } from '@components/ui/select';
 
-import { TicketType } from '@/types/event';
+import { TicketOptionType } from '@/types/event';
 
 interface TicketOptionBoxProps {
-  option: TicketType;
+  option: TicketOptionType;
   setTicketQuantity: (value: string) => void;
 }
 

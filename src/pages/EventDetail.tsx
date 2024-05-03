@@ -12,7 +12,7 @@ import { Button } from '@components/ui/button';
 import LikeButton from '@components/event/LikeButton';
 import TicketBox from '@components/event/TicketBox';
 
-import formatEventDateTime from '@utils/event/formatEventDateTime';
+import formatEventPeriod from '@utils/event/formatEventPeriod';
 import useUser from '@hooks/useUser';
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
@@ -74,14 +74,14 @@ function EventDetail() {
           <EventInfoBox className='mb-9'>
             <EventInfoRow
               label='일시'
-              value={formatEventDateTime(
+              value={formatEventPeriod(
                 eventData.startDateTime,
                 eventData.endDateTime,
               )}
             />
             <EventInfoRow
               label='모집'
-              value={formatEventDateTime(
+              value={formatEventPeriod(
                 eventData.registrationStart,
                 eventData.registrationEnd,
               )}

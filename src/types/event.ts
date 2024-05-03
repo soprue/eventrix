@@ -15,12 +15,12 @@ export interface EventType {
   location: string;
   description: string;
   likesCount: number;
-  ticketOptions: TicketType[];
+  ticketOptions: TicketOptionType[];
   eventCreationDate: Timestamp;
   status?: string;
 }
 
-export interface TicketType {
+export interface TicketOptionType {
   id: string;
   optionName: string;
   price: number;

@@ -1,0 +1,51 @@
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+
+import ErrorBox from '@shared/ErrorBox';
+import NoData from '@shared/NoData';
+import SpinnerBox from '@shared/SpinnerBox';
+import PurchaseTicketList from '@components/mypage/tickets/PurchaseTicketList';
+
+import useUser from '@hooks/useUser';
+import { getMyTickets } from '@services/eventService';
+
+function MyTickets() {
+  const user = useUser();
+  const [page, setPage] = useState(0);
+  const [lastDoc, setLastDoc] = useState<
+    QueryDocumentSnapshot<DocumentData, DocumentData> | null | undefined
+  >(null);
+
+  const { data, isLoading, isError } = useQuery(
+    ['tickets', user?.uid, page],
+    () => getMyTickets(page, lastDoc, user?.uid as string),
+    {
+      keepPreviousData: true,
+      enabled: !!user?.uid,
+      onSuccess: newData => {
+        setLastDoc(newData.lastVisible || null);
+      },
+    },
+  );
+
+  if (isLoading) return <SpinnerBox />;
+  if (isError) return <ErrorBox />;
+
+  return (
+    <>
+      {data?.events.length === 0 ? (
+        <NoData />
+      ) : (
+        <PurchaseTicketList
+          events={data?.events ?? []}
+          page={page}
+          setPage={setPage}
+          hasNextPage={data?.hasNextPage as boolean}
+        />
+      )}
+    </>
+  );
+}
+
+export default MyTickets;

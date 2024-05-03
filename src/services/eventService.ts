@@ -1,5 +1,7 @@
 import { FirebaseError } from 'firebase/app';
 import {
+  DocumentData,
+  QueryDocumentSnapshot,
   Timestamp,
   collection,
   deleteDoc,
@@ -25,6 +27,7 @@ import { LikedEvent } from '@/types/likedEvent';
 import combineDateAndTime from '@utils/mypage/combineDateAndTime';
 import calculateEventStatus from '@utils/mypage/calculateEventStatus';
 import { eventDummyData } from '@components/mypage/events/DummyData';
+import { PurchaseTicketType } from '@/types/ticket';
 
 // 페이지당 아이템 수
 const PAGE_SIZE = 12;
@@ -480,4 +483,56 @@ export const getUserLikesWithPagination = async (
     events: events,
     nextCursor: lastVisible ? lastVisible.data().likedAt : undefined,
   };
+};
+
+export const getMyTickets = async (
+  page: number,
+  lastDoc:
+    | QueryDocumentSnapshot<DocumentData, DocumentData>
+    | null
+    | undefined = null,
+  userId: string,
+): Promise<{
+  events: PurchaseTicketType[];
+  lastVisible: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
+  hasNextPage: boolean;
+}> => {
+  const ref = collection(db, 'tickets');
+  let q = query(
+    ref,
+    where('buyerUID', '==', userId),
+    orderBy('purchaseDate', 'desc'),
+    limit(11), // 10개의 결과 + 다음 페이지 존재 여부 확인을 위한 추가 1개
+  );
+
+  if (lastDoc) {
+    q = query(q, startAfter(lastDoc));
+  }
+
+  const snapshots = await getDocs(q);
+  const events = snapshots.docs.map(doc => ({
+    ...(doc.data() as PurchaseTicketType),
+    id: doc.id,
+  }));
+  const hasNextPage = snapshots.docs.length === 11;
+
+  if (hasNextPage) {
+    events.pop(); // 마지막 이벤트 제거
+  }
+
+  const lastVisible = snapshots.docs[snapshots.docs.length - 1];
+
+  // 각 티켓에 대해 이벤트 이름 가져오기
+  const ticketsWithEvents = await Promise.all(
+    events.map(async event => {
+      const eventRef = doc(db, 'events', event.eventUID);
+      const eventSnap = await getDoc(eventRef);
+      return {
+        ...event,
+        ...eventSnap.data(),
+      };
+    }),
+  );
+
+  return { events: ticketsWithEvents, lastVisible, hasNextPage };
 };

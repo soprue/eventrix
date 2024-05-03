@@ -12,7 +12,7 @@ import TicketOptionBox from '@components/register/TicketOptionBox';
 
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
-import formatEventDateTime from '@utils/event/formatEventDateTime';
+import formatEventPeriod from '@utils/event/formatEventPeriod';
 import { useCartStore } from '@store/useCartStore';
 
 function Register() {
@@ -110,7 +110,7 @@ function Register() {
       <EventInfoBox className='mt-11'>
         <EventInfoRow
           label='일시'
-          value={formatEventDateTime(
+          value={formatEventPeriod(
             eventData.startDateTime,
             eventData.endDateTime,
           )}

@@ -12,7 +12,7 @@ import { db } from './firebaseConfig';
 import { CartItemType } from '@/types/cart';
 import { PaymentFormValues } from '@/types/form';
 import { UserType } from '@/types/user';
-import { TicketType } from '@/types/event';
+import { TicketOptionType } from '@/types/event';
 
 /**
  * PortOne SDK를 사용하여 결제 처리를 요청하고 Firestore 내에서 트랜잭션을 처리합니다.
@@ -45,7 +45,7 @@ export const requestPayment = async (data: {
 
         const eventData = eventSnap.data();
         const ticketOption = eventData.ticketOptions.find(
-          (option: TicketType) => option.id === ticket.ticketId,
+          (option: TicketOptionType) => option.id === ticket.ticketId,
         );
 
         const availableCount =
@@ -59,7 +59,7 @@ export const requestPayment = async (data: {
         ticketUpdates.push({
           eventRef,
           updatedTicketOptions: eventData.ticketOptions.map(
-            (option: TicketType) => {
+            (option: TicketOptionType) => {
               if (option.id === ticket.ticketId) {
                 return {
                   ...option,

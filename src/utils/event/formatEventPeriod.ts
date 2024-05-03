@@ -14,10 +14,10 @@ import { Timestamp } from 'firebase/firestore';
  * @example
  * const startTimestamp = new Timestamp(...); // 이벤트 시작 Timestamp
  * const endTimestamp = new Timestamp(...); // 이벤트 종료 Timestamp
- * const eventTime = formatEventDateTime(startTimestamp, endTimestamp);
+ * const eventTime = formatEventPeriod(startTimestamp, endTimestamp);
  * console.log(eventTime); // "2024년 04월 15일 (월) 오전 9:00 - 2024년 04월 16일 (화) 오후 5:00"
  */
-export default function formatEventDateTime(
+export default function formatEventPeriod(
   startTimestamp: Timestamp,
   endTimestamp: Timestamp,
 ): string {
@@ -28,13 +28,13 @@ export default function formatEventDateTime(
   const fullDateFormatter = new Intl.DateTimeFormat('ko-KR', {
     year: 'numeric',
     month: 'long',
-    day: '2-digit',
+    day: 'numeric',
     weekday: 'long',
   });
 
   // 시간 포맷터
   const timeFormatter = new Intl.DateTimeFormat('ko-KR', {
-    hour: 'numeric',
+    hour: '2-digit',
     minute: '2-digit',
     hour12: true,
   });
@@ -44,7 +44,7 @@ export default function formatEventDateTime(
 
   const partialDateFormatter = new Intl.DateTimeFormat('ko-KR', {
     month: 'long',
-    day: '2-digit',
+    day: 'numeric',
     weekday: 'long',
   });
   const formattedEndDate = partialDateFormatter.format(endDate);

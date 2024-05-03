@@ -10,11 +10,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
+} from '@components/ui/form';
+import { Button } from '@components/ui/button';
+import { PostcodeType } from '@components/mypage/events/input/EventLocationInput';
 
 import { PaymentFormValues } from '@/types/form';
-import { PostcodeType } from '@/components/mypage/events/input/EventLocationInput';
 
 interface PaymentFormProps {
   form: UseFormReturn<PaymentFormValues>;
@@ -112,11 +112,13 @@ function PaymentForm({
                           </div>
                         )}
                         <Input
+                          {...form.register('deliveryDetailAddress')}
                           disabled={!(deliveryMethod === '배송')}
                           type='text'
                           placeholder='상세 주소를 입력해 주세요.'
                         />
                         <Input
+                          {...form.register('deliveryMessage')}
                           disabled={!(deliveryMethod === '배송')}
                           type='text'
                           placeholder='배송 메시지를 입력해 주세요.'

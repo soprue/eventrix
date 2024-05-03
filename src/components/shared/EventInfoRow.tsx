@@ -1,16 +1,18 @@
 interface EventInfoRowProps {
-  size?: 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm';
   label: string;
   value: string;
 }
 
-function EventInfoRow({ size = 'md', label, value }: EventInfoRowProps) {
-  const fontSize = size === 'md' ? 'text-base' : 'text-sm';
+function EventInfoRow({ size = 'lg', label, value }: EventInfoRowProps) {
+  const fontSize =
+    size === 'lg' ? 'text-base' : size === 'md' ? 'text-sm' : 'text-xs';
+  const fontWeight = size === 'lg' ? 'font-semibold' : 'font-medium';
 
   return (
-    <div className={`${fontSize} `}>
-      <span className='inline-block w-[50px]'>{label}</span>
-      <span className='font-semibold'>{value}</span>
+    <div className={`${fontSize}`}>
+      <span className='inline-block w-[70px]'>{label}</span>
+      <span className={`${fontWeight}`}>{value}</span>
     </div>
   );
 }
