@@ -5,6 +5,8 @@ import { z } from 'zod';
 
 import { Form } from '@components/ui/form';
 import { Button } from '@components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { Label } from '@components/ui/label';
 import ProfileNicknameInput from '@components/mypage/profile/input/ProfileNicknameInput';
 import ProfilePhoneInput from '@components/mypage/profile/input/ProfilePhoneInput';
 import ProfileEmailInput from '@components/mypage/profile/input/ProfileEmailInput';
@@ -14,11 +16,12 @@ import ProfileImageInput from '@components/mypage/profile/input/ProfileImageInpu
 import { ProfileFormValues } from '@/types/form';
 import useUser from '@hooks/useUser';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+import { useUserStore } from '@store/useUserStore';
+import { updateProfile } from '@services/userService';
 
 function ProfileForm() {
   const user = useUser();
+  const { setUser } = useUserStore();
   const { openAlert } = useGlobalAlertStore();
   const [imagePreview, setImagePreview] = useState<string>(
     user?.profileImage as string,
@@ -34,7 +37,18 @@ function ProfileForm() {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (values: ProfileFormValues) => {
+    updateProfile(user?.uid as string, values)
+      .then(result => {
+        if (result.success) {
+          openAlert('프로필이 수정되었습니다.', '');
+          setUser(result.user!);
+        } else {
+          openAlert('오류가 발생했습니다.', result.error as string);
+        }
+      })
+      .catch(() => {});
+  };
 
   return (
     <div className='mx-auto w-[440px]'>
