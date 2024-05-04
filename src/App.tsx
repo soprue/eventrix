@@ -16,6 +16,7 @@ const SignInPage = lazy(() => import('@pages/SignIn'));
 const SignUpPage = lazy(() => import('@pages/SignUp'));
 const MyPage = lazy(() => import('@pages/mypage/MyPage'));
 const MyLikedEventsPage = lazy(() => import('@pages/mypage/MyLikedEvents'));
+const MyTicketsPage = lazy(() => import('@pages/mypage/MyTickets'));
 const MyEventsPage = lazy(() => import('@pages/mypage/MyEvents'));
 const NewEventsPage = lazy(() => import('@pages/mypage/NewEvents'));
 const EditEventsPage = lazy(() => import('@pages/mypage/EditEvents'));
@@ -55,6 +56,7 @@ function App() {
           </Route>
           <Route element={<PrivateRoute allowedTypes='buyer' />}>
             <Route path='/mypage/likes' element={<MyLikedEventsPage />} />
+            <Route path='/mypage/tickets' element={<MyTicketsPage />} />
           </Route>
           <Route element={<PrivateRoute allowedTypes='organizer' />}>
             <Route path='/mypage/events' element={<MyEventsPage />} />

@@ -5,7 +5,7 @@ function MyNavigation() {
   const user = useUser();
 
   return (
-    <div className='flex min-h-[calc(100vh-64px)] w-[200px] flex-col border-r border-gray-200 p-4 pt-10'>
+    <div className='flex min-h-[calc(100vh-64px)] w-[200px] flex-col border-r border-border/40 p-4 pt-10'>
       <nav className='flex flex-col gap-5 text-xl'>
         <NavLink
           to='/mypage'

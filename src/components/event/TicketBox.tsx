@@ -1,10 +1,10 @@
 import { commaizeNumber } from '@toss/utils';
 import { IoTicket } from 'react-icons/io5';
 
-import { TicketType } from '@/types/event';
+import { TicketOptionType } from '@/types/event';
 
 interface TicketBoxProps {
-  ticket: TicketType;
+  ticket: TicketOptionType;
 }
 
 function TicketBox({ ticket }: TicketBoxProps) {

@@ -6,13 +6,13 @@ import { FaPhoneAlt } from 'react-icons/fa';
 
 import SpinnerBox from '@shared/SpinnerBox';
 import ErrorBox from '@shared/ErrorBox';
+import EventInfoRow from '@shared/EventInfoRow';
+import EventInfoBox from '@shared/EventInfoBox';
 import { Button } from '@components/ui/button';
 import LikeButton from '@components/event/LikeButton';
-import InfoRow from '@components/event/InfoRow';
 import TicketBox from '@components/event/TicketBox';
-import InfoBox from '@components/event/InfoBox';
 
-import formatEventDateTime from '@utils/event/formatEventDateTime';
+import formatEventPeriod from '@utils/event/formatEventPeriod';
 import useUser from '@hooks/useUser';
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
@@ -71,24 +71,27 @@ function EventDetail() {
 
       <div className='flex justify-between'>
         <div className='w-[800px]'>
-          <InfoBox className='mb-9'>
-            <InfoRow
+          <EventInfoBox className='mb-9'>
+            <EventInfoRow
               label='일시'
-              value={formatEventDateTime(
+              value={formatEventPeriod(
                 eventData.startDateTime,
                 eventData.endDateTime,
               )}
             />
-            <InfoRow
+            <EventInfoRow
               label='모집'
-              value={formatEventDateTime(
+              value={formatEventPeriod(
                 eventData.registrationStart,
                 eventData.registrationEnd,
               )}
             />
-            <InfoRow label='장소' value={eventData?.location} />
-            <InfoRow label='주최' value={organizerData?.nickname as string} />
-          </InfoBox>
+            <EventInfoRow label='장소' value={eventData?.location} />
+            <EventInfoRow
+              label='주최'
+              value={organizerData?.nickname as string}
+            />
+          </EventInfoBox>
 
           <div data-color-mode='light' className='p-4'>
             <MDEditor.Markdown source={eventData.description} />
