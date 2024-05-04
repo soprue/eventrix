@@ -27,7 +27,7 @@ function MyNavigation() {
               이벤트 관리
             </NavLink>
             <NavLink
-              to='/mypage/orders'
+              to='/mypage/management'
               className={({ isActive }) =>
                 isActive ? 'text-black' : 'text-gray-300'
               }
