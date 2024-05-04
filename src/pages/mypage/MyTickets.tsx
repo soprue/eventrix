@@ -19,10 +19,13 @@ function MyTickets() {
 
   const { data, isLoading, isError } = useQuery(
     ['tickets', user?.uid, page],
-    () => getMyTickets(page, lastDoc, user?.uid as string),
+    () => getMyTickets(lastDoc, user?.uid as string),
     {
       keepPreviousData: true,
       enabled: !!user?.uid,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
       onSuccess: newData => {
         setLastDoc(newData.lastVisible || null);
       },

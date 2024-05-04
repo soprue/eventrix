@@ -486,7 +486,6 @@ export const getUserLikesWithPagination = async (
 };
 
 export const getMyTickets = async (
-  page: number,
   lastDoc:
     | QueryDocumentSnapshot<DocumentData, DocumentData>
     | null

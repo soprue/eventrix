@@ -159,3 +159,25 @@ const recordPurchase = async (
     }
   }
 };
+
+/**
+ * Firestore 내에서 트랜잭션을 처리하여 티켓을 취소합니다.
+ * @param {string} ticketId - 취소할 티켓의 ID입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} 취소 요청의 결과를 반환하는 프로미스입니다.
+ */
+export const canclePurchase = async (ticketId: string) => {
+  try {
+    const ticketRef = doc(db, 'tickets', ticketId);
+    await updateDoc(ticketRef, {
+      ticketStatus: '취소',
+    });
+
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: '오류가 발생했습니다.' };
+    }
+  }
+};
