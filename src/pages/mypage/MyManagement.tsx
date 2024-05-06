@@ -22,7 +22,7 @@ function MyManagement() {
 
   return (
     <div>
-      <div className='mb-4 flex w-full justify-between'>
+      <div className='mb-8 flex w-full justify-between'>
         <EventSelector setSelectedEvent={setSelectedEvent} />
       </div>
       {isLoading ? (

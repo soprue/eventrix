@@ -596,3 +596,24 @@ export const getEventTickets = async (
 
   return tickets;
 };
+
+/**
+ * Firebase 데이터베이스에서 특정 티켓의 상태를 변경합니다.
+ *
+ * @param {string} id - 업데이트할 티켓의 고유 식별자입니다.
+ * @param {string} status - 티켓에 설정할 새로운 상태입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} 업데이트가 성공했는지 여부를 나타내는 객체를 반환하며, 실패한 경우 에러 메시지를 포함합니다.
+ */
+export const changeTicketStatus = async (id: string, status: string) => {
+  try {
+    const ticketRef = doc(db, 'tickets', id);
+    await updateDoc(ticketRef, { ticketStatus: status });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return { success: false, error: error.message };
+    } else {
+      return { success: false, error: error };
+    }
+  }
+};

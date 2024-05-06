@@ -12,16 +12,17 @@ import {
 } from '@tanstack/react-table';
 
 import { Input } from '@components/ui/input';
-import { Badge } from '@components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@components/ui/tooltip';
+import { Badge } from '@components/ui/badge';
 import DataTable from '@shared/mypage/DataTable';
 import DataPagination from '@shared/mypage/DataPagination';
 import DataDropdown from '@shared/mypage/DataDropdown';
+import TicketStatusChanger from './TicketStatusChanger';
 
 import { PurchaseTicketType } from '@/types/ticket';
 
@@ -75,7 +76,22 @@ function TicketTable({ data }: TicketTableProps) {
       accessorKey: 'ticketStatus',
       header: '상태',
       cell: ({ row }) => (
-        <Badge variant='outline'>{row.original.ticketStatus}</Badge>
+        <>
+          {row.original.ticketStatus === '현장 수령' ||
+          row.original.ticketStatus === '취소' ? (
+            <Badge
+              variant='outline'
+              className='flex h-8 w-fit cursor-default items-center justify-center rounded-md font-medium'
+            >
+              {row.original.ticketStatus}
+            </Badge>
+          ) : (
+            <TicketStatusChanger
+              id={row.original.id as string}
+              status={row.original.ticketStatus}
+            />
+          )}
+        </>
       ),
     },
   ];
