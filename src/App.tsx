@@ -20,6 +20,7 @@ const MyTicketsPage = lazy(() => import('@pages/mypage/MyTickets'));
 const MyEventsPage = lazy(() => import('@pages/mypage/MyEvents'));
 const NewEventsPage = lazy(() => import('@pages/mypage/NewEvents'));
 const EditEventsPage = lazy(() => import('@pages/mypage/EditEvents'));
+const MyManagementPage = lazy(() => import('@pages/mypage/MyManagement'));
 const EventDetailPage = lazy(() => import('@pages/EventDetail'));
 const RegisterPage = lazy(() => import('@pages/Register'));
 const CartPage = lazy(() => import('@pages/Cart'));
@@ -62,6 +63,7 @@ function App() {
             <Route path='/mypage/events' element={<MyEventsPage />} />
             <Route path='/mypage/events/new' element={<NewEventsPage />} />
             <Route path='/mypage/events/edit' element={<EditEventsPage />} />
+            <Route path='/mypage/management' element={<MyManagementPage />} />
           </Route>
         </Route>
       </Routes>
