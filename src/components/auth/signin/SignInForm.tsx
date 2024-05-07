@@ -33,7 +33,7 @@ function SignInForm() {
 
   function onSubmit(values: FormValues) {
     signInWithEmail(values)
-      .then((result) => {
+      .then(result => {
         if (result.success) {
           openAlert(
             '환영합니다!',
@@ -43,45 +43,50 @@ function SignInForm() {
           openAlert('다시 시도해 주세요.', result.error as string);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         openAlert('다시 시도해 주세요.', error);
       });
   }
 
   return (
     <>
-      <p className="text-3xl font-bold text-center mb-12">로그인</p>
+      <p className='mb-12 text-center text-3xl font-bold'>로그인</p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>이메일</FormLabel>
                 <FormControl>
-                  <Input placeholder="이메일을 입력해 주세요." {...field} />
+                  <Input placeholder='이메일을 입력해 주세요.' {...field} />
                 </FormControl>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
-                    placeholder="비밀번호를 입력해 주세요."
+                    type='password'
+                    placeholder='비밀번호를 입력해 주세요.'
                     {...field}
                   />
                 </FormControl>
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={모두입력되었는지}>
+          <Button
+            type='submit'
+            className='w-full'
+            disabled={모두입력되었는지}
+            data-cy='signInButton'
+          >
             로그인
           </Button>
         </form>

@@ -84,7 +84,7 @@ describe('회원가입 테스트', () => {
     );
   });
 
-  it('사용자는 이메일과 비밀번호를 사용해서 회원가입 한다.', () => {
+  it('회원가입에 성공하면 메인 페이지로 이동한다.', () => {
     // When - 사용자 유형, 이메일, 닉네임, 비밀번호, 비밀번호 확인, 전화번호를 입력하고 회원가입 버튼을 클릭한다.
     cy.get('@userTypeInput').check(buyer.userType);
     cy.get('@emailInput').type(buyer.email);
