@@ -1,4 +1,4 @@
-import { user } from '../../fixtures/user';
+import { user } from 'cypress/fixtures/user';
 
 describe('로그인 테스트', () => {
   const { buyer } = user;
