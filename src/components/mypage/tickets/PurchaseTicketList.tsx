@@ -41,7 +41,7 @@ function PurchaseTicketList({
     <div>
       <div className='mb-24 flex flex-col gap-6'>
         {events.map((event: PurchaseTicketType) => (
-          <PurchaseTicketBox key={event.id} event={event} />
+          <PurchaseTicketBox key={event.id} event={event} page={page} />
         ))}
       </div>
 
