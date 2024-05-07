@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 import { commaizeNumber } from '@toss/utils';
 
 import { Badge } from '@components/ui/badge';
@@ -9,13 +10,17 @@ import { PurchaseTicketType } from '@/types/ticket';
 import formatSingleTimestamp from '@utils/formatSingleTimestamp';
 import { useGlobalAlertStore } from '@store/useGlobalAlertStore';
 import { canclePurchase } from '@services/paymentService';
+import useUser from '@hooks/useUser';
 
 interface PurchaseTicketBoxProps {
   event: PurchaseTicketType;
+  page: number;
 }
 
-function PurchaseTicketBox({ event }: PurchaseTicketBoxProps) {
+function PurchaseTicketBox({ event, page }: PurchaseTicketBoxProps) {
+  const queryClient = useQueryClient();
   const { openAlert } = useGlobalAlertStore();
+  const user = useUser();
 
   const handleCancel = () => {
     try {
@@ -23,6 +28,7 @@ function PurchaseTicketBox({ event }: PurchaseTicketBoxProps) {
         .then(result => {
           if (result.success) {
             openAlert('취소가 완료되었습니다.', '');
+            queryClient.invalidateQueries(['tickets', user?.uid, page]);
           } else {
             openAlert('오류가 발생했습니다.', result.error as string);
           }

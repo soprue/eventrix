@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { commaizeNumber } from '@toss/utils';
@@ -20,6 +21,7 @@ interface PaymentReadyProps {
 }
 
 function PaymentReady({ setStep, state }: PaymentReadyProps) {
+  const queryClient = useQueryClient();
   const user = useUser();
   const { openAlert } = useGlobalAlertStore();
   const { removeFromCart } = useCartStore();
@@ -68,6 +70,7 @@ function PaymentReady({ setStep, state }: PaymentReadyProps) {
       .then(result => {
         if (result.success) {
           setStep(prev => prev + 1);
+          queryClient.invalidateQueries(['tickets', user?.uid, 0]);
 
           state.forEach(ticket => {
             removeFromCart(ticket.ticketId);

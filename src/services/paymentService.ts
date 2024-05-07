@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   runTransaction,
   serverTimestamp,
   updateDoc,
@@ -136,6 +137,7 @@ const recordPurchase = async (
           buyerUID: user.uid,
           eventUID: ticket.eventId,
           orderUID: orderRef.id,
+          ticketOptionId: ticket.ticketId,
           ticketOptionName: ticket.name,
           quantity: ticket.quantity,
           ticketPrice: ticket.price,
@@ -161,15 +163,51 @@ const recordPurchase = async (
 };
 
 /**
- * Firestore 내에서 트랜잭션을 처리하여 티켓을 취소합니다.
+ * Firestore 데이터베이스에서 트랜잭션을 사용하여 티켓을 취소합니다.
+ * 티켓과 관련된 이벤트의 판매된 티켓 수를 감소시키고, 티켓의 상태를 '취소'로 업데이트합니다.
+ *
  * @param {string} ticketId - 취소할 티켓의 ID입니다.
- * @returns {Promise<{success: boolean, error?: string}>} 취소 요청의 결과를 반환하는 프로미스입니다.
+ * @returns {Promise<{success: boolean, error?: string}>} 티켓 취소 요청의 성공 여부와 에러 메시지를 포함하는 객체를 반환하는 프로미스입니다.
+ * @throws {Error} 티켓이 존재하지 않거나, 이벤트가 존재하지 않거나, 해당 티켓 옵션이 없는 경우 에러를 발생시킵니다.
  */
 export const canclePurchase = async (ticketId: string) => {
   try {
     const ticketRef = doc(db, 'tickets', ticketId);
-    await updateDoc(ticketRef, {
-      ticketStatus: '취소',
+    const ticketSnap = await getDoc(ticketRef);
+
+    if (!ticketSnap.exists()) {
+      throw new Error('티켓이 존재하지 않습니다.');
+    }
+
+    const ticketData = ticketSnap.data();
+    const eventRef = doc(db, 'events', ticketData.eventUID);
+    await runTransaction(db, async transaction => {
+      const eventSnap = await transaction.get(eventRef);
+
+      if (!eventSnap.exists()) {
+        throw new Error('이벤트가 존재하지 않습니다.');
+      }
+
+      const eventData = eventSnap.data();
+
+      const ticketOption = eventData.ticketOptions.find(
+        (option: TicketOptionType) => option.id === ticketData.ticketOptionId,
+      );
+
+      if (!ticketOption) {
+        throw new Error('티켓 옵션이 존재하지 않습니다.');
+      }
+
+      const updatedSoldCount = ticketOption.soldCount - ticketData.quantity;
+      const updatedTicketOptions = eventData.ticketOptions.map(
+        (option: TicketOptionType) =>
+          option.id === ticketData.ticketOptionId
+            ? { ...option, soldCount: updatedSoldCount }
+            : option,
+      );
+
+      transaction.update(eventRef, { ticketOptions: updatedTicketOptions });
+      transaction.update(ticketRef, { ticketStatus: '취소' });
     });
 
     return { success: true };
