@@ -5,7 +5,6 @@ describe('로그인 테스트', () => {
 
   beforeEach(() => {
     // Given - 로그인 페이지로 접속한다.
-    cy.conditionalLogout();
     cy.visit('/signin');
 
     cy.get('input[name="email"]').as('emailInput');
@@ -53,5 +52,9 @@ describe('로그인 테스트', () => {
 
     // Then - 홈 화면으로 이동한다.
     cy.url().should('eq', `${Cypress.config().baseUrl}/`);
+  });
+
+  afterEach(() => {
+    cy.firebaseLogout();
   });
 });

@@ -5,7 +5,6 @@ describe('회원가입 테스트', () => {
 
   beforeEach(() => {
     // Given - 회원가입 페이지로 접속한다.
-    cy.conditionalLogout();
     cy.visit('/signup');
 
     cy.get('input[name="userType"]').as('userTypeInput');
@@ -118,5 +117,9 @@ describe('회원가입 테스트', () => {
       'contain',
       '다시 시도해 주세요.',
     );
+  });
+
+  afterEach(() => {
+    cy.firebaseLogout();
   });
 });
