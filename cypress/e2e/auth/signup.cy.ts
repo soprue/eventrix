@@ -1,4 +1,4 @@
-const { user } = require('../fixtures/user');
+import { user } from '../../fixtures/user';
 
 describe('회원가입 테스트', () => {
   const { buyer } = user;
