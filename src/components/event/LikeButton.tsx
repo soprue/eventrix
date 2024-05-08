@@ -49,6 +49,7 @@ function LikeButton({ eventUID }: LikeButtonProps) {
           className='flex size-9 items-center justify-center rounded-full bg-primary'
           onClick={handleToggleLike}
           disabled={toggleLikeMutation.isLoading}
+          data-cy='like-button-unliked'
         >
           <GoHeartFill fill='white' />
         </button>
@@ -57,6 +58,7 @@ function LikeButton({ eventUID }: LikeButtonProps) {
           className='flex size-9 items-center justify-center rounded-full bg-primary'
           onClick={handleToggleLike}
           disabled={toggleLikeMutation.isLoading}
+          data-cy='like-button-liked'
         >
           <GoHeart fill='white' />
         </button>
