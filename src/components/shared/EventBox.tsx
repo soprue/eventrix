@@ -21,26 +21,37 @@ function EventBox({ event }: EventBoxProps) {
       className='h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
       onClick={() => navigate(`/event/${event.uid}`)}
       onMouseEnter={() => prefetchEvent(event.uid!)}
+      data-cy='eventBox'
     >
       <div className='relative h-[215px] overflow-hidden'>
-        <div className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'>
+        <div
+          className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'
+          data-cy='eventStatus'
+        >
           {event.status}
         </div>
         <img
           src={event.thumbnail as string}
           alt={event.name}
           className='size-full object-cover'
+          data-cy='eventThumbnail'
         />
       </div>
       <div className='p-3'>
         <div className='flex justify-between'>
-          <p>{event.category}</p>
-          <Badge variant='outline' className='gap-2 text-xs font-normal'>
+          <p data-cy='eventCategory'>{event.category}</p>
+          <Badge
+            variant='outline'
+            className='gap-2 text-xs font-normal'
+            data-cy='eventLikesCount'
+          >
             <GoHeartFill size={10} />
             {event.likesCount}
           </Badge>
         </div>
-        <p className='text-lg font-bold'>{name}</p>
+        <p className='text-lg font-bold' data-cy='eventName'>
+          {name}
+        </p>
       </div>
     </div>
   );

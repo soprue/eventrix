@@ -2,7 +2,7 @@ import { Skeleton } from '@components/ui/skeleton';
 
 function EventSkeletonList() {
   return (
-    <div className='grid grid-cols-4 gap-4'>
+    <div className='grid grid-cols-4 gap-4' data-cy='skeletonList'>
       {Array.from({ length: 12 }).map((_, index) => (
         <div
           key={index}
