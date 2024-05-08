@@ -32,21 +32,24 @@ function EventDetail() {
     navigate('/404');
     return null;
   }
-  if (isError) return <ErrorBox />;
+  if (isError) return <ErrorBox data-cy='error-box' />;
 
   return (
-    <div className='pb-16 pt-10'>
+    <div className='pb-16 pt-10' data-cy='event-detail'>
       <div className='h-[350px] w-full overflow-hidden rounded-md'>
         <img
           src={eventData?.thumbnail}
           alt='이벤트 썸네일'
           className='size-full object-cover'
+          data-cy='event-thumbnail'
         />
       </div>
 
       <div className='mb-9 mt-11 flex justify-between'>
         <div className='flex w-[800px] justify-between'>
-          <div className='text- text-[28px] font-medium'>{eventData?.name}</div>
+          <div className='text- text-[28px] font-medium' data-cy='event-name'>
+            {eventData?.name}
+          </div>
           <div>
             {user?.userType === 'buyer' && <LikeButton eventUID={id!} />}
           </div>
@@ -55,13 +58,14 @@ function EventDetail() {
         <div className='w-[310px]'>
           {eventData?.status !== '모집 진행' ||
           user?.userType === 'organizer' ? (
-            <Button className='w-full' disabled>
+            <Button className='w-full' disabled data-cy='join-button'>
               이벤트 참여하기
             </Button>
           ) : (
             <Button
               className='w-full'
               onClick={() => navigate(`/register/${id}`)}
+              data-cy='join-button'
             >
               이벤트 참여하기
             </Button>

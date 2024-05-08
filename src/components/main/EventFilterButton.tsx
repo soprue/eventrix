@@ -28,6 +28,7 @@ function EventFilterButton({
     <button
       className='border-line-normal flex items-center gap-3 rounded-full border px-4 py-3 text-sm'
       onClick={onClick}
+      data-cy={`filter-button-${label}`}
     >
       <span className='text-text-normal'>{label}</span>
       <span className='text-primary-heavy font-bold'>

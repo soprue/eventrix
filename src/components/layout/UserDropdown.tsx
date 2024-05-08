@@ -40,7 +40,7 @@ function UserDropdown({ user }: UserDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild data-cy='user-drop-down-menu'>
         <Avatar className='cursor-pointer'>
           <AvatarImage src={user.profileImage} alt='user avatar' />
           <AvatarFallback>{user.nickname}</AvatarFallback>
@@ -61,6 +61,7 @@ function UserDropdown({ user }: UserDropdownProps) {
               <DropdownMenuItem
                 className='py-3'
                 onClick={() => navigate('/cart')}
+                data-cy='cart-button'
               >
                 <ShoppingCart className='mr-2 size-4' />
                 <span>
@@ -73,7 +74,11 @@ function UserDropdown({ user }: UserDropdownProps) {
               <DropdownMenuSeparator />
             </>
           )}
-          <DropdownMenuItem className='py-3' onClick={handleLogout}>
+          <DropdownMenuItem
+            className='py-3'
+            onClick={handleLogout}
+            data-cy='signout-button'
+          >
             <LogOut className='mr-2 size-4' />
             <span>로그아웃</span>
           </DropdownMenuItem>

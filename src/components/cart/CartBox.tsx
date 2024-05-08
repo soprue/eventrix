@@ -33,12 +33,13 @@ function CartBox({
   };
 
   return (
-    <div className='flex items-center justify-between'>
+    <div className='flex items-center justify-between' data-cy='cart-box'>
       <div className='flex items-center justify-start gap-8'>
         <Checkbox
           key={ticket.ticketId}
           id={ticket.ticketId}
           onClick={() => handleCheckboxChange(ticket.ticketId)}
+          data-cy='cart-checkbox'
         />
         <label htmlFor={ticket.ticketId}>
           {ticket.name}

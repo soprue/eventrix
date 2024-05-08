@@ -22,7 +22,7 @@ export const AUTH_ERROR_MAP: { [key: string]: string } = {
   'auth/invalid-user-token': '사용자 토큰이 유효하지 않습니다.',
   'auth/wrong-password': '비밀번호가 올바르지 않습니다. 다시 입력하세요.',
   'auth/credential-already-in-use': '이 인증 정보는 이미 사용 중입니다.',
-  'auth/invalid-credential': '제공된 인증 정보가 유효하지 않습니다.',
+  'auth/invalid-credential': '이메일과 비밀번호가 일치하지 않습니다.',
   'auth/requires-recent-login': '보안을 위해 최근 로그인이 필요합니다.',
   'auth/account-exists-with-different-credential':
     '이 이메일은 다른 인증 방법으로 이미 등록되어 있습니다.',
