@@ -16,8 +16,12 @@ function GlobalAlertDialog() {
     <AlertDialog open={isOpen} onOpenChange={closeAlert}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle data-cy='alert-dialog-title'>
+            {title}
+          </AlertDialogTitle>
+          <AlertDialogDescription data-cy='alert-dialog-description'>
+            {description}
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction onClick={closeAlert}>확인</AlertDialogAction>

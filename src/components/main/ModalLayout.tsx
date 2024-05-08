@@ -19,6 +19,7 @@ function ModalLayout({ onApply, children }: ModalWrapProps) {
           <button
             className='h-12 w-[140px] rounded-lg border border-primary bg-primary font-bold text-white'
             onClick={onApply}
+            data-cy='apply-filter'
           >
             적용하기
           </button>

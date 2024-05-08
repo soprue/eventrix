@@ -136,6 +136,7 @@ function PaymentForm({
           type='submit'
           disabled={isPaymentProcessing}
           className='mt-10 w-full'
+          data-cy='payment-submit-button'
         >
           결제하기
         </Button>

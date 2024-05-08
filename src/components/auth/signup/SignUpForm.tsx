@@ -73,6 +73,7 @@ function SignUpForm() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className='flex gap-6'
+                    name='userType'
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
@@ -104,7 +105,7 @@ function SignUpForm() {
                     })}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-cy='email-helper-text' />
               </FormItem>
             )}
           />
@@ -136,8 +137,8 @@ function SignUpForm() {
                     placeholder='8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요.'
                     {...form.register('password')}
                   />
-                </FormControl>
-                <FormMessage />
+                </FormControl>{' '}
+                <FormMessage data-cy='password-helper-text' />
               </FormItem>
             )}
           />
@@ -152,8 +153,8 @@ function SignUpForm() {
                     placeholder='비밀번호를 다시 입력해 주세요.'
                     {...form.register('passwordConfirm')}
                   />
-                </FormControl>
-                <FormMessage />
+                </FormControl>{' '}
+                <FormMessage data-cy='password-confirm-helper-text' />
               </FormItem>
             )}
           />
@@ -169,12 +170,17 @@ function SignUpForm() {
                       setValueAs: value => value.trim(),
                     })}
                   />
-                </FormControl>
-                <FormMessage />
+                </FormControl>{' '}
+                <FormMessage data-cy='phone-helper-text' />
               </FormItem>
             )}
-          />
-          <Button type='submit' className='w-full' disabled={모두입력되었는지}>
+          />{' '}
+          <Button
+            type='submit'
+            className='w-full'
+            disabled={모두입력되었는지}
+            data-cy='signup-button'
+          >
             회원가입
           </Button>
         </form>

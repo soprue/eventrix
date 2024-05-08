@@ -8,7 +8,10 @@ function PaymentDone() {
   const navigate = useNavigate();
 
   return (
-    <div className='flex h-[calc(100dvh-64px)] w-full justify-center'>
+    <div
+      className='flex h-[calc(100dvh-64px)] w-full justify-center'
+      data-cy='payment-done'
+    >
       <div className='flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
         <img src={ConfirmedImage} alt='confirmed' className='w-80' />
         <div className='flex w-full flex-col items-center gap-4'>
