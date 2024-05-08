@@ -26,7 +26,11 @@ function TicketOptionBox({ option, setTicketQuantity }: TicketOptionBoxProps) {
   return (
     <div className='flex items-center justify-between'>
       <div className='flex items-center space-x-8'>
-        <RadioGroupItem value={option.id} id={option.id} />
+        <RadioGroupItem
+          value={option.id}
+          id={option.id}
+          data-cy='ticket-option-input'
+        />
         <Label htmlFor={option.id} className='!font-normal'>
           <p className='text-sm'>₩ {commaizeNumber(option.price)}</p>
           <p className='text-lg'>{option.optionName}</p>
@@ -34,12 +38,17 @@ function TicketOptionBox({ option, setTicketQuantity }: TicketOptionBoxProps) {
       </div>
       <div>
         <Select defaultValue='1' onValueChange={handleQuantityChange}>
-          <SelectTrigger className='w-[100px]'>
-            <SelectValue placeholder='1' />
+          <SelectTrigger
+            className='w-[100px]'
+            data-cy='ticket-quantity-trigger'
+          >
+            <SelectValue placeholder='1' data-cy='ticket-quantity-display' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value='1'>1</SelectItem>
+              <SelectItem value='1' data-cy='ticket-quantity-item'>
+                1
+              </SelectItem>
               <SelectItem value='2'>2</SelectItem>
             </SelectGroup>
           </SelectContent>

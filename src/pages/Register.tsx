@@ -140,12 +140,14 @@ function Register() {
           <Button
             disabled={!티켓을선택했는지}
             onClick={() => handleSubmit('pay')}
+            data-cy='register-pay-button'
           >
             결제하기
           </Button>
           <Button
             disabled={!티켓을선택했는지}
             onClick={() => handleSubmit('cart')}
+            data-cy='register-cart-button'
           >
             장바구니에 담기
           </Button>

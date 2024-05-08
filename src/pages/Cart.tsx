@@ -54,7 +54,10 @@ function Cart() {
       <p className='text-3xl font-bold'>장바구니</p>
 
       {cartItems.length === 0 ? (
-        <div className='mt-10 border-b border-t border-border py-10 text-center leading-8'>
+        <div
+          className='mt-10 border-b border-t border-border py-10 text-center leading-8'
+          data-cy='cart-empty'
+        >
           <p className='text-xl font-semibold'>
             장바구니에 담긴 이벤트가 없습니다.
           </p>
@@ -70,7 +73,10 @@ function Cart() {
         </div>
       ) : (
         <>
-          <div className='mb-32 mt-12 border-t border-border'>
+          <div
+            className='mb-32 mt-12 border-t border-border'
+            data-cy='cart-list'
+          >
             {groupedItems.map(group => {
               const groupTotalPrice = group.tickets.reduce(
                 (acc, ticket) => acc + ticket.price * ticket.quantity,
@@ -116,6 +122,7 @@ function Cart() {
               <Button
                 disabled={!티켓을선택했는지}
                 onClick={() => handleSubmit()}
+                data-cy='cart-pay-button'
               >
                 결제하기
               </Button>

@@ -61,6 +61,7 @@ function UserDropdown({ user }: UserDropdownProps) {
               <DropdownMenuItem
                 className='py-3'
                 onClick={() => navigate('/cart')}
+                data-cy='cart-button'
               >
                 <ShoppingCart className='mr-2 size-4' />
                 <span>
