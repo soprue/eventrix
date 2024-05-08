@@ -13,7 +13,9 @@ describe('회원가입 테스트', () => {
     cy.get('input[name="password"]').as('passwordInput').should('be.visible');
     cy.get('input[name="passwordConfirm"]').as('passwordConfirmInput');
     cy.get('input[name="phone"]').as('phoneInput');
-    cy.get('[data-cy="signupButton"]').as('signupButton').should('be.disabled');
+    cy.get('[data-cy="signup-button"]')
+      .as('signupButton')
+      .should('be.disabled');
   });
 
   it('잘못된 이메일 형식 입력 시 에러 메시지가 나타난다.', () => {
@@ -21,7 +23,7 @@ describe('회원가입 테스트', () => {
     cy.get('@emailInput').type('test');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="emailHelperText"]').should(
+    cy.get('[data-cy="email-helper-text"]').should(
       'contain',
       '유효하지 않은 이메일 주소입니다.',
     );
@@ -32,7 +34,7 @@ describe('회원가입 테스트', () => {
     cy.get('@passwordInput').type('test');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="passwordHelperText"]').should(
+    cy.get('[data-cy="password-helper-text"]').should(
       'contain',
       '비밀번호는 최소 8자 이상이어야 합니다.',
     );
@@ -43,7 +45,7 @@ describe('회원가입 테스트', () => {
     cy.get('@passwordInput').type('testtest');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="passwordHelperText"]').should(
+    cy.get('[data-cy="password-helper-text"]').should(
       'contain',
       '비밀번호는 대문자, 소문자, 숫자, 특수문자 중 3종류를 포함해야 합니다.',
     );
@@ -55,7 +57,7 @@ describe('회원가입 테스트', () => {
     cy.get('@passwordConfirmInput').type('testtest1');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="passwordConfirmHelperText"]').should(
+    cy.get('[data-cy="password-confirm-helper-text"]').should(
       'contain',
       '비밀번호가 일치하지 않습니다.',
     );
@@ -66,7 +68,7 @@ describe('회원가입 테스트', () => {
     cy.get('@phoneInput').type('0101234567a');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="phoneHelperText"]').should(
+    cy.get('[data-cy="phone-helper-text"]').should(
       'contain',
       '전화번호는 숫자만 포함해야 합니다.',
     );
@@ -77,7 +79,7 @@ describe('회원가입 테스트', () => {
     cy.get('@phoneInput').type('010123456');
 
     // Then - 에러 메시지를 보여 준다.
-    cy.get('[data-cy="phoneHelperText"]').should(
+    cy.get('[data-cy="phone-helper-text"]').should(
       'contain',
       '전화번호는 최소 10자 이상이어야 합니다.',
     );
@@ -97,7 +99,7 @@ describe('회원가입 테스트', () => {
 
     // Then - 회원가입이 완료되고 메인 페이지로 이동한다.
     cy.url().should('eq', `${Cypress.config().baseUrl}/`);
-    cy.get('[data-cy="alertDialogTitle"]').should('contain', '환영합니다!');
+    cy.get('[data-cy="alert-dialog-title"]').should('contain', '환영합니다!');
   });
 
   it('이미 사용 중인 이메일로 가입을 시도하면 에러 메시지를 보여 준다.', () => {
@@ -113,7 +115,7 @@ describe('회원가입 테스트', () => {
     cy.get('@signupButton').click();
 
     // Then - Alert로 에러 메시지를 보여 준다.
-    cy.get('[data-cy="alertDialogTitle"]').should(
+    cy.get('[data-cy="alert-dialog-title"]').should(
       'contain',
       '다시 시도해 주세요.',
     );

@@ -11,13 +11,13 @@ describe('로그아웃 테스트', () => {
 
   it('로그아웃 버튼을 클릭하면 로그아웃이 되어야 한다.', () => {
     // When - 사용자 드롭다운 메뉴를 열고 로그아웃 버튼을 클릭한다.
-    cy.get('[data-cy="userDropDownMenu"]', { timeout: 100000 })
+    cy.get('[data-cy="user-drop-down-menu"]', { timeout: 100000 })
       .should('be.visible')
       .click();
-    cy.get('[data-cy="signoutButton"]').click();
+    cy.get('[data-cy="signout-button"]').click();
 
     // Then - 로그아웃 후 사용자 드롭다운 메뉴가 사라지고 로그인 버튼이 나타난다.
-    cy.get('[data-cy="userDropDownMenu"]').should('not.exist');
+    cy.get('[data-cy="user-drop-down-menu"]').should('not.exist');
     cy.get('a').contains('로그인').should('be.visible');
   });
 });

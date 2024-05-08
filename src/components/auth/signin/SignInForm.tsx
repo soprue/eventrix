@@ -85,7 +85,7 @@ function SignInForm() {
             type='submit'
             className='w-full'
             disabled={모두입력되었는지}
-            data-cy='signInButton'
+            data-cy='signin-button'
           >
             로그인
           </Button>

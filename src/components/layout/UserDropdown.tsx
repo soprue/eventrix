@@ -40,7 +40,7 @@ function UserDropdown({ user }: UserDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild data-cy='userDropDownMenu'>
+      <DropdownMenuTrigger asChild data-cy='user-drop-down-menu'>
         <Avatar className='cursor-pointer'>
           <AvatarImage src={user.profileImage} alt='user avatar' />
           <AvatarFallback>{user.nickname}</AvatarFallback>
@@ -76,7 +76,7 @@ function UserDropdown({ user }: UserDropdownProps) {
           <DropdownMenuItem
             className='py-3'
             onClick={handleLogout}
-            data-cy='signoutButton'
+            data-cy='signout-button'
           >
             <LogOut className='mr-2 size-4' />
             <span>로그아웃</span>

@@ -4,33 +4,33 @@ describe('이벤트 목록 페이지 테스트', () => {
   });
 
   it('이벤트 목록을 불러올 때 스켈레톤 리스트가 먼저 보여진다.', () => {
-    cy.get('[data-cy="skeletonList"]').should('be.visible');
-    cy.get('[data-cy="skeletonList"]').should('not.exist');
-    cy.get('[data-cy="eventList"]').should('be.visible');
+    cy.get('[data-cy="skeleton-list"]').should('be.visible');
+    cy.get('[data-cy="skeleton-list"]').should('not.exist');
+    cy.get('[data-cy="event-list"]').should('be.visible');
   });
 
   it('이벤트 목록이 정상적으로 불러와진다.', () => {
-    cy.get('[data-cy="eventList"]')
+    cy.get('[data-cy="event-list"]')
       .first()
-      .find('[data-cy="eventBox"]')
+      .find('[data-cy="event-box"]')
       .should('have.length.at.least', 1);
 
-    cy.get('[data-cy="eventBox"]').each(box => {
-      cy.wrap(box).find('[data-cy="eventTitle"]').should('not.be.empty');
-      cy.wrap(box).find('[data-cy="eventThumbnail"]').should('be.visible');
-      cy.wrap(box).find('[data-cy="eventCategory"]').should('not.be.empty');
-      cy.wrap(box).find('[data-cy="eventStatus"]').should('not.be.empty');
-      cy.wrap(box).find('[data-cy="eventLikesCount"]').should('not.be.empty');
+    cy.get('[data-cy="event-box"]').each(box => {
+      cy.wrap(box).find('[data-cy="event-title"]').should('not.be.empty');
+      cy.wrap(box).find('[data-cy="event-thumbnail"]').should('be.visible');
+      cy.wrap(box).find('[data-cy="event-category"]').should('not.be.empty');
+      cy.wrap(box).find('[data-cy="event-status"]').should('not.be.empty');
+      cy.wrap(box).find('[data-cy="event-likes-count"]').should('not.be.empty');
     });
   });
 
   it('이벤트가 충분할 때 무한 스크롤이 동작한다.', () => {
-    cy.get('[data-cy="eventBox"]').then(initialEvents => {
+    cy.get('[data-cy="event-box"]').then(initialEvents => {
       const initialCount = initialEvents.length;
 
       if (initialCount >= 12) {
         cy.scrollTo('bottom');
-        cy.get('[data-cy="eventBox"]')
+        cy.get('[data-cy="event-box"]')
           .its('length')
           .should('be.gt', initialCount);
       } else {
@@ -40,25 +40,25 @@ describe('이벤트 목록 페이지 테스트', () => {
   });
 
   it('필터 옵션으로 이벤트를 필터링 할 수 있다.', () => {
-    cy.get('[data-cy="filterButton-카테고리"]').first().click();
-    cy.get('[data-cy="filterModal-카테고리"]').should('be.visible');
+    cy.get('[data-cy="filter-button-카테고리"]').first().click();
+    cy.get('[data-cy="filter-modal-카테고리"]').should('be.visible');
     cy.contains('금융').click();
     cy.contains('금융').should('have.class', 'border-primary');
-    cy.get('[data-cy="applyFilter"]').click();
+    cy.get('[data-cy="apply-filter"]').click();
 
-    cy.get('[data-cy="eventBox"]').each(box => {
+    cy.get('[data-cy="event-box"]').each(box => {
       cy.wrap(box)
-        .find('[data-cy="eventCategory"]')
+        .find('[data-cy="event-category"]')
         .should('have.text', '금융');
     });
   });
 
   it('인기순으로 이벤트 목록을 정렬할 수 있다.', () => {
-    cy.get('[data-cy=sortButton]').click();
-    cy.get('[data-cy=sortButton-인기순]').click();
+    cy.get('[data-cy=sort-button]').click();
+    cy.get('[data-cy=sort-button-인기순]').click();
 
-    cy.get('[data-cy=eventBox]')
-      .find('[data-cy=eventLikesCount]')
+    cy.get('[data-cy=event-box]')
+      .find('[data-cy=event-likes-count]')
       .then($likes => {
         const likesArray = $likes
           .map((_, html) => Number(Cypress.$(html).text()))
@@ -68,7 +68,7 @@ describe('이벤트 목록 페이지 테스트', () => {
   });
 
   it('이벤트 박스를 클릭하면 이벤트 상세 페이지로 이동한다.', () => {
-    cy.get('[data-cy=eventBox]').first().click();
+    cy.get('[data-cy=event-box]').first().click();
     cy.url().should('include', '/event/');
   });
 });

@@ -16,10 +16,10 @@ function GlobalAlertDialog() {
     <AlertDialog open={isOpen} onOpenChange={closeAlert}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle data-cy='alertDialogTitle'>
+          <AlertDialogTitle data-cy='alert-dialog-title'>
             {title}
           </AlertDialogTitle>
-          <AlertDialogDescription data-cy='alertDialogDescription'>
+          <AlertDialogDescription data-cy='alert-dialog-description'>
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>

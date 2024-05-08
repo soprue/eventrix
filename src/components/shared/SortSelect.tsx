@@ -16,7 +16,7 @@ interface SortSelectProps {
 
 function SortSelect({ sort, setSort }: SortSelectProps) {
   return (
-    <div className='flex items-center gap-[11px]' data-cy='sortButton'>
+    <div className='flex items-center gap-[11px]' data-cy='sort-button'>
       <span className='text-gray-600'>정렬방식</span>
       <Select onValueChange={(value: SortFilterType) => setSort(value)}>
         <SelectTrigger className='h-[46px] w-[100px] rounded-full'>
@@ -25,7 +25,7 @@ function SortSelect({ sort, setSort }: SortSelectProps) {
         <SelectContent>
           <SelectGroup>
             <SelectItem value='최신순'>최신순</SelectItem>
-            <SelectItem value='인기순' data-cy='sortButton-인기순'>
+            <SelectItem value='인기순' data-cy='sort-button-인기순'>
               인기순
             </SelectItem>
           </SelectGroup>

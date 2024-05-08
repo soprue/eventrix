@@ -9,7 +9,9 @@ describe('로그인 테스트', () => {
 
     cy.get('input[name="email"]').as('emailInput');
     cy.get('input[name="password"]').as('passwordInput');
-    cy.get('[data-cy="signInButton"]').as('signinButton').should('be.disabled');
+    cy.get('[data-cy="signin-button"]')
+      .as('signinButton')
+      .should('be.disabled');
   });
 
   it('이메일 형식에 맞지 않는 값을 입력하고 로그인을 시도하면 에러 메시지를 보여 준다.', () => {
@@ -21,7 +23,7 @@ describe('로그인 테스트', () => {
     cy.get('@signinButton').click();
 
     // Then - Alert로 에러 메시지를 보여 준다.
-    cy.get('[data-cy="alertDialogDescription"]').should(
+    cy.get('[data-cy="alert-dialog-description"]').should(
       'contain',
       '유효하지 않은 이메일 형식입니다.',
     );
@@ -36,7 +38,7 @@ describe('로그인 테스트', () => {
     cy.get('@signinButton').click();
 
     // Then - Alert로 에러 메시지를 보여 준다.
-    cy.get('[data-cy="alertDialogDescription"]').should(
+    cy.get('[data-cy="alert-dialog-description"]').should(
       'contain',
       '이메일과 비밀번호가 일치하지 않습니다.',
     );

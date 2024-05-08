@@ -105,7 +105,7 @@ function SignUpForm() {
                     })}
                   />
                 </FormControl>
-                <FormMessage data-cy='emailHelperText' />
+                <FormMessage data-cy='email-helper-text' />
               </FormItem>
             )}
           />
@@ -138,7 +138,7 @@ function SignUpForm() {
                     {...form.register('password')}
                   />
                 </FormControl>{' '}
-                <FormMessage data-cy='passwordHelperText' />
+                <FormMessage data-cy='password-helper-text' />
               </FormItem>
             )}
           />
@@ -154,7 +154,7 @@ function SignUpForm() {
                     {...form.register('passwordConfirm')}
                   />
                 </FormControl>{' '}
-                <FormMessage data-cy='passwordConfirmHelperText' />
+                <FormMessage data-cy='password-confirm-helper-text' />
               </FormItem>
             )}
           />
@@ -171,7 +171,7 @@ function SignUpForm() {
                     })}
                   />
                 </FormControl>{' '}
-                <FormMessage data-cy='phoneHelperText' />
+                <FormMessage data-cy='phone-helper-text' />
               </FormItem>
             )}
           />{' '}
@@ -179,7 +179,7 @@ function SignUpForm() {
             type='submit'
             className='w-full'
             disabled={모두입력되었는지}
-            data-cy='signupButton'
+            data-cy='signup-button'
           >
             회원가입
           </Button>
