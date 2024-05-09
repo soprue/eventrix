@@ -1,6 +1,7 @@
 import { FcGoogle } from 'react-icons/fc';
 
 import InputTitle from '@shared/InputTitle';
+import React from 'react';
 
 interface ProfileEmailInputProps {
   loginType: string;
@@ -26,4 +27,4 @@ function ProfileEmailInput({ loginType, email }: ProfileEmailInputProps) {
   );
 }
 
-export default ProfileEmailInput;
+export default React.memo(ProfileEmailInput);

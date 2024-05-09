@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
@@ -40,4 +41,4 @@ function ProfilePhoneInput({ form }: ProfilePhoneInputProps) {
   );
 }
 
-export default ProfilePhoneInput;
+export default React.memo(ProfilePhoneInput);
