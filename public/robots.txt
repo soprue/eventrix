@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /signin
+Disallow: /signup
+Disallow: /register
+Disallow: /cart
+Disallow: /payment
+Disallow: /mypage
+Disallow: /mypage/likes
+Disallow: /mypage/tickets
+Disallow: /mypage/events
+Disallow: /mypage/events/new
+Disallow: /mypage/events/edit
+Disallow: /mypage/management
