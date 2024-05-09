@@ -4,6 +4,7 @@ import MDEditor from '@uiw/react-md-editor';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 
+import SEO from '@shared/SEO';
 import SpinnerBox from '@shared/SpinnerBox';
 import ErrorBox from '@shared/ErrorBox';
 import EventInfoRow from '@shared/EventInfoRow';
@@ -16,7 +17,6 @@ import formatEventPeriod from '@utils/event/formatEventPeriod';
 import useUser from '@hooks/useUser';
 import useEventDetail from '@hooks/useEventDetail';
 import useOrganizerInfo from '@hooks/useOrganizerInfo';
-import DetailSEO from '@/components/SEO/DetailSEO';
 
 function EventDetail() {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function EventDetail() {
 
   return (
     <div className='pb-16 pt-10' data-cy='event-detail'>
-      <DetailSEO eventData={eventData} />
+      <SEO eventData={eventData} />
 
       <div className='h-[350px] w-full overflow-hidden rounded-md'>
         <img
