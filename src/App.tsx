@@ -10,7 +10,7 @@ import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
 import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';
 import MainPage from '@pages/Main';
-import MainSEO from './components/SEO/MainSEO';
+import MainSEO from '@components/SEO/MainSEO';
 const NotFound = lazy(() => import('@pages/404'));
 const SearchPage = lazy(() => import('@pages/Search'));
 const SignInPage = lazy(() => import('@pages/SignIn'));
