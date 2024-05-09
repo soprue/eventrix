@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { MdOutlineFileUpload } from 'react-icons/md';
 
@@ -104,4 +104,4 @@ function EventThumbnailInput({
   );
 }
 
-export default EventThumbnailInput;
+export default React.memo(EventThumbnailInput);

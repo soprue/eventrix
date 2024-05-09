@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
@@ -52,4 +53,4 @@ function EventCategoryInput({ form }: EventCategoryInputProps) {
   );
 }
 
-export default EventCategoryInput;
+export default React.memo(EventCategoryInput);

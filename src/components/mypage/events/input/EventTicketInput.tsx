@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { TiDelete } from 'react-icons/ti';
 import { GoPlus } from 'react-icons/go';
@@ -103,4 +104,4 @@ function EventTicketInput({ form }: EventTicketInputProps) {
   );
 }
 
-export default EventTicketInput;
+export default React.memo(EventTicketInput);
