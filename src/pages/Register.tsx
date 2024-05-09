@@ -98,7 +98,7 @@ function Register() {
 
   if (isLoading) return <SpinnerBox />;
   if (!eventData) {
-    navigate('/404');
+    navigate('/404', { replace: true });
     return null;
   }
   if (isError) return <ErrorBox />;

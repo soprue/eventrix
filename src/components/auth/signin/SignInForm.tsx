@@ -27,11 +27,13 @@ function SignInForm() {
     },
   });
 
-  const email = form.watch('email');
-  const password = form.watch('password');
-  const 모두입력되었는지 = !email || !password;
-
   function onSubmit(values: FormValues) {
+    const { email, password } = values;
+    if (!email || !password) {
+      openAlert('입력이 완료되지 않았습니다.', '모든 필드를 입력해주세요.');
+      return;
+    }
+
     signInWithEmail(values)
       .then(result => {
         if (result.success) {
@@ -81,12 +83,7 @@ function SignInForm() {
               </FormItem>
             )}
           />
-          <Button
-            type='submit'
-            className='w-full'
-            disabled={모두입력되었는지}
-            data-cy='signin-button'
-          >
+          <Button type='submit' className='w-full' data-cy='signin-button'>
             로그인
           </Button>
         </form>
