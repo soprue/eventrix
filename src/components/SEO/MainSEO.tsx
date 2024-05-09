@@ -11,7 +11,7 @@ function MainSEO() {
         property='og:description'
         content='마음에 드는 이벤트를 찾아보세요.'
       />
-      <meta property='og:image' content='/public/og_image.png' />
+      <meta property='og:image' content={import.meta.env.VITE_OG_IMAGE_URL} />
       <meta property='og:url' content='https://eventrix.vercel.app' />
       <meta property='og:type' content='website' />
       <meta name='twitter:card' content='summary' />
@@ -20,7 +20,7 @@ function MainSEO() {
         name='twitter:description'
         content='마음에 드는 이벤트를 찾아보세요.'
       />
-      <meta name='twitter:image' content='/public/og_image.png' />
+      <meta name='twitter:image' content={import.meta.env.VITE_OG_IMAGE_URL} />
       <meta name='twitter:url' content='https://eventrix.vercel.app' />
       <meta property='og:locale' content='ko_KR' />
     </Helmet>
