@@ -22,6 +22,7 @@ function MainSEO() {
       />
       <meta name='twitter:image' content='/public/og_image.png' />
       <meta name='twitter:url' content='https://eventrix.vercel.app' />
+      <meta property='og:locale' content='ko_KR' />
     </Helmet>
   );
 }
