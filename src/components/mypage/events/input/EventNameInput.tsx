@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
@@ -40,4 +41,4 @@ function EventNameInput({ form }: EventNameInputProps) {
   );
 }
 
-export default EventNameInput;
+export default React.memo(EventNameInput);

@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -240,4 +241,4 @@ function EventDateInput({
   );
 }
 
-export default EventDateInput;
+export default React.memo(EventDateInput);

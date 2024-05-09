@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 
@@ -85,4 +85,4 @@ function EventLocationInput({
   );
 }
 
-export default EventLocationInput;
+export default React.memo(EventLocationInput);

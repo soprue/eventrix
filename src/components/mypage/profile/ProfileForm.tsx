@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { Form } from '@components/ui/form';
 import { Button } from '@components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
-import { Label } from '@components/ui/label';
+import ProfileUserTypeInput from '@components/mypage/profile/input/ProfileUserTypeInput';
 import ProfileNicknameInput from '@components/mypage/profile/input/ProfileNicknameInput';
 import ProfilePhoneInput from '@components/mypage/profile/input/ProfilePhoneInput';
 import ProfileEmailInput from '@components/mypage/profile/input/ProfileEmailInput';
@@ -28,8 +27,8 @@ function ProfileForm() {
   );
 
   const form = useForm<ProfileFormValues>({
-    mode: 'onChange',
     resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
     defaultValues: {
       profileImage: user?.profileImage,
       nickname: user?.nickname as string,
@@ -37,41 +36,30 @@ function ProfileForm() {
     },
   });
 
-  const onSubmit = (values: ProfileFormValues) => {
-    updateProfile(user?.uid as string, values)
-      .then(result => {
-        if (result.success) {
-          openAlert('프로필이 수정되었습니다.', '');
-          setUser(result.user!);
-        } else {
-          openAlert('오류가 발생했습니다.', result.error as string);
-        }
-      })
-      .catch(error => {
-        openAlert('오류가 발생했습니다.', error);
-      });
-  };
+  const onSubmit = useCallback(
+    (values: ProfileFormValues) => {
+      updateProfile(user?.uid as string, values)
+        .then(result => {
+          if (result.success) {
+            openAlert('프로필이 수정되었습니다.', '');
+            setUser(result.user!);
+          } else {
+            openAlert('오류가 발생했습니다.', result.error as string);
+          }
+        })
+        .catch(error => {
+          openAlert('오류가 발생했습니다.', error);
+        });
+    },
+    [user?.uid, setUser, openAlert],
+  );
 
   return (
     <div className='mx-auto w-[440px]'>
       <div></div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-          <RadioGroup
-            disabled
-            defaultValue={user?.userType as string}
-            className='flex w-full justify-center gap-6'
-          >
-            <div className='flex items-center space-x-3 space-y-0'>
-              <RadioGroupItem value='organizer' />
-              <Label>주최자</Label>
-            </div>
-            <div className='flex items-center space-x-3 space-y-0'>
-              <RadioGroupItem value='buyer' />
-              <Label>참여자</Label>
-            </div>
-          </RadioGroup>
-
+          <ProfileUserTypeInput userType={user?.userType as string} />
           <ProfileImageInput
             nickname={user?.nickname as string}
             imagePreview={imagePreview}

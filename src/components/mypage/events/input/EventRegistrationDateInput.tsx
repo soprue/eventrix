@@ -1,3 +1,4 @@
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -28,7 +29,7 @@ import InputTitle from '@shared/InputTitle';
 import { EventFormValues } from '@/types/form';
 import { cn } from '@/lib/utils';
 import RightArrow from '@assets/images/icons/RightArrow.svg';
-import formatTimeTo12HourClock from '@/utils/mypage/formatTimeTo12HourClock';
+import formatTimeTo12HourClock from '@utils/mypage/formatTimeTo12HourClock';
 
 interface EventRegistrationDateInputProps {
   form: UseFormReturn<EventFormValues>;
@@ -253,4 +254,4 @@ function EventRegistrationDateInput({
   );
 }
 
-export default EventRegistrationDateInput;
+export default React.memo(EventRegistrationDateInput);

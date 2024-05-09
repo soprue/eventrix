@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Select,
   SelectContent,
@@ -35,4 +37,4 @@ function SortSelect({ sort, setSort }: SortSelectProps) {
   );
 }
 
-export default SortSelect;
+export default React.memo(SortSelect);

@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { GoPlus } from 'react-icons/go';
 
@@ -90,4 +90,4 @@ function ProfileImageInput({
   );
 }
 
-export default ProfileImageInput;
+export default React.memo(ProfileImageInput);

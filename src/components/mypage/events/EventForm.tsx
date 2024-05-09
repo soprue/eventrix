@@ -35,7 +35,7 @@ function EventForm({ initialData }: EventFormProps) {
   const user = useUser();
 
   const form = useForm<EventFormValues>({
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
       thumbnail: null,
@@ -99,6 +99,7 @@ function EventForm({ initialData }: EventFormProps) {
       },
     },
   );
+  const { isLoading } = createMutation;
 
   const updateMutation = useMutation(
     (editEventData: EventFormValues) => updateEvent(editEventData),
@@ -182,7 +183,9 @@ function EventForm({ initialData }: EventFormProps) {
 
           <EventTicketInput form={form} />
 
-          <Button className='!mt-16 w-full'>등록하기</Button>
+          <Button className='!mt-16 w-full' disabled={isLoading}>
+            등록하기
+          </Button>
         </form>
       </Form>
     </div>

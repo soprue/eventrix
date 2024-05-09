@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Button } from '@components/ui/button';
 import InputTitle from '@shared/InputTitle';
 
@@ -42,4 +44,4 @@ function ProfilePasswordInput({ user }: ProfilePasswordInputProps) {
   );
 }
 
-export default ProfilePasswordInput;
+export default React.memo(ProfilePasswordInput);
