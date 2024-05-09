@@ -9,7 +9,10 @@ import './index.css';
 
 const client = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement!);
+
+const element = (
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={client}>
@@ -18,5 +21,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </QueryClientProvider>
     </HelmetProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+
+if (rootElement && rootElement.hasChildNodes()) {
+  ReactDOM.hydrateRoot(rootElement, element);
+} else {
+  root.render(element);
+}
