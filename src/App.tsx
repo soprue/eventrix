@@ -10,7 +10,6 @@ import GlobalAlertDialog from '@components/layout/GlobalAlertDialog';
 import Layout from '@pages/layout/Layout';
 import MyPageLayout from '@pages/layout/MyPageLayout';
 import MainPage from '@pages/Main';
-import { Helmet } from 'react-helmet-async';
 import MainSEO from './components/SEO/MainSEO';
 const NotFound = lazy(() => import('@pages/404'));
 const SearchPage = lazy(() => import('@pages/Search'));
