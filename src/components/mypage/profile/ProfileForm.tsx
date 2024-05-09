@@ -27,8 +27,8 @@ function ProfileForm() {
   );
 
   const form = useForm<ProfileFormValues>({
-    mode: 'onChange',
     resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
     defaultValues: {
       profileImage: user?.profileImage,
       nickname: user?.nickname as string,
