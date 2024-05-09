@@ -30,7 +30,7 @@ function SignInForm() {
   function onSubmit(values: FormValues) {
     const { email, password } = values;
     if (!email || !password) {
-      openAlert('입력이 완료되지 않았습니다.', '모든 필드를 입력해주세요.');
+      openAlert('입력이 완료되지 않았습니다.', '모든 필드를 입력해 주세요.');
       return;
     }
 
