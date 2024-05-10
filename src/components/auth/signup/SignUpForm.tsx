@@ -49,11 +49,13 @@ function SignUpForm() {
 
   return (
     <>
-      <p className='mb-12 text-center text-3xl font-bold'>회원가입</p>
+      <p className='mobile:text-2xl mobile:mb-8 mb-12 text-center text-3xl font-bold'>
+        회원가입
+      </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='tablet:space-y-6 space-y-8'
+          className='tablet:space-y-6 mobile:space-y-4 space-y-8'
         >
           <SignUpUserTypeInput form={form} />
           <SignUpEmailInput form={form} />
@@ -61,7 +63,11 @@ function SignUpForm() {
           <SignUpPasswordInput form={form} />
           <SignUpPasswordConfirmInput form={form} />
           <SignUpPhoneInput form={form} />
-          <Button type='submit' className='w-full' data-cy='signup-button'>
+          <Button
+            type='submit'
+            className='mobile:font-normal w-full'
+            data-cy='signup-button'
+          >
             회원가입
           </Button>
         </form>
