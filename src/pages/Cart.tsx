@@ -50,8 +50,8 @@ function Cart() {
   };
 
   return (
-    <div className='my-32'>
-      <p className='text-3xl font-bold'>장바구니</p>
+    <div className='tablet:my-28 my-32'>
+      <p className='tablet:text-[28px] text-3xl font-bold'>장바구니</p>
 
       {cartItems.length === 0 ? (
         <div
@@ -114,7 +114,7 @@ function Cart() {
           </div>
 
           <div className='flex w-full flex-col gap-6'>
-            <p className='flex gap-8 text-2xl'>
+            <p className='tablet:text-xl flex gap-8 text-2xl'>
               총 결제할 금액{' '}
               <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
             </p>

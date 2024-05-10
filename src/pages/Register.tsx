@@ -105,9 +105,11 @@ function Register() {
 
   return (
     <div className='w-full py-14'>
-      <div className='text- text-[28px] font-medium'>{eventData?.name}</div>
+      <div className='tablet:text-2xl text-[28px] font-medium'>
+        {eventData?.name}
+      </div>
 
-      <EventInfoBox className='mt-11'>
+      <EventInfoBox className='tablet:mt-9 mt-11'>
         <EventInfoRow
           label='일시'
           value={formatEventPeriod(
@@ -119,7 +121,7 @@ function Register() {
         <EventInfoRow label='주최' value={organizerData?.nickname as string} />
       </EventInfoBox>
 
-      <div className='my-20'>
+      <div className='tablet:my-18 my-24'>
         <RadioGroup onValueChange={handleTicketChange} className='gap-8'>
           {eventData?.ticketOptions.map(option => (
             <TicketOptionBox
@@ -132,7 +134,7 @@ function Register() {
       </div>
 
       <div className='flex w-full flex-col gap-6'>
-        <p className='flex gap-8 text-2xl'>
+        <p className='tablet:text-xl flex gap-8 text-2xl'>
           총 결제할 금액{' '}
           <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
         </p>
