@@ -13,7 +13,10 @@ function EventList({ events }: EventListProps) {
       {events.length === 0 ? (
         <NoData />
       ) : (
-        <div className='grid grid-cols-4 gap-4' data-cy='event-list'>
+        <div
+          className='grid grid-flow-row auto-rows-auto grid-cols-4 gap-4'
+          data-cy='event-list'
+        >
           {events.map(event => (
             <EventBox key={event.uid} event={event} />
           ))}

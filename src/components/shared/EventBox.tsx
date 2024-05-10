@@ -18,12 +18,12 @@ function EventBox({ event }: EventBoxProps) {
 
   return (
     <div
-      className='h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
+      className='tablet:h-fit tablet:min-h-[270px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
       onClick={() => navigate(`/event/${event.uid}`)}
       onMouseEnter={() => prefetchEvent(event.uid!)}
       data-cy='event-box'
     >
-      <div className='relative h-[215px] overflow-hidden'>
+      <div className='tablet:h-[180px] relative h-[200px] overflow-hidden'>
         <div
           className='absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'
           data-cy='event-status'
@@ -39,17 +39,22 @@ function EventBox({ event }: EventBoxProps) {
       </div>
       <div className='p-3'>
         <div className='flex justify-between'>
-          <p data-cy='event-category'>{event.category}</p>
+          <p className='tablet:text-sm' data-cy='event-category'>
+            {event.category}
+          </p>
           <Badge
             variant='outline'
-            className='gap-2 text-xs font-normal'
+            className='tablet:p-2 tablet:py-0.5 gap-2 text-xs font-normal'
             data-cy='event-likes-count'
           >
             <GoHeartFill size={10} />
             {event.likesCount}
           </Badge>
         </div>
-        <p className='text-lg font-bold' data-cy='event-name'>
+        <p
+          className='tablet:text-base tablet:leading-5 text-lg font-bold'
+          data-cy='event-name'
+        >
           {name}
         </p>
       </div>

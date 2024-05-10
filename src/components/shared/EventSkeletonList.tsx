@@ -6,9 +6,9 @@ function EventSkeletonList() {
       {Array.from({ length: 12 }).map((_, index) => (
         <div
           key={index}
-          className='h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
+          className='tablet:h-[270px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
         >
-          <div className='relative h-[215px] overflow-hidden'>
+          <div className='tablet:h-[180px] relative h-[200px] overflow-hidden'>
             <Skeleton className='size-full' />
           </div>
           <div className='p-3'>
@@ -16,7 +16,7 @@ function EventSkeletonList() {
               <Skeleton className='h-6 w-12' />
               <Skeleton className='h-6 w-[62px]' />
             </div>
-            <Skeleton className='h-6 w-56' />
+            <Skeleton className='tablet:w-full h-6 w-56' />
           </div>
         </div>
       ))}

@@ -51,9 +51,11 @@ function Main() {
 
   return (
     <div className='pb-12'>
-      <div className='flex flex-col gap-2 py-12'>
-        <p className='text-3xl font-bold'>마음에 드는 이벤트를 찾아보세요.</p>
-        <p className='text-xl font-medium'>
+      <div className='tablet:gap-1 flex flex-col gap-2 py-12'>
+        <p className='tablet:text-[26px] text-3xl font-bold'>
+          마음에 드는 이벤트를 찾아보세요.
+        </p>
+        <p className='tablet:text-lg text-xl font-medium'>
           희망 정보를 선택하여 나에게 맞는 이벤트를 찾아보세요!
         </p>
       </div>

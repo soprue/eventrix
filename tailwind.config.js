@@ -11,6 +11,10 @@ export default {
   ],
   prefix: '',
   theme: {
+    screens: {
+      tablet: { max: '1023px' }, // 데스크탑 이하 태블릿 사이즈
+      mobile: { max: '767px' }, // 태블릿 이하 모바일 사이즈
+    },
     container: {
       center: true,
       padding: '0',

@@ -77,7 +77,7 @@ function EventDetail() {
       </div>
 
       <div className='flex justify-between'>
-        <div className='w-[800px]'>
+        <div className='tablet:w-[650px] w-[800px]'>
           <EventInfoBox className='mb-9'>
             <EventInfoRow
               label='일시'

@@ -11,7 +11,7 @@ function Header() {
   const user = useUser();
 
   return (
-    <header className='flex h-16 items-center border-b border-border/40'>
+    <header className='tablet:px-6 flex h-16 items-center border-b border-border/40'>
       <div className='container flex items-center justify-between'>
         <Link to={'/'}>
           <img src={logoImage} alt='logo' className='h-6' />
