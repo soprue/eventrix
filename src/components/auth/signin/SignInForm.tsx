@@ -54,7 +54,10 @@ function SignInForm() {
     <>
       <p className='mb-12 text-center text-3xl font-bold'>로그인</p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='tablet:space-y-6 space-y-8'
+        >
           <FormField
             control={form.control}
             name='email'
