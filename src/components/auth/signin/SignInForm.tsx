@@ -52,7 +52,7 @@ function SignInForm() {
 
   return (
     <>
-      <p className='mobile:text-2xl mobile:mb-8 mb-12 text-center text-3xl font-bold'>
+      <p className='mobile:text-2xl mobile:mb-8 mobile:font-semibold mb-12 text-center text-3xl font-bold'>
         로그인
       </p>
       <Form {...form}>

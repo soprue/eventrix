@@ -17,7 +17,7 @@ function ModalLayout({ onApply, children }: ModalWrapProps) {
         {rest}
         <div className='border-line-normal flex w-full justify-end gap-2 border-t pt-6'>
           <button
-            className='tablet:text-sm tablet:w-[120px] h-12 w-[140px] rounded-lg border border-primary bg-primary font-bold text-white'
+            className='tablet:text-sm tablet:w-[120px] mobile:font-semibold h-12 w-[140px] rounded-lg border border-primary bg-primary font-bold text-white'
             onClick={onApply}
             data-cy='apply-filter'
           >

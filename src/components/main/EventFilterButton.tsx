@@ -31,7 +31,9 @@ function EventFilterButton({
       data-cy={`filter-button-${label}`}
     >
       <span className='text-text-normal'>{label}</span>
-      <span className='font-bold'>{selectedFilterLabel}</span>
+      <span className='mobile:font-semibold font-bold'>
+        {selectedFilterLabel}
+      </span>
     </button>
   );
 }

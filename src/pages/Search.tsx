@@ -99,7 +99,8 @@ function Search() {
         </div>
         <div className='flex flex-col items-center gap-1 font-medium'>
           <p className='table:text-[20px] mobile:text-lg text-2xl'>
-            '<span className='font-bold'>{keyword}</span>'에 대한 검색 결과
+            '<span className='mobile:font-semibold font-bold'>{keyword}</span>
+            '에 대한 검색 결과
           </p>
         </div>
       </div>

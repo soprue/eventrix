@@ -23,7 +23,7 @@ function ModalHeader({ title, number, onClose, onReset }: ModalHeaderProps) {
           {title}
         </p>
         {number && (
-          <span className='tablet:size-6 flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
+          <span className='tablet:size-6 mobile:font-semibold flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
             {number}
           </span>
         )}

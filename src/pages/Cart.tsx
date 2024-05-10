@@ -51,7 +51,7 @@ function Cart() {
 
   return (
     <div className='tablet:my-28 mobile:my-24 my-32'>
-      <p className='tablet:text-[28px] mobile:text-2xl text-3xl font-bold'>
+      <p className='tablet:text-[28px] mobile:text-2xl mobile:font-semibold text-3xl font-bold'>
         장바구니
       </p>
 
@@ -120,7 +120,9 @@ function Cart() {
           <div className='mobile:gap-3 flex w-full flex-col gap-6'>
             <p className='tablet:text-xl flex gap-8 text-2xl'>
               총 결제할 금액
-              <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
+              <span className='mobile:font-semibold font-bold'>
+                ₩ {commaizeNumber(totalPrice)}
+              </span>
             </p>
             <div className='grid grid-cols-1'>
               <Button

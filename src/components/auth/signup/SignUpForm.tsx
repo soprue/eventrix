@@ -49,7 +49,7 @@ function SignUpForm() {
 
   return (
     <>
-      <p className='mobile:text-2xl mobile:mb-8 mb-12 text-center text-3xl font-bold'>
+      <p className='mobile:text-2xl mobile:mb-8 mobile:font-semibold mb-12 text-center text-3xl font-bold'>
         회원가입
       </p>
       <Form {...form}>

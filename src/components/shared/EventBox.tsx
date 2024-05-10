@@ -52,7 +52,7 @@ function EventBox({ event }: EventBoxProps) {
           </Badge>
         </div>
         <p
-          className='tablet:text-base tablet:mt-1 tablet:leading-5 text-lg font-bold'
+          className='tablet:text-base tablet:mt-1 tablet:leading-5 mobile:font-semibold text-lg font-bold'
           data-cy='event-name'
         >
           {name}
