@@ -126,6 +126,7 @@ function Cart() {
               <Button
                 disabled={!티켓을선택했는지}
                 onClick={() => handleSubmit()}
+                className='mobile:font-normal'
                 data-cy='cart-pay-button'
               >
                 결제하기
