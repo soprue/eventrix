@@ -5,16 +5,17 @@ import { EventType } from '@/types/event';
 
 interface EventListProps {
   events: EventType[];
+  cols?: number;
 }
 
-function EventList({ events }: EventListProps) {
+function EventList({ events, cols = 4 }: EventListProps) {
   return (
     <>
       {events.length === 0 ? (
         <NoData />
       ) : (
         <div
-          className='grid grid-flow-row auto-rows-auto grid-cols-4 gap-4'
+          className={`grid grid-flow-row auto-rows-auto gap-4 grid-cols-${cols}`}
           data-cy='event-list'
         >
           {events.map(event => (

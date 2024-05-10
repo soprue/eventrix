@@ -1,8 +1,12 @@
 import { Skeleton } from '@components/ui/skeleton';
 
-function EventSkeletonList() {
+interface EventSkeletonListProps {
+  cols?: number;
+}
+
+function EventSkeletonList({ cols = 4 }: EventSkeletonListProps) {
   return (
-    <div className='grid grid-cols-4 gap-4' data-cy='skeleton-list'>
+    <div className={`grid grid-cols-${cols} gap-4`} data-cy='skeleton-list'>
       {Array.from({ length: 12 }).map((_, index) => (
         <div
           key={index}
