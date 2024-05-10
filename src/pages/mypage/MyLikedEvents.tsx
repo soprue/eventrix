@@ -42,7 +42,7 @@ function MyLikedEvents() {
   if (isError) return <ErrorBox />;
 
   const events = data?.pages.flatMap(page => page.events) || [];
-  const columns = width > 768 ? 4 : 3;
+  const columns = width > 768 ? 4 : width < 768 ? 2 : 3;
 
   return (
     <>
