@@ -96,8 +96,6 @@ function Register() {
     }
   };
 
-  const arr = [1, 2, undefined];
-
   if (isLoading) return <SpinnerBox />;
   if (!eventData) {
     navigate('/404', { replace: true });
