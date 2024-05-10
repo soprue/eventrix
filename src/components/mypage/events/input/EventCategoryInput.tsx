@@ -36,7 +36,7 @@ function EventCategoryInput({ form }: EventCategoryInputProps) {
                 {Object.entries(CATEGORIES).map(([key, label]) => (
                   <FormItem
                     key={key}
-                    className='flex w-1/5 items-center space-x-2'
+                    className='mobile:w-1/2 flex w-1/5 items-center space-x-2'
                   >
                     <FormControl>
                       <RadioGroupItem value={key} />
