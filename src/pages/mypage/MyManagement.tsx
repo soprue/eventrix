@@ -21,16 +21,18 @@ function MyManagement() {
   if (isError) return <ErrorBox />;
 
   return (
-    <div>
+    <>
       <div className='mb-8 flex w-full justify-between'>
         <EventSelector setSelectedEvent={setSelectedEvent} />
       </div>
-      {isLoading ? (
-        <SpinnerBox className=' min-h-[calc(100dvh-200px)]' />
-      ) : (
-        <TicketTable data={data || []} />
-      )}
-    </div>
+      <div className='overflow-x-auto'>
+        {isLoading ? (
+          <SpinnerBox className=' min-h-[calc(100dvh-200px)]' />
+        ) : (
+          <TicketTable data={data || []} />
+        )}
+      </div>
+    </>
   );
 }
 

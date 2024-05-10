@@ -45,13 +45,13 @@ function PurchaseTicketBox({ event, page }: PurchaseTicketBoxProps) {
     <EventInfoBox>
       <Link
         to={`/event/${event.eventUID}`}
-        className='mb-1 w-fit text-xl font-semibold'
+        className='tablet:text-lg mobile:text-base mb-1 w-fit break-keep text-xl font-semibold'
       >
         {event.name}
       </Link>
 
-      <div className='mt-5 flex items-end justify-between'>
-        <div className='flex flex-col gap-2'>
+      <div className='tablet:mt-3 mobile:flex-col mobile:items-start mobile:gap-6 mt-5 flex items-end justify-between'>
+        <div className='tablet:gap-1 flex flex-col gap-2'>
           <EventInfoRow size='md' label='티켓 ID' value={event.id!} />
           <EventInfoRow
             size='md'
@@ -64,7 +64,7 @@ function PurchaseTicketBox({ event, page }: PurchaseTicketBoxProps) {
             value={`${event.ticketOptionName} / ${event.quantity}매 / ₩ ${commaizeNumber(event.ticketPrice * event.quantity)}`}
           />
         </div>
-        <div className='flex gap-2'>
+        <div className='tablet:gap-1 flex gap-2'>
           <Badge
             variant='outline'
             className='flex w-[70px] cursor-default items-center justify-center'

@@ -29,7 +29,7 @@ function EventDescriptionInput({ form }: EventDescriptionInputProps) {
             <FormControl>
               <Textarea
                 placeholder='이벤트 소개 내용을 마크다운 형식으로 입력해 주세요.'
-                className='min-h-60 resize-none'
+                className='mobile:min-h-40 min-h-60 resize-none'
                 {...field}
               />
             </FormControl>

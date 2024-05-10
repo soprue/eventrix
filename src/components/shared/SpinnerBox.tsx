@@ -5,7 +5,7 @@ interface SpinnerBoxProps {
 }
 
 function SpinnerBox({
-  className = ' min-h-[calc(100dvh-64px)]',
+  className = ' mobile:min-h-[calc(100dvh-56px)] min-h-[calc(100dvh-64px)]',
 }: SpinnerBoxProps) {
   return (
     <div

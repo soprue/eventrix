@@ -20,7 +20,7 @@ function EventTicketInput({ form }: EventTicketInputProps) {
   });
 
   return (
-    <div className='flex flex-col gap-2 '>
+    <div className='flex flex-col gap-2'>
       {fields.map((field, index) => (
         <div key={field.id} className='flex gap-2'>
           <Input
@@ -28,8 +28,8 @@ function EventTicketInput({ form }: EventTicketInputProps) {
             {...form.register(`tickets.${index}.id`)}
             defaultValue={field.id || uuidv4()}
           />
-          <div className='flex basis-[32%] items-center gap-2'>
-            <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+          <div className='mobile:basis-[30%] flex basis-[32%] items-center gap-2'>
+            <p className='break-keep text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
               티켓 이름
             </p>
             <Input
@@ -38,8 +38,8 @@ function EventTicketInput({ form }: EventTicketInputProps) {
               className='w-[70%]'
             />
           </div>
-          <div className='flex basis-[32%] items-center gap-2'>
-            <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+          <div className='mobile:basis-[30%] flex basis-[32%] items-center gap-2'>
+            <p className='break-keep text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
               티켓 가격
             </p>
             <Input
@@ -51,8 +51,8 @@ function EventTicketInput({ form }: EventTicketInputProps) {
               className='w-[70%]'
             />
           </div>
-          <div className='flex basis-[32%] items-center gap-2'>
-            <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+          <div className='mobile:basis-[30%] flex basis-[32%] items-center gap-2'>
+            <p className='break-keep text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
               판매 개수
             </p>
             <Input
@@ -64,7 +64,7 @@ function EventTicketInput({ form }: EventTicketInputProps) {
               className='w-[70%]'
             />
           </div>
-          <div className='flex basis-[5%] justify-end'>
+          <div className='mobile:basis-[10%] flex basis-[5%] justify-end'>
             {fields.length > 1 && (
               <button type='button' onClick={() => remove(index)}>
                 <TiDelete size='20' />

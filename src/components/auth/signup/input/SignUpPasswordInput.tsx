@@ -24,7 +24,7 @@ function SignUpPasswordInput({ form }: SignUpInputProps) {
               placeholder='8자 이상의 영어 대문자, 소문자, 숫자, 특수문자 중 3종류 문자 조합을 사용해 주세요.'
               {...form.register('password')}
             />
-          </FormControl>{' '}
+          </FormControl>
           <FormMessage data-cy='password-helper-text' />
         </FormItem>
       )}
