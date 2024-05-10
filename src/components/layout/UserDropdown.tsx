@@ -49,7 +49,7 @@ function UserDropdown({ user }: UserDropdownProps) {
       <DropdownMenuContent className='min-w-10'>
         <DropdownMenuGroup>
           <DropdownMenuItem
-            className='mobile:py-2 mobile:text-xs py-3'
+            className='mobile:py-2 mobile:text-sm py-3'
             onClick={() => navigate('/mypage')}
           >
             <User className='mr-2 size-4' />
@@ -59,7 +59,7 @@ function UserDropdown({ user }: UserDropdownProps) {
           {user.userType === 'buyer' && (
             <>
               <DropdownMenuItem
-                className='mobile:py-2 mobile:text-xs py-3'
+                className='mobile:py-2 mobile:text-sm py-3'
                 onClick={() => navigate('/cart')}
                 data-cy='cart-button'
               >
@@ -75,7 +75,7 @@ function UserDropdown({ user }: UserDropdownProps) {
             </>
           )}
           <DropdownMenuItem
-            className='mobile:py-2 mobile:text-xs py-3'
+            className='mobile:py-2 mobile:text-sm py-3'
             onClick={handleLogout}
             data-cy='signout-button'
           >

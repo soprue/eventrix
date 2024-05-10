@@ -26,7 +26,7 @@ function EventFilterButton({
 
   return (
     <button
-      className='mobile:px-2 mobile:text-xs mobile:gap-1.5 flex h-full items-center gap-3 rounded-full border px-4 py-3 text-sm'
+      className='mobile:px-3 mobile:text-sm mobile:gap-1.5 flex h-full items-center gap-3 rounded-full border px-4 py-3 text-sm'
       onClick={onClick}
       data-cy={`filter-button-${label}`}
     >

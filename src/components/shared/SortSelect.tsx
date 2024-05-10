@@ -22,9 +22,9 @@ function SortSelect({ sort, setSort }: SortSelectProps) {
       className='mobile:gap-2 flex items-center gap-[11px]'
       data-cy='sort-button'
     >
-      <span className='mobile:text-xs text-gray-600'>정렬방식</span>
+      <span className='mobile:text-sm text-gray-600'>정렬방식</span>
       <Select onValueChange={(value: SortFilterType) => setSort(value)}>
-        <SelectTrigger className='mobile:h-8 mobile:w-[80px] mobile:text-xs h-[46px] w-[100px] rounded-full'>
+        <SelectTrigger className='mobile:h-8 mobile:w-[80px] mobile:text-sm h-[46px] w-[100px] rounded-full'>
           <SelectValue placeholder={`${sort}`} />
         </SelectTrigger>
         <SelectContent>

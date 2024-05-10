@@ -65,7 +65,7 @@ function Main() {
       </div>
 
       <div className='mb-6 flex items-center justify-between'>
-        <div className='mobile:gap-3 flex gap-6'>
+        <div className='mobile:gap-2 flex gap-6'>
           <div className='mobile:h-8 relative h-[46px]'>
             <EventFilterButton
               label={'카테고리'}

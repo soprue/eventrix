@@ -18,14 +18,14 @@ function EventBox({ event }: EventBoxProps) {
 
   return (
     <div
-      className='tablet:h-fit mobile:min-h-[260px] tablet:min-h-[270px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
+      className='tablet:h-fit mobile:min-h-[275px] tablet:min-h-[270px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
       onClick={() => navigate(`/event/${event.uid}`)}
       onMouseEnter={() => prefetchEvent(event.uid!)}
       data-cy='event-box'
     >
       <div className='tablet:h-[180px] relative h-[200px] overflow-hidden'>
         <div
-          className='mobile:text-xs absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'
+          className='mobile:text-sm absolute rounded-br-sm bg-primary/50 px-2 py-1 text-sm text-white'
           data-cy='event-status'
         >
           {event.status}
@@ -39,10 +39,7 @@ function EventBox({ event }: EventBoxProps) {
       </div>
       <div className='p-3'>
         <div className='flex justify-between'>
-          <p
-            className='tablet:text-sm mobile:text-[11px]'
-            data-cy='event-category'
-          >
+          <p className='tablet:text-sm mobile:text-sm' data-cy='event-category'>
             {event.category}
           </p>
           <Badge
@@ -55,7 +52,7 @@ function EventBox({ event }: EventBoxProps) {
           </Badge>
         </div>
         <p
-          className='tablet:text-base mobile:text-sm mobile:leading-4 tablet:leading-5 text-lg font-bold'
+          className='tablet:text-base tablet:mt-1 tablet:leading-5 text-lg font-bold'
           data-cy='event-name'
         >
           {name}

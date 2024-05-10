@@ -36,10 +36,13 @@ function EventDetail() {
   if (isError) return <ErrorBox data-cy='error-box' />;
 
   return (
-    <div className='pb-16 pt-10' data-cy='event-detail'>
+    <div
+      className='mobile:pt-8 mobile:pb-14 pb-16 pt-10'
+      data-cy='event-detail'
+    >
       <SEO eventData={eventData} />
 
-      <div className='tablet:h-[280px] h-[350px] w-full overflow-hidden rounded-md'>
+      <div className='tablet:h-[280px] mobile:h-[200px] h-[350px] w-full overflow-hidden rounded-md'>
         <img
           src={eventData?.thumbnail}
           alt='이벤트 썸네일'
@@ -48,10 +51,10 @@ function EventDetail() {
         />
       </div>
 
-      <div className='tablet:gap-4 tablet:mb-6 tablet:mt-9 mb-9 mt-11 flex justify-between'>
-        <div className='flex w-[800px] justify-between'>
+      <div className='tablet:gap-4 tablet:mb-6 tablet:mt-9 mobile:flex-col mobile:mb-7 mobile:mt-9 mb-9 mt-11 flex justify-between'>
+        <div className='mobile:w-full mobile:gap-2 flex w-[800px] justify-between'>
           <div
-            className='tablet:text-2xl text-[28px] font-medium'
+            className='tablet:text-2xl mobile:text-xl break-keep text-[28px] font-medium'
             data-cy='event-name'
           >
             {eventData?.name}
@@ -61,7 +64,7 @@ function EventDetail() {
           </div>
         </div>
 
-        <div className='w-[310px]'>
+        <div className='mobile:w-full w-[310px]'>
           {eventData?.status !== '모집 진행' ||
           user?.userType === 'organizer' ? (
             <Button className='w-full' disabled data-cy='join-button'>
@@ -69,7 +72,7 @@ function EventDetail() {
             </Button>
           ) : (
             <Button
-              className='w-full'
+              className='mobile:font-semibold w-full '
               onClick={() => navigate(`/register/${id}`)}
               data-cy='join-button'
             >
@@ -79,9 +82,9 @@ function EventDetail() {
         </div>
       </div>
 
-      <div className='tablet:gap-2 flex justify-between'>
-        <div className='w-[800px]'>
-          <EventInfoBox className='mb-9'>
+      <div className='tablet:gap-2 mobile:flex-col flex justify-between'>
+        <div className='mobile:w-full w-[800px]'>
+          <EventInfoBox className='mobile:mb-6 mb-9'>
             <EventInfoRow
               label='일시'
               value={formatEventPeriod(
@@ -105,14 +108,14 @@ function EventDetail() {
 
           <div data-color-mode='light' className='tablet:p-2 p-4'>
             <MDEditor.Markdown
-              className='tablet:!text-sm'
+              className='mobile:!text-sm'
               source={eventData.description}
             />
           </div>
         </div>
 
-        <div className='w-[310px]'>
-          <div className='border- border-t border-dashed border-border'>
+        <div className='mobile:w-full mobile:mt-8 w-[310px]'>
+          <div className='border-t border-dashed border-border'>
             {eventData.ticketOptions.map(ticket => (
               <TicketBox key={ticket.id} ticket={ticket} />
             ))}
@@ -120,7 +123,7 @@ function EventDetail() {
 
           <div className='py-6'>
             <p className='tablet:text-base text-lg'>주최자 연락처</p>
-            <div className='tablet:mt-2 tablet:text-xs mt-4 rounded-md bg-gray-100 p-2 text-sm text-gray-500'>
+            <div className='tablet:mt-2 tablet:text-xs mt-4 rounded-md bg-gray-100 px-2 py-3 text-sm text-gray-500'>
               <div className='flex items-center gap-2'>
                 <MdEmail />
                 {organizerData?.email}

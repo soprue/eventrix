@@ -9,13 +9,15 @@ function EventInfoRow({ size = 'lg', label, value }: EventInfoRowProps) {
     size === 'lg' ? 'text-base' : size === 'md' ? 'text-sm' : 'text-xs';
   const fontWeight = size === 'lg' ? 'font-semibold' : 'font-medium';
 
-  const tabletFontSize = size === 'lg' ? 'tablet:text-sm' : fontSize;
+  const tabletFontSize = size === 'lg' ? 'tablet:text-base' : fontSize;
   // const tabletFontWeight = size === 'lg' ? 'tablet:font-medium' : fontWeight;
 
+  const mobileFontSize = size === 'lg' ? 'mobile:text-sm' : fontSize;
+
   return (
-    <div className={`${fontSize} ${tabletFontSize}`}>
-      <span className='inline-block w-[70px]'>{label}</span>
-      <span className={`${fontWeight}`}>{value}</span>
+    <div className={`${fontSize} ${tabletFontSize} ${mobileFontSize} flex`}>
+      <span className='mobile:w-[50px] inline-block w-[70px]'>{label}</span>
+      <span className={`${fontWeight} break-keep`}>{value}</span>
     </div>
   );
 }

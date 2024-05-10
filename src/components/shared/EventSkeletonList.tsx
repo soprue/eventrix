@@ -13,7 +13,7 @@ function EventSkeletonList({ cols = 4 }: EventSkeletonListProps) {
       {Array.from({ length: 12 }).map((_, index) => (
         <div
           key={index}
-          className='tablet:h-[270px] mobile:h-[260px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
+          className='tablet:h-[275px] mobile:h-[260px] h-[320px] cursor-pointer rounded-md border border-input bg-background transition-transform duration-300 hover:translate-y-[-5px] hover:drop-shadow'
         >
           <div className='tablet:h-[180px] relative h-[200px] overflow-hidden'>
             <Skeleton className='size-full' />
@@ -23,7 +23,7 @@ function EventSkeletonList({ cols = 4 }: EventSkeletonListProps) {
               <Skeleton className='mobile:h-4 h-6 w-12' />
               <Skeleton className='mobile:h-4 h-6 w-[62px]' />
             </div>
-            <Skeleton className='tablet:w-full mobile:h-4 h-6 w-56' />
+            <Skeleton className='tablet:w-full mobile:h-5 mobile:mt-2 h-6 w-56' />
           </div>
         </div>
       ))}
