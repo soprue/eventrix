@@ -8,11 +8,13 @@ import ErrorBox from '@shared/ErrorBox';
 import EventSkeletonList from '@shared/EventSkeletonList';
 
 import useUser from '@hooks/useUser';
+import useWindowSize from '@hooks/useWindowSize';
 import { getUserLikesWithPagination } from '@services/eventService';
 
 function MyLikedEvents() {
   const user = useUser();
   const { ref, inView } = useInView();
+  const { width } = useWindowSize();
 
   const {
     data,
@@ -40,14 +42,15 @@ function MyLikedEvents() {
   if (isError) return <ErrorBox />;
 
   const events = data?.pages.flatMap(page => page.events) || [];
+  const columns = width > 768 ? 4 : width < 768 ? 2 : 3;
 
   return (
     <>
       {isLoading ? (
-        <EventSkeletonList />
+        <EventSkeletonList cols={columns} />
       ) : (
         <>
-          <EventList events={events} />
+          <EventList events={events} cols={columns} />
           <div ref={ref}>{isFetchingNextPage && <Spinner />}</div>
         </>
       )}

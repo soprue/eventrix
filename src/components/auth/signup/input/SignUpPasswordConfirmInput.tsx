@@ -24,7 +24,7 @@ function SignUpPasswordConfirmInput({ form }: SignUpInputProps) {
               placeholder='비밀번호를 다시 입력해 주세요.'
               {...form.register('passwordConfirm')}
             />
-          </FormControl>{' '}
+          </FormControl>
           <FormMessage data-cy='password-confirm-helper-text' />
         </FormItem>
       )}

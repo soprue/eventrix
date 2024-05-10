@@ -19,9 +19,11 @@ function ModalHeader({ title, number, onClose, onReset }: ModalHeaderProps) {
         <span className='text-[13px] font-medium'>초기화</span>
       </div>
       <div className='flex items-center justify-center gap-2'>
-        <p className='text-text-normal text-[20px] font-medium'>{title}</p>
+        <p className='text-text-normal tablet:text-lg text-[20px] font-medium'>
+          {title}
+        </p>
         {number && (
-          <span className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
+          <span className='tablet:size-6 flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
             {number}
           </span>
         )}

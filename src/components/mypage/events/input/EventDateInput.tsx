@@ -48,8 +48,8 @@ function EventDateInput({
     <div className='flex flex-col space-y-2'>
       <InputTitle title='이벤트 일시' />
 
-      <div className='flex flex-wrap'>
-        <div className='flex-grow basis-[22%]'>
+      <div className='mobile:gap-2 flex flex-wrap'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             name='startDate'
@@ -61,7 +61,7 @@ function EventDateInput({
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full whitespace-normal pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
@@ -97,7 +97,7 @@ function EventDateInput({
           />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             rules={{ required: '시작 시간은 필수입니다.' }}
@@ -142,11 +142,11 @@ function EventDateInput({
           />
         </div>
 
-        <div className='flex flex-grow basis-[5%] items-center justify-center'>
+        <div className='mobile:hidden flex flex-grow basis-[5%] items-center justify-center'>
           <img src={RightArrow} alt='RightArrow' />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             name='endDate'
@@ -158,7 +158,7 @@ function EventDateInput({
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full whitespace-normal pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
@@ -191,7 +191,7 @@ function EventDateInput({
           />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             rules={{ required: '종료 시간은 필수입니다.' }}

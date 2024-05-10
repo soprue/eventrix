@@ -15,10 +15,13 @@ import EventSkeletonList from '@shared/EventSkeletonList';
 
 import { SortFilterType } from '@/types/event';
 import { searchEvents } from '@services/eventService';
+import useWindowSize from '@hooks/useWindowSize';
 
 function Search() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { width } = useWindowSize();
+
   const keyword = searchParams.get('q')!;
   const [sort, setSort] = useState<SortFilterType>('최신순');
 
@@ -58,11 +61,12 @@ function Search() {
   if (isError) return <ErrorBox />;
 
   const events = data?.pages.flatMap(page => page.events) || [];
+  const columns = width < 768 ? 2 : 4;
 
   return (
     <>
-      <div className='my-20 flex w-full flex-col items-center justify-center gap-4'>
-        <div className='flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8'>
+      <div className='mobile:my-12 tablet:my-16 mobile:gap-3 my-20 flex w-full flex-col items-center justify-center gap-4'>
+        <div className='tablet:h-14 mobile:px-4 mobile:h-10 flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8'>
           <IoSearchOutline size={24} />
           <Form {...form}>
             <form
@@ -84,7 +88,7 @@ function Search() {
                         })}
                         type='text'
                         placeholder='검색'
-                        className='w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0'
+                        className='tablet:text-lg mobile:text-base h-full w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0'
                       />
                     </FormControl>
                   </FormItem>
@@ -94,7 +98,7 @@ function Search() {
           </Form>
         </div>
         <div className='flex flex-col items-center gap-1 font-medium'>
-          <p className='text-2xl'>
+          <p className='table:text-[20px] mobile:text-lg text-2xl'>
             '<span className='font-bold'>{keyword}</span>'에 대한 검색 결과
           </p>
         </div>
@@ -107,10 +111,10 @@ function Search() {
       </div>
 
       {isLoading ? (
-        <EventSkeletonList />
+        <EventSkeletonList cols={columns} />
       ) : (
         <>
-          <EventList events={events} />
+          <EventList events={events} cols={columns} />
           <div ref={ref}>{isFetchingNextPage && <Spinner />}</div>
         </>
       )}

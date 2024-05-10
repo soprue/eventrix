@@ -14,12 +14,15 @@ function GlobalAlertDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={closeAlert}>
-      <AlertDialogContent>
+      <AlertDialogContent className='mobile:w-[250px] rounded-md'>
         <AlertDialogHeader>
-          <AlertDialogTitle data-cy='alert-dialog-title'>
+          <AlertDialogTitle data-cy='alert-dialog-title' className='break-keep'>
             {title}
           </AlertDialogTitle>
-          <AlertDialogDescription data-cy='alert-dialog-description'>
+          <AlertDialogDescription
+            data-cy='alert-dialog-description'
+            className='break-keep'
+          >
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>

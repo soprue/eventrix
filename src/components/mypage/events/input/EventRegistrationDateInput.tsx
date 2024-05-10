@@ -56,8 +56,9 @@ function EventRegistrationDateInput({
           </>
         }
       />
-      <div className='flex flex-wrap'>
-        <div className='flex-grow basis-[22%]'>
+
+      <div className='mobile:gap-2 flex flex-wrap'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             name='registrationStartDate'
@@ -69,7 +70,7 @@ function EventRegistrationDateInput({
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full whitespace-normal pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
@@ -103,7 +104,7 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             rules={{ required: '시작 시간은 필수입니다.' }}
@@ -148,11 +149,11 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='flex flex-grow basis-[5%] items-center justify-center'>
+        <div className='mobile:hidden flex flex-grow basis-[5%] items-center justify-center'>
           <img src={RightArrow} alt='RightArrow' />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             name='registrationEndDate'
@@ -164,7 +165,7 @@ function EventRegistrationDateInput({
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full whitespace-normal pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
@@ -204,7 +205,7 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='flex-grow basis-[22%]'>
+        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
           <FormField
             control={form.control}
             rules={{ required: '종료 시간은 필수입니다.' }}

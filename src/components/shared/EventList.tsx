@@ -5,15 +5,19 @@ import { EventType } from '@/types/event';
 
 interface EventListProps {
   events: EventType[];
+  cols?: number;
 }
 
-function EventList({ events }: EventListProps) {
+function EventList({ events, cols = 4 }: EventListProps) {
   return (
     <>
       {events.length === 0 ? (
         <NoData />
       ) : (
-        <div className='grid grid-cols-4 gap-4' data-cy='event-list'>
+        <div
+          className={`mobile:gap-2 grid grid-flow-row auto-rows-auto gap-4 grid-cols-${cols}`}
+          data-cy='event-list'
+        >
           {events.map(event => (
             <EventBox key={event.uid} event={event} />
           ))}
