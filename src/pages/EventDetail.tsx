@@ -39,7 +39,7 @@ function EventDetail() {
     <div className='pb-16 pt-10' data-cy='event-detail'>
       <SEO eventData={eventData} />
 
-      <div className='h-[350px] w-full overflow-hidden rounded-md'>
+      <div className='tablet:h-[280px] h-[350px] w-full overflow-hidden rounded-md'>
         <img
           src={eventData?.thumbnail}
           alt='이벤트 썸네일'
@@ -48,9 +48,12 @@ function EventDetail() {
         />
       </div>
 
-      <div className='mb-9 mt-11 flex justify-between'>
+      <div className='tablet:gap-4 tablet:mb-6 tablet:mt-9 mb-9 mt-11 flex justify-between'>
         <div className='flex w-[800px] justify-between'>
-          <div className='text- text-[28px] font-medium' data-cy='event-name'>
+          <div
+            className='tablet:text-2xl text-[28px] font-medium'
+            data-cy='event-name'
+          >
             {eventData?.name}
           </div>
           <div>
@@ -76,8 +79,8 @@ function EventDetail() {
         </div>
       </div>
 
-      <div className='flex justify-between'>
-        <div className='tablet:w-[650px] w-[800px]'>
+      <div className='tablet:gap-2 flex justify-between'>
+        <div className='w-[800px]'>
           <EventInfoBox className='mb-9'>
             <EventInfoRow
               label='일시'
@@ -100,8 +103,11 @@ function EventDetail() {
             />
           </EventInfoBox>
 
-          <div data-color-mode='light' className='p-4'>
-            <MDEditor.Markdown source={eventData.description} />
+          <div data-color-mode='light' className='tablet:p-2 p-4'>
+            <MDEditor.Markdown
+              className='tablet:!text-sm'
+              source={eventData.description}
+            />
           </div>
         </div>
 
@@ -113,8 +119,8 @@ function EventDetail() {
           </div>
 
           <div className='py-6'>
-            <p className='text-lg'>주최자 연락처</p>
-            <div className='mt-4 rounded-md bg-gray-100 p-2 text-sm text-gray-500'>
+            <p className='tablet:text-base text-lg'>주최자 연락처</p>
+            <div className='tablet:mt-2 tablet:text-xs mt-4 rounded-md bg-gray-100 p-2 text-sm text-gray-500'>
               <div className='flex items-center gap-2'>
                 <MdEmail />
                 {organizerData?.email}
