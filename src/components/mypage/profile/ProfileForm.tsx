@@ -58,7 +58,10 @@ function ProfileForm() {
     <div className='mx-auto w-[440px]'>
       <div></div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='tablet:space-y-6 space-y-8'
+        >
           <ProfileUserTypeInput userType={user?.userType as string} />
           <ProfileImageInput
             nickname={user?.nickname as string}
