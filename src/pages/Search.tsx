@@ -61,8 +61,8 @@ function Search() {
 
   return (
     <>
-      <div className='my-20 flex w-full flex-col items-center justify-center gap-4'>
-        <div className='flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8'>
+      <div className='tablet:my-16 my-20 flex w-full flex-col items-center justify-center gap-4'>
+        <div className='tablet:h-14 flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8'>
           <IoSearchOutline size={24} />
           <Form {...form}>
             <form
@@ -84,7 +84,7 @@ function Search() {
                         })}
                         type='text'
                         placeholder='검색'
-                        className='w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0'
+                        className='tablet:text-lg w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0'
                       />
                     </FormControl>
                   </FormItem>
@@ -94,7 +94,7 @@ function Search() {
           </Form>
         </div>
         <div className='flex flex-col items-center gap-1 font-medium'>
-          <p className='text-2xl'>
+          <p className='table:text-[20px] text-2xl'>
             '<span className='font-bold'>{keyword}</span>'에 대한 검색 결과
           </p>
         </div>
