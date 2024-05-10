@@ -121,7 +121,7 @@ function PaymentReady({ setStep, state }: PaymentReadyProps) {
         </div>
         <div>
           <p className='flex justify-end gap-8 text-lg'>
-            총 결제할 금액{' '}
+            총 결제할 금액
             <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
           </p>
         </div>

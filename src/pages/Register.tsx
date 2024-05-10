@@ -96,6 +96,8 @@ function Register() {
     }
   };
 
+  const arr = [1, 2, undefined];
+
   if (isLoading) return <SpinnerBox />;
   if (!eventData) {
     navigate('/404', { replace: true });
@@ -104,12 +106,12 @@ function Register() {
   if (isError) return <ErrorBox />;
 
   return (
-    <div className='w-full py-14'>
-      <div className='tablet:text-2xl text-[28px] font-medium'>
+    <div className='mobile:py-10 w-full py-14'>
+      <div className='tablet:text-2xl mobile:text-xl text-[28px] font-medium'>
         {eventData?.name}
       </div>
 
-      <EventInfoBox className='tablet:mt-9 mt-11'>
+      <EventInfoBox className='tablet:mt-9 mobile:mt-6 mt-11'>
         <EventInfoRow
           label='일시'
           value={formatEventPeriod(
@@ -121,7 +123,7 @@ function Register() {
         <EventInfoRow label='주최' value={organizerData?.nickname as string} />
       </EventInfoBox>
 
-      <div className='tablet:my-18 my-24'>
+      <div className='tablet:my-16 mobile:my-14 my-24'>
         <RadioGroup onValueChange={handleTicketChange} className='gap-8'>
           {eventData?.ticketOptions.map(option => (
             <TicketOptionBox
@@ -133,15 +135,16 @@ function Register() {
         </RadioGroup>
       </div>
 
-      <div className='flex w-full flex-col gap-6'>
-        <p className='tablet:text-xl flex gap-8 text-2xl'>
-          총 결제할 금액{' '}
+      <div className='mobile:gap-4 flex w-full flex-col gap-6'>
+        <p className='tablet:text-xl mobile:text-lg flex gap-8 text-2xl'>
+          총 결제할 금액
           <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
         </p>
-        <div className='grid grid-cols-2 gap-2'>
+        <div className='mobile:gap-1 grid grid-cols-2 gap-2'>
           <Button
             disabled={!티켓을선택했는지}
             onClick={() => handleSubmit('pay')}
+            className='mobile:font-normal'
             data-cy='register-pay-button'
           >
             결제하기
@@ -149,6 +152,7 @@ function Register() {
           <Button
             disabled={!티켓을선택했는지}
             onClick={() => handleSubmit('cart')}
+            className='mobile:font-normal'
             data-cy='register-cart-button'
           >
             장바구니에 담기
