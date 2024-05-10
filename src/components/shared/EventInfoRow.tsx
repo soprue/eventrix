@@ -12,10 +12,8 @@ function EventInfoRow({ size = 'lg', label, value }: EventInfoRowProps) {
   const tabletFontSize = size === 'lg' ? 'tablet:text-base' : fontSize;
   // const tabletFontWeight = size === 'lg' ? 'tablet:font-medium' : fontWeight;
 
-  const mobileFontSize = size === 'lg' ? 'mobile:text-sm' : fontSize;
-
   return (
-    <div className={`${fontSize} ${tabletFontSize} ${mobileFontSize} flex`}>
+    <div className={`${fontSize} ${tabletFontSize} mobile:text-sm flex`}>
       <span className='mobile:w-[50px] inline-block w-[70px]'>{label}</span>
       <span className={`${fontWeight} break-keep`}>{value}</span>
     </div>
