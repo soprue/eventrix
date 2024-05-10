@@ -31,7 +31,7 @@ function MyEvents() {
           <Link to='/mypage/events/new'>등록하기</Link>
         </Button>
       </div>
-      <div>
+      <div className='overflow-x-auto'>
         <Status
           statuses={data?.map(event => event.status as string) || []}
           status={status}

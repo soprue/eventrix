@@ -176,7 +176,7 @@ function EventTable({ data }: EventTableProps) {
   };
 
   return (
-    <div className='w-full'>
+    <div className='tablet:w-[800px] w-full'>
       <div className='flex items-center py-4'>
         <Input
           placeholder='이름으로 검색'

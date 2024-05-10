@@ -29,7 +29,7 @@ function Status({ statuses, status, setStatus }: StatusProps) {
   };
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='tablet:w-[800px] flex flex-col gap-6'>
       <div className='border-line-normal bg-background-tertiary flex w-full justify-center rounded-lg border py-[22px]'>
         <ul className='flex gap-9'>
           {STATUS_MENU.map((menu, idx) => {
