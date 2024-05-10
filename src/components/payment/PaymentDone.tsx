@@ -12,8 +12,12 @@ function PaymentDone() {
       className='flex h-[calc(100dvh-64px)] w-full justify-center'
       data-cy='payment-done'
     >
-      <div className='flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
-        <img src={ConfirmedImage} alt='confirmed' className='w-80' />
+      <div className='tablet:max-w-[350px] flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
+        <img
+          src={ConfirmedImage}
+          alt='confirmed'
+          className='tablet:w-72 w-80'
+        />
         <div className='flex w-full flex-col items-center gap-4'>
           <p className='text-2xl font-semibold'>
             이벤트 참여 신청이 완료되었습니다.
