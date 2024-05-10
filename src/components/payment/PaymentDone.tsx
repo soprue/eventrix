@@ -9,7 +9,7 @@ function PaymentDone() {
 
   return (
     <div
-      className='flex h-[calc(100dvh-64px)] w-full justify-center'
+      className='mobile:h-[calc(100dvh-56px)] flex h-[calc(100dvh-64px)] w-full justify-center'
       data-cy='payment-done'
     >
       <div className='tablet:max-w-[350px] flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>

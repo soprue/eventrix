@@ -8,7 +8,7 @@ function ErrorBox() {
   const navigate = useNavigate();
 
   return (
-    <div className='flex h-[calc(100dvh-64px)] w-full justify-center'>
+    <div className='mobile:h-[calc(100dvh-56px)] flex h-[calc(100dvh-64px)] w-full justify-center'>
       <div className='tablet:max-w-[350px] flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
         <img src={errorImage} alt='오류 이미지' className='tablet:w-72 w-80' />
         <div className='flex w-full flex-col items-center gap-4'>

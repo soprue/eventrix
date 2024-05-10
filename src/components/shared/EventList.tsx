@@ -15,7 +15,7 @@ function EventList({ events, cols = 4 }: EventListProps) {
         <NoData />
       ) : (
         <div
-          className={`grid grid-flow-row auto-rows-auto gap-4 grid-cols-${cols}`}
+          className={`mobile:gap-2 grid grid-flow-row auto-rows-auto gap-4 grid-cols-${cols}`}
           data-cy='event-list'
         >
           {events.map(event => (
