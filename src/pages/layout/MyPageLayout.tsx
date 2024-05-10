@@ -8,9 +8,9 @@ function MyPageLayout() {
     <div className='relative min-h-dvh overflow-hidden font-pretendard'>
       <Header />
 
-      <div className='container flex'>
+      <div className='mobile:flex-col container flex'>
         <MyNavigation />
-        <div className='tablet:w-[calc(100%-180px)] mobile:min-h-[calc(100dvh-56px)] tablet:px-6 tablet:py-8 min-h-[calc(100dvh-64px)] w-[calc(100%-200px)] py-10 pl-10'>
+        <div className='tablet:w-[calc(100%-180px)] tablet:px-6 tablet:py-8 mobile:w-full mobile:min-h-fit mobile:py-5 min-h-[calc(100dvh-64px)] w-[calc(100%-200px)] py-10 pl-10'>
           <Outlet />
         </div>
       </div>
