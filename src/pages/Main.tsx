@@ -56,7 +56,7 @@ function Main() {
   return (
     <div className='pb-12'>
       <div className='tablet:gap-1 mobile:py-10 flex flex-col gap-2 py-12'>
-        <p className='tablet:text-[26px] mobile:text-xl text-3xl font-bold'>
+        <p className='tablet:text-[26px] mobile:text-xl mobile:font-semibold text-3xl font-bold'>
           마음에 드는 이벤트를 찾아보세요.
         </p>
         <p className='tablet:text-lg mobile:text-base text-xl font-medium'>

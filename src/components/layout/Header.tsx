@@ -17,12 +17,12 @@ function Header() {
           <img src={logoImage} alt='logo' className='mobile:h-5 h-6' />
         </Link>
 
-        <div className='flex gap-2'>
+        <div className='mobile:gap-1 flex gap-2'>
           <SearchForm />
           {user ? (
             <UserDropdown user={user} />
           ) : (
-            <Button variant='outline' asChild>
+            <Button variant='outline' className='mobile:h-8' asChild>
               <Link to='/signin'>로그인</Link>
             </Button>
           )}

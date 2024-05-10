@@ -136,7 +136,9 @@ function Register() {
       <div className='mobile:gap-4 flex w-full flex-col gap-6'>
         <p className='tablet:text-xl mobile:text-lg flex gap-8 text-2xl'>
           총 결제할 금액
-          <span className='font-bold'>₩ {commaizeNumber(totalPrice)}</span>
+          <span className='mobile:font-semibold font-bold'>
+            ₩ {commaizeNumber(totalPrice)}
+          </span>
         </p>
         <div className='mobile:gap-1 grid grid-cols-2 gap-2'>
           <Button
