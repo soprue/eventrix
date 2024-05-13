@@ -4,6 +4,7 @@ import { formatPhoneNumber } from '@toss/utils';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
 const ErrorBox = lazy(() => import('@shared/ErrorBox'));
@@ -118,7 +119,11 @@ function EventDetail() {
           </EventInfoBox>
 
           <div data-color-mode='light' className='p-4 tablet:p-2'>
-            <ReactMarkdown>{eventData.description}</ReactMarkdown>
+            <ReactMarkdown
+              className='prose'
+              rehypePlugins={[remarkGfm]}
+              children={eventData.description}
+            />
           </div>
         </div>
 
