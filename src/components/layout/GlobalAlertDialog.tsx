@@ -14,7 +14,7 @@ function GlobalAlertDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={closeAlert}>
-      <AlertDialogContent className='mobile:w-[250px] rounded-md'>
+      <AlertDialogContent className='rounded-md mobile:w-[250px]'>
         <AlertDialogHeader>
           <AlertDialogTitle data-cy='alert-dialog-title' className='break-keep'>
             {title}

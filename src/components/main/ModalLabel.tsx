@@ -12,7 +12,7 @@ function ModalLabel({ value, label, active, onClick }: ModalCategoryProps) {
 
   return (
     <button
-      className={`tablet:py-2 tablet:px-3 flex items-center justify-center gap-1.5 rounded-full border border-border px-4 py-3 text-sm font-medium ${
+      className={`flex items-center justify-center gap-1.5 rounded-full border border-border px-4 py-3 text-sm font-medium tablet:px-3 tablet:py-2 mobile:text-xs ${
         active
           ? 'border-primary bg-primary text-white'
           : 'bg-white text-gray-500'

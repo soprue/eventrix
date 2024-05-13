@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import { Button } from '@components/ui/button';
-import SpinnerBox from '@shared/SpinnerBox';
-import ErrorBox from '@shared/ErrorBox';
 import Status from '@components/mypage/events/Status';
 import EventTable from '@components/mypage/events/EventTable';
 
@@ -19,9 +19,18 @@ function MyEvents() {
     ? data?.filter(event => event.status === status) || []
     : data || [];
 
-  if (isLoading) return <SpinnerBox />;
-
-  if (isError) return <ErrorBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   return (
     <>

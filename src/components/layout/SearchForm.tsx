@@ -36,7 +36,7 @@ function SearchForm() {
                   })}
                   type='text'
                   placeholder='검색'
-                  className='tablet:w-[220px] mobile:w-[130px] mobile:h-8 w-[250px] focus-visible:ring-0 focus-visible:ring-offset-0'
+                  className='w-[250px] focus-visible:ring-0 focus-visible:ring-offset-0 tablet:w-[220px] mobile:h-8 mobile:w-[130px]'
                 />
               </FormControl>
             </FormItem>

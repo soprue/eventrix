@@ -53,7 +53,10 @@ function ModalCategory({ data, setData, onClose }: ModalProps) {
         onClose={onClose}
         onReset={onReset}
       />
-      <div className='flex flex-wrap gap-3' data-cy={`filter-modal-카테고리`}>
+      <div
+        className='flex flex-wrap gap-3 mobile:gap-1'
+        data-cy={`filter-modal-카테고리`}
+      >
         {categories.map(category => (
           <ModalLabel
             key={category}
@@ -68,7 +71,7 @@ function ModalCategory({ data, setData, onClose }: ModalProps) {
           />
         ))}
       </div>
-      <p className='mb-3 mt-4 text-xs font-medium text-gray-500'>
+      <p className='mb-3 mt-4 text-xs font-medium text-gray-500 '>
         카테고리는 최대 5개까지 선택하실 수 있어요.
       </p>
     </ModalLayout>

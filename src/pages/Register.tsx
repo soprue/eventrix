@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
-import SpinnerBox from '@shared/SpinnerBox';
-import ErrorBox from '@shared/ErrorBox';
-import EventInfoBox from '@shared/EventInfoBox';
-import EventInfoRow from '@shared/EventInfoRow';
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import { Button } from '@components/ui/button';
 import { RadioGroup } from '@components/ui/radio-group';
+import EventInfoBox from '@shared/EventInfoBox';
+import EventInfoRow from '@shared/EventInfoRow';
 import TicketOptionBox from '@components/register/TicketOptionBox';
 
 import useEventDetail from '@hooks/useEventDetail';
@@ -96,20 +96,30 @@ function Register() {
     }
   };
 
-  if (isLoading) return <SpinnerBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
   if (!eventData) {
     navigate('/404', { replace: true });
     return null;
   }
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox />
+      </Suspense>
+    );
 
   return (
-    <div className='mobile:py-10 w-full py-14'>
-      <div className='tablet:text-2xl mobile:text-xl text-[28px] font-medium'>
+    <div className='w-full py-14 mobile:py-10'>
+      <div className='text-[28px] font-medium tablet:text-2xl mobile:text-xl'>
         {eventData?.name}
       </div>
 
-      <EventInfoBox className='tablet:mt-9 mobile:mt-6 mt-11'>
+      <EventInfoBox className='mt-11 tablet:mt-9 mobile:mt-6'>
         <EventInfoRow
           label='일시'
           value={formatEventPeriod(
@@ -121,7 +131,7 @@ function Register() {
         <EventInfoRow label='주최' value={organizerData?.nickname as string} />
       </EventInfoBox>
 
-      <div className='tablet:my-16 mobile:my-14 my-24'>
+      <div className='my-24 tablet:my-16 mobile:my-14'>
         <RadioGroup onValueChange={handleTicketChange} className='gap-8'>
           {eventData?.ticketOptions.map(option => (
             <TicketOptionBox
@@ -133,14 +143,14 @@ function Register() {
         </RadioGroup>
       </div>
 
-      <div className='mobile:gap-4 flex w-full flex-col gap-6'>
-        <p className='tablet:text-xl mobile:text-lg flex gap-8 text-2xl'>
+      <div className='flex w-full flex-col gap-6 mobile:gap-4'>
+        <p className='flex gap-8 text-2xl tablet:text-xl mobile:text-lg'>
           총 결제할 금액
-          <span className='mobile:font-semibold font-bold'>
+          <span className='font-bold mobile:font-semibold'>
             ₩ {commaizeNumber(totalPrice)}
           </span>
         </p>
-        <div className='mobile:gap-1 grid grid-cols-2 gap-2'>
+        <div className='grid grid-cols-2 gap-2 mobile:gap-1'>
           <Button
             disabled={!티켓을선택했는지}
             onClick={() => handleSubmit('pay')}

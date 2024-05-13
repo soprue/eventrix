@@ -57,8 +57,8 @@ function EventRegistrationDateInput({
         }
       />
 
-      <div className='mobile:gap-2 flex flex-wrap'>
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+      <div className='flex flex-wrap mobile:gap-2'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             name='registrationStartDate'
@@ -104,7 +104,7 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             rules={{ required: '시작 시간은 필수입니다.' }}
@@ -149,11 +149,11 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='mobile:hidden flex flex-grow basis-[5%] items-center justify-center'>
+        <div className='flex flex-grow basis-[5%] items-center justify-center mobile:hidden'>
           <img src={RightArrow} alt='RightArrow' />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             name='registrationEndDate'
@@ -205,7 +205,7 @@ function EventRegistrationDateInput({
           />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             rules={{ required: '종료 시간은 필수입니다.' }}

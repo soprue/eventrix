@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore/lite';
 
 /**
  * 두 타임스탬프를 사용하여 이벤트의 시작과 종료 시간을 형식화된 문자열로 반환합니다.

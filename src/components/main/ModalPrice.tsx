@@ -33,7 +33,7 @@ function ModalPrice({ data, setData, onClose }: ModalProps) {
     <ModalLayout onApply={onApply} onClose={onClose}>
       <ModalHeader title='가격' onClose={onClose} onReset={onReset} />
       <div className='flex flex-wrap gap-3 pb-6'>
-        <RadioGroup defaultValue='전체' className='flex gap-10'>
+        <RadioGroup defaultValue='전체' className='flex gap-10 mobile:gap-4'>
           {['전체', '유료', '무료'].map(item => (
             <div key={item} className='flex items-center space-x-2'>
               <RadioGroupItem

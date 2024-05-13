@@ -52,13 +52,13 @@ function SignInForm() {
 
   return (
     <>
-      <p className='mobile:text-2xl mobile:mb-8 mobile:font-semibold mb-12 text-center text-3xl font-bold'>
+      <p className='mb-12 text-center text-3xl font-bold mobile:mb-8 mobile:text-2xl mobile:font-semibold'>
         로그인
       </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='tablet:space-y-6 mobile:space-y-4 space-y-8'
+          className='space-y-8 tablet:space-y-6 mobile:space-y-4'
         >
           <FormField
             control={form.control}
@@ -90,7 +90,7 @@ function SignInForm() {
           />
           <Button
             type='submit'
-            className='mobile:font-normal w-full'
+            className='w-full mobile:font-normal'
             data-cy='signin-button'
           >
             로그인
