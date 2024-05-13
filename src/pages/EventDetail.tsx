@@ -1,9 +1,9 @@
 import { Suspense, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatPhoneNumber } from '@toss/utils';
-import MDEditor from '@uiw/react-md-editor';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
 const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
 const ErrorBox = lazy(() => import('@shared/ErrorBox'));
@@ -118,10 +118,7 @@ function EventDetail() {
           </EventInfoBox>
 
           <div data-color-mode='light' className='p-4 tablet:p-2'>
-            <MDEditor.Markdown
-              className='mobile:!text-sm'
-              source={eventData.description}
-            />
+            <ReactMarkdown>{eventData.description}</ReactMarkdown>
           </div>
         </div>
 
