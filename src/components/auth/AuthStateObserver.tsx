@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore/lite';
 
 import { UserType } from '@/types/user';
 import { auth, db } from '@services/firebaseConfig';

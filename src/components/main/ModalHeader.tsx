@@ -10,20 +10,20 @@ interface ModalHeaderProps {
 
 function ModalHeader({ title, number, onClose, onReset }: ModalHeaderProps) {
   return (
-    <div className='mobile:px-4 flex justify-between border-b border-border px-6 py-4'>
+    <div className='flex justify-between border-b border-border px-6 py-4 mobile:px-4'>
       <div
-        className='mobile:gap-1 flex cursor-pointer items-center justify-center gap-2'
+        className='flex cursor-pointer items-center justify-center gap-2 mobile:gap-1'
         onClick={onReset}
       >
         <GrPowerReset />
         <span className='text-[13px] font-medium'>초기화</span>
       </div>
       <div className='flex items-center justify-center gap-2'>
-        <p className='tablet:text-lg mobile:text-base text-[20px] font-medium'>
+        <p className='text-[20px] font-medium tablet:text-lg mobile:text-base'>
           {title}
         </p>
         {number && (
-          <span className='tablet:size-6 mobile:font-semibold mobile:size-4 mobile:text-xs flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
+          <span className='flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white tablet:size-6 mobile:size-4 mobile:text-xs mobile:font-semibold'>
             {number}
           </span>
         )}

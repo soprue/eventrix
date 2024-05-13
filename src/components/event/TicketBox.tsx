@@ -9,14 +9,14 @@ interface TicketBoxProps {
 
 function TicketBox({ ticket }: TicketBoxProps) {
   return (
-    <div className='tablet:py-4 flex flex-col border-b border-dashed border-border px-2 py-6'>
-      <p className='tablet:text-base text-xl'>
+    <div className='flex flex-col border-b border-dashed border-border px-2 py-6 tablet:py-4'>
+      <p className='text-xl tablet:text-base'>
         ₩ {commaizeNumber(ticket.price)}
       </p>
-      <p className='tablet:text-base text-lg font-semibold'>
+      <p className='text-lg font-semibold tablet:text-base'>
         {ticket.optionName}
       </p>
-      <div className='tablet:text-xs mt-4 flex items-center gap-2 text-sm text-gray-500'>
+      <div className='mt-4 flex items-center gap-2 text-sm text-gray-500 tablet:text-xs'>
         <IoTicket />
         <span>{ticket.scheduledCount - ticket.soldCount}개 남음</span>
       </div>

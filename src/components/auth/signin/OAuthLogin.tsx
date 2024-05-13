@@ -27,7 +27,7 @@ function OAuthLogin() {
   return (
     <div>
       <div className='before:border-line-normal after:border-line-normal mb-6 mt-8 flex items-center before:flex-1 before:border-t after:flex-1 after:border-t '>
-        <p className='text-text-alternative mobile:text-xs mx-4 text-center text-sm'>
+        <p className='text-text-alternative mx-4 text-center text-sm mobile:text-xs'>
           간편 로그인
           <br />
           (간편 로그인으로 회원가입 시 '참여자' 유형으로만 가입됩니다.)
@@ -36,7 +36,7 @@ function OAuthLogin() {
       <div className='flex justify-center gap-6'>
         <div
           onClick={handleGoogleLogin}
-          className='mobile:size-10 flex size-14 cursor-pointer items-center justify-center rounded-full border'
+          className='flex size-14 cursor-pointer items-center justify-center rounded-full border mobile:size-10'
         >
           <FcGoogle size='25' />
         </div>

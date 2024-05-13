@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from 'react-query';
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import Spinner from '@shared/Spinner';
 import EventList from '@shared/EventList';
-import ErrorBox from '@shared/ErrorBox';
 import EventSkeletonList from '@shared/EventSkeletonList';
 
 import useUser from '@hooks/useUser';
@@ -39,7 +39,12 @@ function MyLikedEvents() {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   const events = data?.pages.flatMap(page => page.events) || [];
   const columns = width > 768 ? 4 : width < 768 ? 2 : 3;

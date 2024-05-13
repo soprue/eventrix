@@ -61,7 +61,7 @@ function EventThumbnailInput({
     <div className='flex flex-col space-y-2'>
       <InputTitle title='썸네일' />
       {thumbnailPreview ? (
-        <div className='mobile:h-[200px] tablet:h-[270px] flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input '>
+        <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input tablet:h-[270px] mobile:h-[200px] '>
           <img
             src={thumbnailPreview}
             alt='Thumbnail Preview'
@@ -69,7 +69,7 @@ function EventThumbnailInput({
           />
         </div>
       ) : (
-        <div className='mobile:h-[200px] tablet:h-[270px] flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input'>
+        <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input tablet:h-[270px] mobile:h-[200px]'>
           <p className='text-center text-sm text-gray-500'>썸네일 미리보기</p>
         </div>
       )}

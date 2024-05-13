@@ -54,7 +54,7 @@ function ModalCategory({ data, setData, onClose }: ModalProps) {
         onReset={onReset}
       />
       <div
-        className='mobile:gap-1 flex flex-wrap gap-3'
+        className='flex flex-wrap gap-3 mobile:gap-1'
         data-cy={`filter-modal-카테고리`}
       >
         {categories.map(category => (

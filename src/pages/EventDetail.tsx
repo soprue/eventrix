@@ -1,12 +1,13 @@
+import { Suspense, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatPhoneNumber } from '@toss/utils';
-import MDEditor from '@uiw/react-md-editor';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import SEO from '@shared/SEO';
-import SpinnerBox from '@shared/SpinnerBox';
-import ErrorBox from '@shared/ErrorBox';
 import EventInfoRow from '@shared/EventInfoRow';
 import EventInfoBox from '@shared/EventInfoBox';
 import { Button } from '@components/ui/button';
@@ -28,21 +29,31 @@ function EventDetail() {
     eventData?.organizerUID as string,
   );
 
-  if (isLoading) return <SpinnerBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
   if (!eventData) {
     navigate('/404', { replace: true });
     return null;
   }
-  if (isError) return <ErrorBox data-cy='error-box' />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   return (
     <div
-      className='mobile:pt-8 mobile:pb-14 pb-16 pt-10'
+      className='pb-16 pt-10 mobile:pb-14 mobile:pt-8'
       data-cy='event-detail'
     >
       <SEO eventData={eventData} />
 
-      <div className='tablet:h-[280px] mobile:h-[200px] h-[350px] w-full overflow-hidden rounded-md'>
+      <div className='h-[350px] w-full overflow-hidden rounded-md tablet:h-[280px] mobile:h-[200px]'>
         <img
           src={eventData?.thumbnail}
           alt='이벤트 썸네일'
@@ -51,10 +62,10 @@ function EventDetail() {
         />
       </div>
 
-      <div className='tablet:gap-4 tablet:mb-6 tablet:mt-9 mobile:flex-col mobile:mb-7 mobile:mt-9 mb-9 mt-11 flex justify-between'>
-        <div className='mobile:w-full mobile:gap-2 flex w-[800px] justify-between'>
+      <div className='mb-9 mt-11 flex justify-between tablet:mb-6 tablet:mt-9 tablet:gap-4 mobile:mb-7 mobile:mt-9 mobile:flex-col'>
+        <div className='flex w-[800px] justify-between mobile:w-full mobile:gap-2'>
           <div
-            className='tablet:text-2xl mobile:text-xl break-keep text-[28px] font-medium'
+            className='break-keep text-[28px] font-medium tablet:text-2xl mobile:text-xl'
             data-cy='event-name'
           >
             {eventData?.name}
@@ -64,7 +75,7 @@ function EventDetail() {
           </div>
         </div>
 
-        <div className='mobile:w-full w-[310px]'>
+        <div className='w-[310px] mobile:w-full'>
           {eventData?.status !== '모집 진행' ||
           user?.userType === 'organizer' ? (
             <Button className='w-full' disabled data-cy='join-button'>
@@ -72,7 +83,7 @@ function EventDetail() {
             </Button>
           ) : (
             <Button
-              className='mobile:font-semibold w-full '
+              className='w-full mobile:font-semibold '
               onClick={() => navigate(`/register/${id}`)}
               data-cy='join-button'
             >
@@ -82,9 +93,9 @@ function EventDetail() {
         </div>
       </div>
 
-      <div className='tablet:gap-2 mobile:flex-col flex justify-between'>
-        <div className='mobile:w-full w-[800px]'>
-          <EventInfoBox className='mobile:mb-6 mb-9'>
+      <div className='flex justify-between tablet:gap-2 mobile:flex-col'>
+        <div className='w-[800px] mobile:w-full'>
+          <EventInfoBox className='mb-9 mobile:mb-6'>
             <EventInfoRow
               label='일시'
               value={formatEventPeriod(
@@ -106,15 +117,12 @@ function EventDetail() {
             />
           </EventInfoBox>
 
-          <div data-color-mode='light' className='tablet:p-2 p-4'>
-            <MDEditor.Markdown
-              className='mobile:!text-sm'
-              source={eventData.description}
-            />
+          <div data-color-mode='light' className='p-4 tablet:p-2'>
+            <ReactMarkdown>{eventData.description}</ReactMarkdown>
           </div>
         </div>
 
-        <div className='mobile:w-full mobile:mt-8 w-[310px]'>
+        <div className='w-[310px] mobile:mt-8 mobile:w-full'>
           <div className='border-t border-dashed border-border'>
             {eventData.ticketOptions.map(ticket => (
               <TicketBox key={ticket.id} ticket={ticket} />
@@ -122,8 +130,8 @@ function EventDetail() {
           </div>
 
           <div className='py-6'>
-            <p className='tablet:text-base text-lg'>주최자 연락처</p>
-            <div className='tablet:mt-2 tablet:text-xs mt-4 rounded-md bg-gray-100 px-2 py-3 text-sm text-gray-500'>
+            <p className='text-lg tablet:text-base'>주최자 연락처</p>
+            <div className='mt-4 rounded-md bg-gray-100 px-2 py-3 text-sm text-gray-500 tablet:mt-2 tablet:text-xs'>
               <div className='flex items-center gap-2'>
                 <MdEmail />
                 {organizerData?.email}

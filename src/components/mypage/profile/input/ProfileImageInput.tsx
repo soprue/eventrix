@@ -52,8 +52,8 @@ function ProfileImageInput({
   };
 
   return (
-    <div className='mobile:!my-8 !my-12 flex w-full justify-center'>
-      <div className='tablet:size-28 mobile:size-24 relative size-32'>
+    <div className='!my-12 flex w-full justify-center mobile:!my-8'>
+      <div className='relative size-32 tablet:size-28 mobile:size-24'>
         <Avatar className='size-full'>
           <AvatarImage
             src={imagePreview!}

@@ -50,17 +50,17 @@ function Cart() {
   };
 
   return (
-    <div className='tablet:my-28 mobile:my-24 my-32'>
-      <p className='tablet:text-[28px] mobile:text-2xl mobile:font-semibold text-3xl font-bold'>
+    <div className='my-32 tablet:my-28 mobile:my-24'>
+      <p className='text-3xl font-bold tablet:text-[28px] mobile:text-2xl mobile:font-semibold'>
         장바구니
       </p>
 
       {cartItems.length === 0 ? (
         <div
-          className='mobile:mt-6 mobile:py-8 mt-10 border-b border-t border-border py-10 text-center leading-8'
+          className='mt-10 border-b border-t border-border py-10 text-center leading-8 mobile:mt-6 mobile:py-8'
           data-cy='cart-empty'
         >
-          <p className='mobile:text-lg text-xl font-semibold'>
+          <p className='text-xl font-semibold mobile:text-lg'>
             장바구니에 담긴 이벤트가 없습니다.
           </p>
           <p className='mobile:text-sm'>
@@ -69,7 +69,7 @@ function Cart() {
 
           <Button
             variant='outline'
-            className='mobile:text-sm mt-8 text-base'
+            className='mt-8 text-base mobile:text-sm'
             onClick={() => navigate('/')}
           >
             이벤트 둘러보기
@@ -78,7 +78,7 @@ function Cart() {
       ) : (
         <>
           <div
-            className='mobile:mt-8 mobile:mb-20 mb-32 mt-12 border-t border-border'
+            className='mb-32 mt-12 border-t border-border mobile:mb-20 mobile:mt-8'
             data-cy='cart-list'
           >
             {groupedItems.map(group => {
@@ -89,9 +89,9 @@ function Cart() {
               return (
                 <div
                   key={group.eventId}
-                  className='mobile:mb-2 mb-4 flex items-center gap-8 border-b border-border py-6'
+                  className='mb-4 flex items-center gap-8 border-b border-border py-6 mobile:mb-2'
                 >
-                  <div className='mobile:basis-full flex basis-5/6 flex-col gap-2'>
+                  <div className='flex basis-5/6 flex-col gap-2 mobile:basis-full'>
                     <div className='mb-4 font-semibold'>
                       <Link to={`/event/${group.eventId}`}>
                         {group.eventName}
@@ -106,7 +106,7 @@ function Cart() {
                       />
                     ))}
                   </div>
-                  <div className='mobile:hidden basis-1/6 text-right text-lg font-semibold'>
+                  <div className='basis-1/6 text-right text-lg font-semibold mobile:hidden'>
                     ₩ {commaizeNumber(groupTotalPrice)}
                   </div>
                 </div>
@@ -117,10 +117,10 @@ function Cart() {
             </Button>
           </div>
 
-          <div className='mobile:gap-3 flex w-full flex-col gap-6'>
-            <p className='tablet:text-xl flex gap-8 text-2xl'>
+          <div className='flex w-full flex-col gap-6 mobile:gap-3'>
+            <p className='flex gap-8 text-2xl tablet:text-xl'>
               총 결제할 금액
-              <span className='mobile:font-semibold font-bold'>
+              <span className='font-bold mobile:font-semibold'>
                 ₩ {commaizeNumber(totalPrice)}
               </span>
             </p>

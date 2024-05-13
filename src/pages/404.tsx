@@ -8,19 +8,19 @@ function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className='mobile:h-[calc(100dvh-56px)] flex h-[calc(100dvh-64px)] w-full justify-center'>
-      <div className='mobile:max-w-[270px] tablet:max-w-[350px] flex w-full max-w-[400px] flex-col items-center justify-center gap-24'>
+    <div className='flex h-[calc(100dvh-64px)] w-full justify-center mobile:h-[calc(100dvh-56px)]'>
+      <div className='flex w-full max-w-[400px] flex-col items-center justify-center gap-24 tablet:max-w-[350px] mobile:max-w-[270px]'>
         <img
           src={NotFoundImage}
           alt='404 이미지'
-          className='tablet:w-72 mobile:w-52 w-80'
+          className='w-80 tablet:w-72 mobile:w-52'
         />
-        <div className='mobile:gap-2 flex w-full flex-col items-center gap-4'>
-          <p className='mobile:text-lg text-2xl font-semibold'>
+        <div className='flex w-full flex-col items-center gap-4 mobile:gap-2'>
+          <p className='text-2xl font-semibold mobile:text-lg'>
             페이지를 찾을 수 없습니다.
           </p>
           <Button
-            className='mobile:font-normal w-full'
+            className='w-full mobile:font-normal'
             onClick={() => navigate('/')}
           >
             메인페이지로 이동하기
