@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { GoHeartFill } from 'react-icons/go';
 
@@ -62,4 +64,4 @@ function EventBox({ event }: EventBoxProps) {
   );
 }
 
-export default EventBox;
+export default React.memo(EventBox);
