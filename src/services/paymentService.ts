@@ -6,7 +6,7 @@ import {
   runTransaction,
   serverTimestamp,
   updateDoc,
-} from 'firebase/firestore';
+} from 'firebase/firestore/lite';
 import PortOne from '@portone/browser-sdk/v2';
 
 import { db } from './firebaseConfig';

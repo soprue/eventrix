@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore/lite';
 
 /**
  * 주어진 Timestamp 객체에서 시간을 'HH:mm' 형식의 문자열로 변환합니다.
