@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import { CartItemType } from '@/types/cart.ts';
+import { CartGroupType, CartItemType } from '@/types/cart';
 import groupCartItems from '@utils/cart/groupCartItems';
 
 describe('groupCartItems 유틸리티 함수 테스트', () => {
@@ -10,8 +10,8 @@ describe('groupCartItems 유틸리티 함수 테스트', () => {
     expect(groupedItems).toEqual([]);
   });
 
-  it('하나의 이벤트에 여러 티켓이 있는 경우 올바르게 그룹화되어야 한다', () => {
-    const cartItems = [
+  it('하나의 이벤트에 여러 티켓이 있는 경우 올바르게 그룹화되어야 한다.', () => {
+    const cartItems: CartItemType[] = [
       {
         eventId: 'event1',
         eventName: '이벤트1',
@@ -30,7 +30,7 @@ describe('groupCartItems 유틸리티 함수 테스트', () => {
       },
     ];
 
-    const expected = [
+    const expected: CartGroupType[] = [
       {
         eventId: 'event1',
         eventName: '이벤트1',
@@ -58,8 +58,8 @@ describe('groupCartItems 유틸리티 함수 테스트', () => {
     expect(groupCartItems(cartItems)).toEqual(expected);
   });
 
-  it('다양한 이벤트의 티켓들이 입력되었을 때 올바르게 그룹화되어야 함', () => {
-    const cartItems = [
+  it('다양한 이벤트의 티켓들이 입력되었을 때 올바르게 그룹화되어야 한다.', () => {
+    const cartItems: CartItemType[] = [
       {
         eventId: 'event1',
         eventName: '이벤트1',
@@ -78,7 +78,7 @@ describe('groupCartItems 유틸리티 함수 테스트', () => {
       },
     ];
 
-    const expected = [
+    const expected: CartGroupType[] = [
       {
         eventId: 'event1',
         eventName: '이벤트1',
