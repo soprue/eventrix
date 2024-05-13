@@ -1,12 +1,13 @@
+import { Suspense, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatPhoneNumber } from '@toss/utils';
 import MDEditor from '@uiw/react-md-editor';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import SEO from '@shared/SEO';
-import SpinnerBox from '@shared/SpinnerBox';
-import ErrorBox from '@shared/ErrorBox';
 import EventInfoRow from '@shared/EventInfoRow';
 import EventInfoBox from '@shared/EventInfoBox';
 import { Button } from '@components/ui/button';
@@ -28,12 +29,22 @@ function EventDetail() {
     eventData?.organizerUID as string,
   );
 
-  if (isLoading) return <SpinnerBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
   if (!eventData) {
     navigate('/404', { replace: true });
     return null;
   }
-  if (isError) return <ErrorBox data-cy='error-box' />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   return (
     <div

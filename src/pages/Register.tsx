@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { commaizeNumber } from '@toss/utils';
 
-import SpinnerBox from '@shared/SpinnerBox';
-import ErrorBox from '@shared/ErrorBox';
-import EventInfoBox from '@shared/EventInfoBox';
-import EventInfoRow from '@shared/EventInfoRow';
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import { Button } from '@components/ui/button';
 import { RadioGroup } from '@components/ui/radio-group';
+import EventInfoBox from '@shared/EventInfoBox';
+import EventInfoRow from '@shared/EventInfoRow';
 import TicketOptionBox from '@components/register/TicketOptionBox';
 
 import useEventDetail from '@hooks/useEventDetail';
@@ -96,12 +96,22 @@ function Register() {
     }
   };
 
-  if (isLoading) return <SpinnerBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
   if (!eventData) {
     navigate('/404', { replace: true });
     return null;
   }
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox />
+      </Suspense>
+    );
 
   return (
     <div className='w-full py-14 mobile:py-10'>

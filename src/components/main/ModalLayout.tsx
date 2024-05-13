@@ -1,8 +1,8 @@
 import { Children } from 'react';
 
 interface ModalWrapProps {
-  onApply: () => void;
-  onClose: () => void;
+  onApply?: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
 }
 

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useInfiniteQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { IoSearchOutline } from 'react-icons/io5';
 
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import { Form, FormControl, FormField, FormItem } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import SortSelect from '@shared/SortSelect';
 import Spinner from '@shared/Spinner';
 import EventList from '@shared/EventList';
-import ErrorBox from '@shared/ErrorBox';
 import EventSkeletonList from '@shared/EventSkeletonList';
 
 import { SortFilterType } from '@/types/event';
@@ -58,7 +58,12 @@ function Search() {
     if (data) navigate(`/search?q=${data}`);
   };
 
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox />
+      </Suspense>
+    );
 
   const events = data?.pages.flatMap(page => page.events) || [];
   const columns = width < 768 ? 2 : 4;

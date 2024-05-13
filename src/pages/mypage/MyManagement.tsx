@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 
-import ErrorBox from '@shared/ErrorBox';
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import SpinnerBox from '@shared/SpinnerBox';
 import EventSelector from '@components/mypage/management/EventSelector';
 import TicketTable from '@components/mypage/management/TicketTable';
@@ -18,7 +18,12 @@ function MyManagement() {
     { enabled: !!selectedEvent },
   );
 
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   return (
     <>

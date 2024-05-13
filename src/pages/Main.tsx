@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
+const ModalCategory = lazy(() => import('@components/main/ModalCategory'));
+const ModalPrice = lazy(() => import('@components/main/ModalPrice'));
 import Spinner from '@shared/Spinner';
-import ErrorBox from '@shared/ErrorBox';
 import EventList from '@shared/EventList';
 import SortSelect from '@shared/SortSelect';
 import EventSkeletonList from '@shared/EventSkeletonList';
 import EventFilterButton from '@components/main/EventFilterButton';
-import ModalCategory from '@components/main/ModalCategory';
-import ModalPrice from '@components/main/ModalPrice';
 
 import { FilterType, PriceFilterType, SortFilterType } from '@/types/event';
 import { getAllEvents } from '@services/eventService';
@@ -48,7 +48,12 @@ function Main() {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox />
+      </Suspense>
+    );
 
   const events = data?.pages.flatMap(page => page.events) || [];
   const columns = width < 768 ? 2 : 4;
@@ -73,11 +78,19 @@ function Main() {
               selectedFilter={category}
             />
             {currentModal === '카테고리' && (
-              <ModalCategory
-                data={category}
-                setData={setCategory}
-                onClose={onClose}
-              />
+              <Suspense
+                fallback={
+                  <div className='border-line-normal absolute top-[calc(46px+16px)] z-[1] flex size-full h-[250px] w-[600px] items-center justify-center rounded-lg border bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.15)] tablet:w-[500px] mobile:w-[250px]'>
+                    <Spinner />
+                  </div>
+                }
+              >
+                <ModalCategory
+                  data={category}
+                  setData={setCategory}
+                  onClose={onClose}
+                />
+              </Suspense>
             )}
           </div>
           <div className='relative h-[46px] mobile:h-8'>
@@ -87,7 +100,15 @@ function Main() {
               selectedFilter={price}
             />
             {currentModal === '가격' && (
-              <ModalPrice data={price} setData={setPrice} onClose={onClose} />
+              <Suspense
+                fallback={
+                  <div className='border-line-normal absolute top-[calc(46px+16px)] z-[1] flex size-full h-[250px] w-[600px] items-center justify-center rounded-lg border bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.15)] tablet:w-[500px] mobile:w-[250px]'>
+                    <Spinner />
+                  </div>
+                }
+              >
+                <ModalPrice data={price} setData={setPrice} onClose={onClose} />
+              </Suspense>
             )}
           </div>
         </div>

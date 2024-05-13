@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore/lite';
 
-import ErrorBox from '@shared/ErrorBox';
+const SpinnerBox = lazy(() => import('@shared/SpinnerBox'));
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import NoData from '@shared/NoData';
-import SpinnerBox from '@shared/SpinnerBox';
 import PurchaseTicketList from '@components/mypage/tickets/PurchaseTicketList';
 
 import useUser from '@hooks/useUser';
@@ -32,8 +32,18 @@ function MyTickets() {
     },
   );
 
-  if (isLoading) return <SpinnerBox />;
-  if (isError) return <ErrorBox />;
+  if (isLoading)
+    return (
+      <Suspense>
+        <SpinnerBox />
+      </Suspense>
+    );
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox data-cy='error-box' />
+      </Suspense>
+    );
 
   return (
     <>
