@@ -41,7 +41,7 @@ function UserDropdown({ user }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild data-cy='user-drop-down-menu'>
-        <Avatar className='mobile:size-8 cursor-pointer'>
+        <Avatar className='cursor-pointer mobile:size-8'>
           <AvatarImage src={user.profileImage} alt='user avatar' />
           <AvatarFallback>{user.nickname}</AvatarFallback>
         </Avatar>
@@ -49,7 +49,7 @@ function UserDropdown({ user }: UserDropdownProps) {
       <DropdownMenuContent className='min-w-10'>
         <DropdownMenuGroup>
           <DropdownMenuItem
-            className='mobile:py-2 mobile:text-sm py-3'
+            className='py-3 mobile:py-2 mobile:text-sm'
             onClick={() => navigate('/mypage')}
           >
             <User className='mr-2 size-4' />
@@ -59,7 +59,7 @@ function UserDropdown({ user }: UserDropdownProps) {
           {user.userType === 'buyer' && (
             <>
               <DropdownMenuItem
-                className='mobile:py-2 mobile:text-sm py-3'
+                className='py-3 mobile:py-2 mobile:text-sm'
                 onClick={() => navigate('/cart')}
                 data-cy='cart-button'
               >
@@ -75,7 +75,7 @@ function UserDropdown({ user }: UserDropdownProps) {
             </>
           )}
           <DropdownMenuItem
-            className='mobile:py-2 mobile:text-sm py-3'
+            className='py-3 mobile:py-2 mobile:text-sm'
             onClick={handleLogout}
             data-cy='signout-button'
           >

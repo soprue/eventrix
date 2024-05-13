@@ -33,13 +33,13 @@ function TicketOptionBox({ option, setTicketQuantity }: TicketOptionBoxProps) {
         />
         <Label htmlFor={option.id} className='!font-normal'>
           <p className='text-sm'>₩ {commaizeNumber(option.price)}</p>
-          <p className='mobile:text-base text-lg'>{option.optionName}</p>
+          <p className='text-lg mobile:text-base'>{option.optionName}</p>
         </Label>
       </div>
       <div>
         <Select defaultValue='1' onValueChange={handleQuantityChange}>
           <SelectTrigger
-            className='mobile:w-[80px] w-[100px]'
+            className='w-[100px] mobile:w-[80px]'
             data-cy='ticket-quantity-trigger'
           >
             <SelectValue placeholder='1' data-cy='ticket-quantity-display' />

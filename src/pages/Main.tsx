@@ -55,18 +55,18 @@ function Main() {
 
   return (
     <div className='pb-12'>
-      <div className='tablet:gap-1 mobile:py-10 flex flex-col gap-2 py-12'>
-        <p className='tablet:text-[26px] mobile:text-xl mobile:font-semibold text-3xl font-bold'>
+      <div className='flex flex-col gap-2 py-12 tablet:gap-1 mobile:py-10'>
+        <p className='text-3xl font-bold tablet:text-[26px] mobile:text-xl mobile:font-semibold'>
           마음에 드는 이벤트를 찾아보세요.
         </p>
-        <p className='tablet:text-lg mobile:text-base text-xl font-medium'>
+        <p className='text-xl font-medium tablet:text-lg mobile:text-base'>
           희망 정보를 선택하여 나에게 맞는 이벤트를 찾아보세요!
         </p>
       </div>
 
       <div className='mb-6 flex items-center justify-between'>
-        <div className='mobile:gap-2 flex gap-6'>
-          <div className='mobile:h-8 relative h-[46px]'>
+        <div className='flex gap-6 mobile:gap-2'>
+          <div className='relative h-[46px] mobile:h-8'>
             <EventFilterButton
               label={'카테고리'}
               onClick={() => setCurrentModal('카테고리')}
@@ -80,7 +80,7 @@ function Main() {
               />
             )}
           </div>
-          <div className='mobile:h-8 relative h-[46px]'>
+          <div className='relative h-[46px] mobile:h-8'>
             <EventFilterButton
               label={'가격'}
               onClick={() => setCurrentModal('가격')}

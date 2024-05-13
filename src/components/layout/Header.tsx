@@ -11,13 +11,13 @@ function Header() {
   const user = useUser();
 
   return (
-    <header className='tablet:px-6 mobile:px-4 mobile:h-14 flex h-16 items-center border-b border-border/40'>
+    <header className='flex h-16 items-center border-b border-border/40 tablet:px-6 mobile:h-14 mobile:px-4'>
       <div className='container flex items-center justify-between'>
         <Link to={'/'}>
-          <img src={logoImage} alt='logo' className='mobile:h-5 h-6' />
+          <img src={logoImage} alt='logo' className='h-6 mobile:h-5' />
         </Link>
 
-        <div className='mobile:gap-1 flex gap-2'>
+        <div className='flex gap-2 mobile:gap-1'>
           <SearchForm />
           {user ? (
             <UserDropdown user={user} />

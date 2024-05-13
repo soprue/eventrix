@@ -6,7 +6,7 @@ function Layout() {
   return (
     <div className='relative min-h-dvh overflow-hidden font-pretendard'>
       <Header />
-      <div className='tablet:px-6 mobile:px-4 container'>
+      <div className='container tablet:px-6 mobile:px-4'>
         <Outlet />
       </div>
     </div>

@@ -115,7 +115,7 @@ function TicketTable({ data }: TicketTableProps) {
 
   return (
     <TooltipProvider>
-      <div className='tablet:w-[800px] w-full'>
+      <div className='w-full tablet:w-[800px]'>
         <div className='flex items-center py-4'>
           <Input
             placeholder='티켓 ID로 검색'

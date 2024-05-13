@@ -3,7 +3,6 @@ import { UseFormReturn } from 'react-hook-form';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
-import { Select } from '@radix-ui/react-select';
 
 import { Button } from '@components/ui/button';
 import {
@@ -19,6 +18,7 @@ import {
 } from '@components/ui/popover';
 import { Calendar } from '@components/ui/calendar';
 import {
+  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -48,8 +48,8 @@ function EventDateInput({
     <div className='flex flex-col space-y-2'>
       <InputTitle title='이벤트 일시' />
 
-      <div className='mobile:gap-2 flex flex-wrap'>
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+      <div className='flex flex-wrap mobile:gap-2'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             name='startDate'
@@ -97,7 +97,7 @@ function EventDateInput({
           />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             rules={{ required: '시작 시간은 필수입니다.' }}
@@ -142,11 +142,11 @@ function EventDateInput({
           />
         </div>
 
-        <div className='mobile:hidden flex flex-grow basis-[5%] items-center justify-center'>
+        <div className='flex flex-grow basis-[5%] items-center justify-center mobile:hidden'>
           <img src={RightArrow} alt='RightArrow' />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             name='endDate'
@@ -191,7 +191,7 @@ function EventDateInput({
           />
         </div>
 
-        <div className='mobile:basis-5/12 flex-grow basis-[22%]'>
+        <div className='flex-grow basis-[22%] mobile:basis-5/12'>
           <FormField
             control={form.control}
             rules={{ required: '종료 시간은 필수입니다.' }}
