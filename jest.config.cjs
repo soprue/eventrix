@@ -8,6 +8,7 @@ module.exports = {
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__mocks__/fileMock.js',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '^@shared/(.*)$': '<rootDir>/src/components/shared/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
   },
   testMatch: [
@@ -15,7 +16,7 @@ module.exports = {
     '<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))',
   ],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   fakeTimers: {

@@ -10,7 +10,6 @@ function EventInfoRow({ size = 'lg', label, value }: EventInfoRowProps) {
   const fontWeight = size === 'lg' ? 'font-semibold' : 'font-medium';
 
   const tabletFontSize = size === 'lg' ? 'tablet:text-base' : fontSize;
-  // const tabletFontWeight = size === 'lg' ? 'tablet:font-medium' : fontWeight;
 
   return (
     <div className={`${fontSize} ${tabletFontSize} flex mobile:text-sm`}>

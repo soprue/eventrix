@@ -36,6 +36,6 @@
       "@hooks/*": ["src/hooks/*"]
     }
   },
-  "include": ["src", "**/*.ts"],
+  "include": ["src", "**/*.ts", "./jest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
