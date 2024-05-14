@@ -35,6 +35,12 @@ export default function calculateEventStatus(event: EventType) {
   if (now < registrationStart) {
     return '모집 준비';
   }
+  if (now >= startDateTime && now <= endDateTime) {
+    return '행사 진행';
+  }
+  if (now > endDateTime) {
+    return '행사 종료';
+  }
   if (now >= registrationStart && now <= registrationEnd) {
     if (soldTickets < totalTickets) {
       return '모집 진행';
@@ -43,12 +49,6 @@ export default function calculateEventStatus(event: EventType) {
   }
   if (now > registrationEnd) {
     return '모집 마감';
-  }
-  if (now >= startDateTime && now <= endDateTime) {
-    return '행사 진행';
-  }
-  if (now > endDateTime) {
-    return '행사 종료';
   }
   return '상태 확인 필요';
 }
