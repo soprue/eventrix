@@ -18,6 +18,7 @@ export interface EventFormValues {
   uid?: string;
   organizerUID?: string;
   thumbnail: File | string | null;
+  smallThumbnail: File | string | null;
   name: string;
   startDate: Date | null;
   startTime: string;

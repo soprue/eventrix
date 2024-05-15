@@ -6,6 +6,7 @@ export interface EventType {
   uid?: string;
   organizerUID: string;
   thumbnail: string;
+  smallThumbnail: string;
   name: string;
   category: Category;
   startDateTime: Timestamp;

@@ -53,7 +53,7 @@ function EventTable({ data }: EventTableProps) {
       cell: ({ row }) => (
         <div className='h-[50px] w-[150px] overflow-hidden rounded-md'>
           <img
-            src={row.original.thumbnail as string}
+            src={row.original.smallThumbnail as string}
             alt='Thumbnail'
             className='size-full object-cover'
           />

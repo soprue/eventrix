@@ -32,21 +32,32 @@ function EventThumbnailInput({
 
     if (files && files.length > 0) {
       const file = files[0];
-      const webpImageBlob = await resizeAndConvertImage(file);
 
-      // Blob을 File 객체로 변환
+      const webpImageBlob = await resizeAndConvertImage(file);
       const webpImageFile = new File([webpImageBlob], `${file.name}.webp`, {
         type: 'image/webp',
         lastModified: new Date().getTime(),
       });
+
+      const smallImageBlob = await resizeAndConvertImage(file, 500);
+      const smallImageFile = new File(
+        [smallImageBlob],
+        `${file.name}_small.webp`,
+        {
+          type: 'image/webp',
+          lastModified: new Date().getTime(),
+        },
+      );
 
       // 이전 이미지 URL을 해제
       if (thumbnailPreview) {
         URL.revokeObjectURL(thumbnailPreview);
       }
 
-      // 이미지 미리보기 설정
       form.setValue('thumbnail', webpImageFile, { shouldValidate: true });
+      form.setValue('smallThumbnail', smallImageFile, { shouldValidate: true });
+
+      // 이미지 미리보기 설정
       const imageUrl = URL.createObjectURL(webpImageFile);
       setThumbnailPreview(imageUrl);
     } else {
@@ -94,6 +105,23 @@ function EventThumbnailInput({
                 className='hidden'
                 {...form.register('thumbnail')}
                 onChange={handleThumbnailChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name='smallThumbnail'
+        render={() => (
+          <FormItem>
+            <FormControl>
+              <Input
+                id='picture'
+                type='file'
+                accept='image/*'
+                className='hidden'
+                {...form.register('smallThumbnail')}
               />
             </FormControl>
             <FormMessage />
