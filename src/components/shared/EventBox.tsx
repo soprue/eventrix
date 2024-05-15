@@ -15,6 +15,7 @@ interface EventBoxProps {
 function EventBox({ event }: EventBoxProps) {
   const navigate = useNavigate();
   const prefetchEvent = usePrefetchEvent();
+
   const name =
     event.name.length > 30 ? event.name.slice(0, 30) + '...' : event.name;
 
@@ -33,8 +34,6 @@ function EventBox({ event }: EventBoxProps) {
           {event.status}
         </div>
         <img
-          loading='lazy'
-          fetchPriority='high'
           src={event.smallThumbnail as string}
           alt={event.name}
           className='size-full object-cover'
