@@ -24,7 +24,10 @@ function SortSelect({ sort, setSort }: SortSelectProps) {
     >
       <span className='text-gray-600 mobile:text-sm'>정렬방식</span>
       <Select onValueChange={(value: SortFilterType) => setSort(value)}>
-        <SelectTrigger className='h-[46px] w-[100px] rounded-full mobile:h-8 mobile:w-[80px] mobile:text-sm'>
+        <SelectTrigger
+          className='h-[46px] w-[100px] rounded-full mobile:h-8 mobile:w-[80px] mobile:text-sm'
+          aria-label='정렬 방식 선택'
+        >
           <SelectValue placeholder={`${sort}`} />
         </SelectTrigger>
         <SelectContent>

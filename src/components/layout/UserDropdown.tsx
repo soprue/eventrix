@@ -41,7 +41,7 @@ function UserDropdown({ user }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild data-cy='user-drop-down-menu'>
-        <Avatar className='cursor-pointer mobile:size-8'>
+        <Avatar role='button' className='cursor-pointer mobile:size-8'>
           <AvatarImage src={user.profileImage} alt='user avatar' />
           <AvatarFallback>{user.nickname}</AvatarFallback>
         </Avatar>
