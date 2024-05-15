@@ -34,6 +34,7 @@ function EventBox({ event }: EventBoxProps) {
           {event.status}
         </div>
         <img
+          fetchPriority='high'
           src={event.smallThumbnail as string}
           alt={event.name}
           className='size-full object-cover'
