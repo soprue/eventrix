@@ -20,7 +20,7 @@ function EventSelector({ setSelectedEvent }: EventSelectorProps) {
 
   return (
     <Select onValueChange={value => setSelectedEvent(value)}>
-      <SelectTrigger className='mobile:text-sm mobile:h-12 h-14 w-full text-base font-semibold'>
+      <SelectTrigger className='h-14 w-full text-base font-semibold mobile:h-12 mobile:text-sm'>
         <SelectValue placeholder='이벤트를 선택하세요.' />
       </SelectTrigger>
       <SelectContent>

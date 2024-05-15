@@ -55,11 +55,11 @@ function ProfileForm() {
   );
 
   return (
-    <div className='mobile:w-full mx-auto w-[440px]'>
+    <div className='mx-auto w-[440px] mobile:w-full'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='tablet:space-y-6 mobile:space-y-3 space-y-8'
+          className='space-y-8 tablet:space-y-6 mobile:space-y-3'
         >
           <ProfileUserTypeInput userType={user?.userType as string} />
           <ProfileImageInput

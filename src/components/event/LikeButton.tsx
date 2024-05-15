@@ -46,7 +46,7 @@ function LikeButton({ eventUID }: LikeButtonProps) {
     <>
       {isLiked ? (
         <button
-          className='mobile:size-7 flex size-9 items-center justify-center rounded-full bg-primary'
+          className='flex size-9 items-center justify-center rounded-full bg-primary mobile:size-7'
           onClick={handleToggleLike}
           disabled={toggleLikeMutation.isLoading}
           data-cy='like-button-unliked'
@@ -55,7 +55,7 @@ function LikeButton({ eventUID }: LikeButtonProps) {
         </button>
       ) : (
         <button
-          className='mobile:size-7 flex size-9 items-center justify-center rounded-full bg-primary'
+          className='flex size-9 items-center justify-center rounded-full bg-primary mobile:size-7'
           onClick={handleToggleLike}
           disabled={toggleLikeMutation.isLoading}
           data-cy='like-button-liked'

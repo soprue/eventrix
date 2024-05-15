@@ -19,12 +19,15 @@ interface SortSelectProps {
 function SortSelect({ sort, setSort }: SortSelectProps) {
   return (
     <div
-      className='mobile:gap-2 flex items-center gap-[11px]'
+      className='flex items-center gap-[11px] mobile:gap-2'
       data-cy='sort-button'
     >
-      <span className='mobile:text-sm text-gray-600'>정렬방식</span>
+      <span className='text-gray-600 mobile:text-sm'>정렬방식</span>
       <Select onValueChange={(value: SortFilterType) => setSort(value)}>
-        <SelectTrigger className='mobile:h-8 mobile:w-[80px] mobile:text-sm h-[46px] w-[100px] rounded-full'>
+        <SelectTrigger
+          className='h-[46px] w-[100px] rounded-full mobile:h-8 mobile:w-[80px] mobile:text-sm'
+          aria-label='정렬 방식 선택'
+        >
           <SelectValue placeholder={`${sort}`} />
         </SelectTrigger>
         <SelectContent>

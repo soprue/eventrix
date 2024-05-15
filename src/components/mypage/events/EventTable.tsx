@@ -53,7 +53,7 @@ function EventTable({ data }: EventTableProps) {
       cell: ({ row }) => (
         <div className='h-[50px] w-[150px] overflow-hidden rounded-md'>
           <img
-            src={row.original.thumbnail as string}
+            src={row.original.smallThumbnail as string}
             alt='Thumbnail'
             className='size-full object-cover'
           />
@@ -176,7 +176,7 @@ function EventTable({ data }: EventTableProps) {
   };
 
   return (
-    <div className='tablet:w-[800px] w-full'>
+    <div className='w-full tablet:w-[800px]'>
       <div className='flex items-center py-4'>
         <Input
           placeholder='이름으로 검색'

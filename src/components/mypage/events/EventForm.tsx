@@ -39,6 +39,7 @@ function EventForm({ initialData }: EventFormProps) {
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
       thumbnail: null,
+      smallThumbnail: null,
       name: '',
       startDate: null,
       startTime: '',
@@ -129,6 +130,7 @@ function EventForm({ initialData }: EventFormProps) {
         organizerUID: user?.uid as string,
         uid: initialData.uid,
         tickets,
+        smallThumbnail: form.getValues('smallThumbnail'),
       };
 
       updateMutation.mutate(eventData);
@@ -137,6 +139,7 @@ function EventForm({ initialData }: EventFormProps) {
         ...data,
         organizerUID: user?.uid as string,
         tickets,
+        smallThumbnail: form.getValues('smallThumbnail'),
       };
 
       createMutation.mutate(eventData);
@@ -184,7 +187,7 @@ function EventForm({ initialData }: EventFormProps) {
           <EventTicketInput form={form} />
 
           <Button className='!mt-16 w-full' disabled={isLoading}>
-            등록하기
+            {!initialData ? '등록하기' : '수정하기'}
           </Button>
         </form>
       </Form>

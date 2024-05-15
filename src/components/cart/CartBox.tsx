@@ -34,7 +34,7 @@ function CartBox({
 
   return (
     <div className='flex items-center justify-between' data-cy='cart-box'>
-      <div className='mobile:gap-4 flex items-center justify-start gap-8'>
+      <div className='flex items-center justify-start gap-8 mobile:gap-4'>
         <Checkbox
           key={ticket.ticketId}
           id={ticket.ticketId}
@@ -52,7 +52,7 @@ function CartBox({
         defaultValue={String(ticket.quantity)}
         onValueChange={value => handleQuantityChange(ticket.ticketId, value)}
       >
-        <SelectTrigger className='mobile:w-[80px] w-[100px]'>
+        <SelectTrigger className='w-[100px] mobile:w-[80px]'>
           <SelectValue placeholder={ticket.quantity} />
         </SelectTrigger>
         <SelectContent>

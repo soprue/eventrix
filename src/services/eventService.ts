@@ -17,7 +17,7 @@ import {
   updateDoc,
   where,
   writeBatch,
-} from 'firebase/firestore';
+} from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from './firebaseConfig';
@@ -45,6 +45,13 @@ export const createEvent = async (data: EventFormValues) => {
   const storageRef = ref(storage, `eventThumbnails/${eventId}.webp`);
   const fileSnapshot = await uploadBytes(storageRef, data.thumbnail as File);
   const thumbnailUrl = await getDownloadURL(fileSnapshot.ref);
+
+  const smallStorageRef = ref(storage, `eventThumbnails/${eventId}_small.webp`);
+  const smallFileSnapshot = await uploadBytes(
+    smallStorageRef,
+    data.smallThumbnail as File,
+  );
+  const smallThumbnailUrl = await getDownloadURL(smallFileSnapshot.ref);
 
   // 이벤트 데이터 준비
   const startDateTime = combineDateAndTime(
@@ -78,6 +85,7 @@ export const createEvent = async (data: EventFormValues) => {
     uid: eventId,
     organizerUID: data.organizerUID,
     thumbnail: thumbnailUrl,
+    smallThumbnail: smallThumbnailUrl,
     name: data.name,
     category: data.category,
     startDateTime,
@@ -139,13 +147,25 @@ export const updateEvent = async (data: EventFormValues) => {
 
   // Storage에 새로운 Thumbnail 업로드
   let thumbnailUrl = '';
+  let smallThumbnailUrl = '';
   if (isFile) {
     const storageRef = ref(storage, `eventThumbnails/${data.uid}.webp`);
     const fileSnapshot = await uploadBytes(storageRef, data.thumbnail as File);
     thumbnailUrl = await getDownloadURL(fileSnapshot.ref);
+
+    const smallStorageRef = ref(
+      storage,
+      `eventThumbnails/${data.uid}_small.webp`,
+    );
+    const smallFileSnapshot = await uploadBytes(
+      smallStorageRef,
+      data.smallThumbnail as File,
+    );
+    smallThumbnailUrl = await getDownloadURL(smallFileSnapshot.ref);
   } else {
     // 파일이 아닌 경우는 기존 썸네일 URL 그대로 사용
     thumbnailUrl = data.thumbnail as string;
+    smallThumbnailUrl = data.smallThumbnail as string;
   }
 
   const startDateTime = combineDateAndTime(
@@ -182,6 +202,7 @@ export const updateEvent = async (data: EventFormValues) => {
 
   const eventData = {
     thumbnail: thumbnailUrl,
+    smallThumbnail: smallThumbnailUrl,
     name: data.name,
     category: data.category,
     startDateTime,

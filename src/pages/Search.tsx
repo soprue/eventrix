@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useInfiniteQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { IoSearchOutline } from 'react-icons/io5';
 
+const ErrorBox = lazy(() => import('@shared/ErrorBox'));
 import { Form, FormControl, FormField, FormItem } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import SortSelect from '@shared/SortSelect';
 import Spinner from '@shared/Spinner';
 import EventList from '@shared/EventList';
-import ErrorBox from '@shared/ErrorBox';
 import EventSkeletonList from '@shared/EventSkeletonList';
 
 import { SortFilterType } from '@/types/event';
@@ -58,15 +58,20 @@ function Search() {
     if (data) navigate(`/search?q=${data}`);
   };
 
-  if (isError) return <ErrorBox />;
+  if (isError)
+    return (
+      <Suspense>
+        <ErrorBox />
+      </Suspense>
+    );
 
   const events = data?.pages.flatMap(page => page.events) || [];
   const columns = width < 768 ? 2 : 4;
 
   return (
     <>
-      <div className='mobile:my-12 tablet:my-16 mobile:gap-3 my-20 flex w-full flex-col items-center justify-center gap-4'>
-        <div className='tablet:h-14 mobile:px-4 mobile:h-10 flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8'>
+      <div className='my-20 flex w-full flex-col items-center justify-center gap-4 tablet:my-16 mobile:my-12 mobile:gap-3'>
+        <div className='flex h-16 w-3/4 items-center gap-2 rounded-md border border-border px-8 tablet:h-14 mobile:h-10 mobile:px-4'>
           <IoSearchOutline size={24} />
           <Form {...form}>
             <form
@@ -88,7 +93,7 @@ function Search() {
                         })}
                         type='text'
                         placeholder='검색'
-                        className='tablet:text-lg mobile:text-base h-full w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0'
+                        className='h-full w-3/4 border-none text-xl font-medium focus-visible:ring-0 focus-visible:ring-offset-0 tablet:text-lg mobile:text-base'
                       />
                     </FormControl>
                   </FormItem>
@@ -98,8 +103,8 @@ function Search() {
           </Form>
         </div>
         <div className='flex flex-col items-center gap-1 font-medium'>
-          <p className='table:text-[20px] mobile:text-lg text-2xl'>
-            '<span className='mobile:font-semibold font-bold'>{keyword}</span>
+          <p className='table:text-[20px] text-2xl mobile:text-lg'>
+            '<span className='font-bold mobile:font-semibold'>{keyword}</span>
             '에 대한 검색 결과
           </p>
         </div>

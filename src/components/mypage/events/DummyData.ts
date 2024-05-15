@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore/lite';
 
 import { EventType } from '@/types/event';
 
@@ -8,6 +8,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://www.ksp.go.kr/resources/crosseditor/binary/images/000001/20201130173253650_BMY0STMF.jpg',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '글로벌 IT 컨퍼런스',
     category: 'IT/기술',
     startDateTime: Timestamp.fromDate(new Date('2024-08-10T09:00:00Z')),
@@ -41,6 +42,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://img1.daumcdn.net/thumb/R1280x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/21At/image/xZJZneBUXiIPqryxiU0G5FVAzTM.png',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '디자인 씽킹 워크숍',
     category: '디자인',
     startDateTime: Timestamp.fromDate(new Date('2024-09-15T10:00:00Z')),
@@ -67,6 +69,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://cdn.wadiz.kr/ft/images/green001/2018/1112/20181112162021626_0.png',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '스타트업 펀딩 및 투자 세미나',
     category: '금융',
     startDateTime: Timestamp.fromDate(new Date('2024-10-05T13:00:00Z')),
@@ -100,6 +103,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://www.wishcompany.net/wp-content/uploads/2023/03/230306_%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C%EC%9C%84%EC%8B%9C%EC%BB%B4%ED%8D%BC%EB%8B%88-%E2%80%98K-%EB%B7%B0%ED%8B%B0-%EA%B8%80%EB%A1%9C%EB%B2%8C-%EC%84%B8%EB%AF%B8%EB%82%98%E2%80%99-%EA%B0%9C%EC%B5%9C%E2%80%A6%ED%95%B4%EC%99%B8-%EA%B3%B5%EB%9E%B5%EB%B2%95-%EA%B3%B5%EC%9C%A0-1.jpg',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '글로벌 마케팅 트렌드 2024',
     category: '마케팅',
     startDateTime: Timestamp.fromDate(new Date('2024-11-20T09:00:00Z')),
@@ -133,6 +137,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://chibaokta.net/wp-content/uploads/2022/11/4f8c11ba7589682c730d4ae113ac47e4-1-819x1024.jpg',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '자기계발 세미나: 새로운 시작',
     category: '자기계발',
     startDateTime: Timestamp.fromDate(new Date('2024-07-15T13:00:00Z')),
@@ -159,6 +164,7 @@ export const eventDummyData: EventType[] = [
     organizerUID: 'wflEa2XfzgOLRRXuGdmXpB6h7HW2',
     thumbnail:
       'https://img.etoday.co.kr/pto_db/2022/05/20220504104134_1748362_1200_675.jpg',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: '라이프스타일 디자인 워크숍',
     category: '라이프스타일',
     startDateTime: Timestamp.fromDate(new Date('2024-10-05T10:00:00Z')),

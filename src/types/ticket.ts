@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore/lite';
 import { EventType } from './event';
 
 export interface PurchaseTicketType extends EventType {

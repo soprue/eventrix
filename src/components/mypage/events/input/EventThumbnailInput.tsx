@@ -32,21 +32,32 @@ function EventThumbnailInput({
 
     if (files && files.length > 0) {
       const file = files[0];
-      const webpImageBlob = await resizeAndConvertImage(file);
 
-      // Blob을 File 객체로 변환
+      const webpImageBlob = await resizeAndConvertImage(file);
       const webpImageFile = new File([webpImageBlob], `${file.name}.webp`, {
         type: 'image/webp',
         lastModified: new Date().getTime(),
       });
+
+      const smallImageBlob = await resizeAndConvertImage(file, 500);
+      const smallImageFile = new File(
+        [smallImageBlob],
+        `${file.name}_small.webp`,
+        {
+          type: 'image/webp',
+          lastModified: new Date().getTime(),
+        },
+      );
 
       // 이전 이미지 URL을 해제
       if (thumbnailPreview) {
         URL.revokeObjectURL(thumbnailPreview);
       }
 
-      // 이미지 미리보기 설정
       form.setValue('thumbnail', webpImageFile, { shouldValidate: true });
+      form.setValue('smallThumbnail', smallImageFile, { shouldValidate: true });
+
+      // 이미지 미리보기 설정
       const imageUrl = URL.createObjectURL(webpImageFile);
       setThumbnailPreview(imageUrl);
     } else {
@@ -61,7 +72,7 @@ function EventThumbnailInput({
     <div className='flex flex-col space-y-2'>
       <InputTitle title='썸네일' />
       {thumbnailPreview ? (
-        <div className='mobile:h-[200px] tablet:h-[270px] flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input '>
+        <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input tablet:h-[270px] mobile:h-[200px] '>
           <img
             src={thumbnailPreview}
             alt='Thumbnail Preview'
@@ -69,7 +80,7 @@ function EventThumbnailInput({
           />
         </div>
       ) : (
-        <div className='mobile:h-[200px] tablet:h-[270px] flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input'>
+        <div className='flex h-[320px] w-full items-center justify-center overflow-hidden rounded-md border border-input tablet:h-[270px] mobile:h-[200px]'>
           <p className='text-center text-sm text-gray-500'>썸네일 미리보기</p>
         </div>
       )}
@@ -94,6 +105,23 @@ function EventThumbnailInput({
                 className='hidden'
                 {...form.register('thumbnail')}
                 onChange={handleThumbnailChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name='smallThumbnail'
+        render={() => (
+          <FormItem>
+            <FormControl>
+              <Input
+                id='picture'
+                type='file'
+                accept='image/*'
+                className='hidden'
+                {...form.register('smallThumbnail')}
               />
             </FormControl>
             <FormMessage />
