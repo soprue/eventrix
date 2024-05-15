@@ -21,6 +21,7 @@ export default function transformEventDataToFormValues(
   return {
     organizerUID: eventData.organizerUID,
     thumbnail: eventData.thumbnail, // Blob 형태로 변환 필요할 경우 별도 로직 구현
+    smallThumbnail: eventData.smallThumbnail,
     name: eventData.name,
     startDate: eventData.startDateTime.toDate(),
     startTime: formatTime(eventData.startDateTime),

@@ -29,6 +29,7 @@ describe('calculateEventStatus 유틸리티 함수 테스트', () => {
   const baseEvent: EventType = {
     organizerUID: 'organizer123',
     thumbnail: 'thumbnail.jpg',
+    smallThumbnail: 'smallThumbnail.jpg',
     name: 'Test Event',
     category: 'IT/기술',
     startDateTime: new MockTimestamp(
