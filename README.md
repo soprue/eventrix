@@ -3,6 +3,7 @@
 > 📌 <br/><br/>
 **Eventrix**는 다양한 컨퍼런스 및 이벤트 티켓을 예약할 수 있는 온라인 플랫폼입니다.  <br/><br/>
 배포 URL: https://eventrix.vercel.app/  
+GitBook URL: https://eventrix-1.gitbook.io/docs/  
 개발 기간: 2024.04 ~ 2024.05 (4주)
 
 <br/>
@@ -17,7 +18,7 @@ PW: abcd1234!
 
 <br />
 
-## 주요 기능
+## 주요 기능 - [스크린샷과 함께 보기](https://app.gitbook.com/o/D2yp3ZmMweDUZnvNXOYa/s/yMHvXE7W6RHYImj373bj/features/undefined)
 
 #### [이벤트 모아보기]
 - 필터링: 사용자는 카테고리, 가격 필터를 적용하여 원하는 이벤트를 쉽게 찾을 수 있습니다.
