@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+![og_image](https://github.com/soprue/eventrix/assets/62260343/f1473bc4-9535-4924-8f45-ed5c6e528e68)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Eventrix**는 다양한 컨퍼런스 및 이벤트 티켓을 예약할 수 있는 온라인 플랫폼입니다.  
+<br/>
 
-Currently, two official plugins are available:
+> 📌 <br/><br/>
+배포 URL: https://eventrix.vercel.app/  
+개발 기간: 2024.04 ~ 2024.05 (4주)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> 💻 테스트 계정  <br/><br/>
+[주최자]    
+ID: organizer@email.com  
+PW: abcd1234! <br/><br/>
+[참여자]  
+ID: buyer@email.com  
+PW: abcd1234!
 
-## Expanding the ESLint configuration
+<br />
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 주요 기능
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 기술 스택
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## 기술적 도전
+
+
+## 아키텍
