@@ -1,11 +1,11 @@
 ![og_image](https://github.com/soprue/eventrix/assets/62260343/f1473bc4-9535-4924-8f45-ed5c6e528e68)
 
-**Eventrix**는 다양한 컨퍼런스 및 이벤트 티켓을 예약할 수 있는 온라인 플랫폼입니다.  
-<br/>
-
 > 📌 <br/><br/>
+**Eventrix**는 다양한 컨퍼런스 및 이벤트 티켓을 예약할 수 있는 온라인 플랫폼입니다.  <br/><br/>
 배포 URL: https://eventrix.vercel.app/  
 개발 기간: 2024.04 ~ 2024.05 (4주)
+
+<br/>
 
 > 💻 테스트 계정  <br/><br/>
 [주최자]    
