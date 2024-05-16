@@ -19,12 +19,16 @@ PW: abcd1234!
 
 ## 주요 기능
 
+<br />
 
 ## 기술 스택
+![image](https://github.com/soprue/eventrix/assets/62260343/ac619bed-a5b2-4c68-8d56-6056c9347cca)
 
+<br />
 
 ## 기술적 도전
 
+<br />
 
 ## 아키텍처
 ```
