@@ -52,6 +52,12 @@ PW: abcd1234!
 <br />
 
 ## 기술적 도전
+- [React DevTools 프로파일러를 활용하여 컴포넌트 렌더링 성능 개선하기](https://velog.io/@aborrencce/React-DevTools-프로파일러-렌더링-성능-개선하기)  
+- [Vite 환경에서 Bundle Analyzer로 빌드 최적화하기](https://velog.io/@aborrencce/Vite-환경에서-Bundle-Analyzer로-최적화하기)  
+  - **빌드 시간** 11.66초 -> 6.15초, 47% 개선
+- [Lighthouse를 기반으로 LCP 성능 개선하기](https://velog.io/@aborrencce/Lighthouse를-기반으로-LCP-성능-개선하기)
+  - **LCP** 3.0초 -> 1.1초, 63.33% 감소
+  - **성능 점수** 75점 -> 92점, 22.67% 증가
 
 <br />
 
