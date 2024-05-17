@@ -62,7 +62,14 @@ PW: abcd1234!
 
 <br />
 
+## 트러블 슈팅
+- [zustand/local storage/firebase 로그인 상태 동기화 설계](https://velog.io/@aborrencce/zustand-firebase-로그인-상태-동기화-설계)
+- [[Cypress] Firebase를 활용한 회원가입 자동화 테스트 트러블 슈팅](https://velog.io/@aborrencce/Cypress-Firebase-테스트-트러블-슈팅)
+
+<br />
+
 ## 아키텍처
+![311127838-b4ca4f5b-6b57-44bd-99f5-7811c82467e5](https://github.com/soprue/eventrix/assets/62260343/75737710-b0c2-4571-acc2-863b5744f405)
 ```
 📦eventrix
  ┣ 📂__test__
