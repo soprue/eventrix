@@ -18,7 +18,7 @@ PW: abcd1234!
 
 <br />
 
-## 주요 기능 - [GIF과 함께 보기](https://app.gitbook.com/o/D2yp3ZmMweDUZnvNXOYa/s/yMHvXE7W6RHYImj373bj/features/undefined)
+## 주요 기능 - [GIF과 함께 보기](https://eventrix-1.gitbook.io/docs/features/undefined)
 
 #### [이벤트 모아보기]
 - 필터링: 사용자는 카테고리, 가격 필터를 적용하여 원하는 이벤트를 쉽게 찾을 수 있습니다.
